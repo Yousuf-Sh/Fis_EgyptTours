@@ -188,6 +188,11 @@ Route::group(['middleware' => ['admin']],function () {
     
     //Offers
     Route::get('/admin/offers/index',[OfferController::class,'index'])->name('offers.index');
+    Route::get('/admin/offers/create',[OfferController::class,'create'])->name('offers.create');
+    Route::post('/admin/offers/save',[OfferController::class,'store'])->name('offers.store');
+    Route::get('/admin/offers/edit/{id}',[OfferController::class,'edit'])->name('offers.edit');
+    Route::put('/admin/offers/update/{id}',[OfferController::class,'update'])->name('offers.update');
+    Route::delete('/admin/offers/delete/{id}',[OfferController::class,'destroy'])->name('offers.destroy');
     
     
     /*Admin Routes*/
