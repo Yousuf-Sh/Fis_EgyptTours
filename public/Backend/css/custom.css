@@ -1,0 +1,83 @@
+.showOnLogin{
+	display: none;
+}
+.addEvent label{
+	margin-bottom: 5px;
+	font-weight: 500
+}
+#main{
+	min-height: 740px;
+}
+.advancedSearchContent{
+	display: none;
+}
+.m-l-5{
+	margin-left: 5px;
+}
+.m-r-5{
+	margin-right: 5px;
+}
+.dataTable-wrapper.no-footer .dataTable-container {
+	border-bottom: 0 !important;
+}
+table.eventtable tr td:last-child{
+	vertical-align: middle;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background-color: #082f74;
+}
+.nav-link {
+    color: #082f74;
+}
+a {
+    color: #082f74;
+    text-decoration: none;
+}
+
+.btn-primary:hover{
+	background-color: #052152;
+    border-color: #052152;
+}
+.btn-primary {
+    background-color: #082f74;
+    border-color: #082f74;
+}
+.eventDetailCard .card-body{
+	padding: 15px;
+	min-height: 220px;
+}
+.eventDetailCard .card-body .list{
+	/*display: flex;*/
+	justify-content: flex-start;
+	align-items: center;
+}
+.eventDetailCard .card-body .list p{
+	margin-bottom: 2px;
+	font-size: 14px;
+}
+.eventDetailCard .card-body .list p:first-child{
+	/*width: 25%;*/
+}
+.eventDetailCard .card-body .list p:first-child{
+	font-weight: 700;
+}
+.eventDetailCard .card-body  .eventList{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.eventDetailCard.card{
+	box-shadow: none;
+}
+.eventDetailCard .card-header{
+    border-color: transparent;
+    background-color: transparent;
+    color: #082f74;
+    padding: 15px;
+    font-weight: 700;
+    border-bottom: 0;
+    padding-bottom: 0;
+    font-size: 18px;
+}
