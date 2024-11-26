@@ -31,6 +31,11 @@
                <i class="bi bi-circle"></i><span>Slider</span>
                </a>
             </li>
+            <li class="nav-item">
+               <a href="{{route('offers.index')}}" class="{{ (request()->segment(2) == 'offers') ? 'active' : '' }}">
+               <i class="bi bi-circle"></i><span>Offers</span>
+               </a>
+            </li>
           
            {{-- <li>
             <a href="{{url('admin/pest')}}" class="{{ (request()->segment(2) == 'department-category') ? 'active' : '' }}">

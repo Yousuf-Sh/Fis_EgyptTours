@@ -35,6 +35,7 @@ use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Backend\ServicesDetailsController;
 use App\Http\Controllers\Backend\ServicesMenuController ;
 use App\Http\Controllers\newsletterController;
+use App\Http\Controllers\OfferController;
 
 
 /*
@@ -184,6 +185,11 @@ Route::group(['middleware' => ['admin']],function () {
     Route::get('/admin/testimonials/edit/{id}',[TestimonialsController::class,'edit'])->name('testimonials.edit');
     Route::post('/admin/testimonials/update', [TestimonialsController::class,'update'])->name('testimonials.update');
     Route::get('/admin/testimonials/delete/{id}',[TestimonialsController::class,'delete'])->name('testimonials.delete');
+    
+    //Offers
+    Route::get('/admin/offers/index',[OfferController::class,'index'])->name('offers.index');
+    
+    
     /*Admin Routes*/
     Route::get('/admin/registered', [AdminController::class,'adminregistered'])->name('admin.registered');
     Route::post('/admin/registered-admin', [AdminController::class,'registeredadmin'])->name('registered-admin.store');
