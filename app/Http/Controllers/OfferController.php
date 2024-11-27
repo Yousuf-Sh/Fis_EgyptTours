@@ -12,7 +12,7 @@ class OfferController extends Controller
     
     public function index()
     {
-        $offers = Offer::all();
+        $offers = Offer::where('language','=','en')->get();
         
         return view('Admin.offers.index',['offers'=>$offers]);
     }
@@ -26,29 +26,85 @@ class OfferController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // dd($request);
-        if ($request->hasFile('images')) {
-            $imagePath = $request->file('images')->store('offers', 'public');
-        }
-        Offer::create([
-            'language' => $request->input('language'), 
-            'title' => $request->input("{$request->language}_title"),
-            'type' => $request->input("{$request->language}_type"),
-            'feature1' => $request->input("{$request->language}_feature1"),
-            'feature2' => $request->input("{$request->language}_feature2"),
-            'feature3' => $request->input("{$request->language}_feature3"),
+{
+    // Find all languages in the request
+    $languages = collect($request->all())
+        ->keys()
+        ->filter(function ($key) {
+            return strpos($key, '_title') !== false;
+        })
+        ->map(function ($key) {
+            return str_replace('_title', '', $key);
+        })
+        ->unique()
+        ->values();
+    // Validate each language's attributes
+    $validLanguages = $languages->filter(function ($language) use ($request) {
+        return $request->filled([
+            "{$language}_title",
+            "{$language}_type",
+            "{$language}_feature1",
+            "{$language}_feature2",
+            "{$language}_feature3"
+        ]);
+    });
+
+    $createdOffers = [];
+
+    // Process image upload
+    $imagePath = null;
+    if ($request->hasFile('images')) {
+        $imagePath = $request->file('images')->store('offers', 'public');
+    }
+
+    // Create offers for valid languages
+    foreach ($validLanguages as $language) {
+        $offer = Offer::create([
+            'language' => $language,
+            'title' => $request->input("{$language}_title"),
+            'type' => $request->input("{$language}_type"),
+            'feature1' => $request->input("{$language}_feature1"),
+            'feature2' => $request->input("{$language}_feature2"),
+            'feature3' => $request->input("{$language}_feature3"),
             'price' => $request->input("price"),
             'discount_price' => $request->input("discount_price"),
-            'image' => $imagePath ?? null,
+            'image' => $imagePath,
+            // Default secondary_id to 0
+            'secondary_id' => 0
         ]);
-        return response()->json(['message' => 'Slider created successfully']);
+
+        $createdOffers[$language] = $offer;
     }
+    
+    // If 'en' exists, update secondary_id for other languages
+    if (isset($createdOffers['en'])) {
+        $enOffer = $createdOffers['en'];
+        
+        foreach ($createdOffers as $language => $offer) {
+            
+            if ($language !== 'en') {
+                $offer->update(['secondary_id' => $enOffer->id]);
+            }
+        }
+    }
+
+    return response()->json([
+        'message' => 'Offers created successfully', 
+        'offers' => $createdOffers
+    ]);
+}
 
     public function edit($id)
     {
-        $offer= Offer::findOrFail($id);
-        return view('Admin.offers.edit',['offer'=>$offer]);
+        $offer= Offer::where('id','=',$id)
+        ->orWhere('secondary_id','=',$id)
+        ->get();
+        dd($offer);
+        $languages = Language::all();
+        return view('Admin.offers.edit',[
+            'offer'=>$offer,
+            'languages'=>$languages
+        ]);
     }
 
    

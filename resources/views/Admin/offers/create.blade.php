@@ -51,7 +51,7 @@
                                     <div class="col-md-6">
                                         <label for="title_{{ $language->slug }}" class="form-label">{{ ucfirst($language->name) }} Title</label>
                                         <input type="text" name="{{ $language->slug }}_title" class="form-control" id="title_{{ $language->slug }}" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} required>
-                                        <input type="hidden" name="language" class="form-control" id="language" value="{{ $language->slug }}" required>
+                                        <input type="hidden" name="language_{{ $language->slug }}" class="form-control" id="language_{{ $language->slug }}" value="{{ $language->slug }}" required>
                                     </div>
 
 
@@ -197,7 +197,7 @@ document.getElementById('arabic-tab').addEventListener('click', function() {
 document.getElementById('submitAll').addEventListener('click', function () {
     // Find all forms inside the tab content
     const forms = document.querySelectorAll('#languageTabsContent form');
-
+    
     // Get the price and discount price fields
     const price = document.getElementById('price').value;
     const discountPrice = document.getElementById('discount_price').value;
@@ -206,73 +206,77 @@ document.getElementById('submitAll').addEventListener('click', function () {
     const imageInput = document.getElementById('imgInp');
     const imageFile = imageInput.files[0];
 
-    // Iterate through each form
-    forms.forEach(form => {
-        // Check if the form has any input (excluding CSRF hidden fields)
-        const hasInput = Array.from(form.elements).some(input => {
-            return input.type !== 'hidden' && input.value.trim() !== '';
-        });
+    // Create a single FormData object to store all form data
+    const formData = new FormData();
 
-        // Skip empty forms
+    // Iterate through each form and append its inputs to the single FormData object
+    forms.forEach(form => {
+        // Skip empty forms (without any visible input)
+        const hasInput = Array.from(form.elements).some(input => {
+            return input.value.trim() !== ''; // Include hidden fields as well
+        });
         if (!hasInput) {
             console.log(`Skipping form: ${form.id} (no input provided)`);
             return;
         }
 
-        // Retrieve the CSRF token from the hidden input in the form
+        // Append all form data (including hidden fields) to formData
+        Array.from(form.elements).forEach(input => {
+            formData.append(input.name, input.value);
+        });
+
+        // Append the CSRF token if it's not already in the formData (to avoid duplicates)
         const csrfToken = form.querySelector('input[name="_token"]');
-        if (!csrfToken) {
-            console.error(`CSRF token missing in form: ${form.id}`);
-            alert(`CSRF token is missing in form: ${form.id}.`);
-            return;
+        if (csrfToken && !formData.has('_token')) {
+            formData.append('_token', csrfToken.value);
         }
-
-        // Create a new FormData object for the form
-        const formData = new FormData(form);
-
-        // Append price and discount price to the FormData
-        formData.append('price', price);
-        formData.append('discount_price', discountPrice);
-
-        // Append image to FormData if an image file is selected
-        if (imageFile) {
-            formData.append('images', imageFile);
-        }
-
-        // Debug: Log form data being submitted
-        console.log(`Submitting form data for ${form.id}:`);
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-        }
-
-        // Send an AJAX request to the form's action URL
-        fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': csrfToken.value, // Use the token value from the form
-            }
-        })
-            .then(response => {
-                // Handle response statuses
-                if (!response.ok) {
-                    return response.json().then(err => {
-                        console.error(`Validation errors for ${form.id}:`, err.errors);
-                        alert(`Validation errors: ${JSON.stringify(err.errors)}`);
-                        throw new Error(`Validation failed for ${form.id}`);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log(`Form submitted successfully for ${form.id}:`, data);
-                alert("Form submitted successfully.");
-            })
-            .catch(error => {
-                console.error(`Error submitting form for ${form.id}:`, error);
-                alert(`Error submitting form for ${form.id}: ${error.message}`);
-            });
     });
+
+    // Append the price and discount price fields to the FormData
+    formData.append('price', price);
+    formData.append('discount_price', discountPrice);
+
+    // Append image to FormData if an image file is selected
+    if (imageFile) {
+        formData.append('images', imageFile);
+    }else if(!imageFile){
+        alert('No file');
+    }
+
+    // Debug: Log all form data being submitted
+    console.log('Submitting all form data:');
+    for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+
+    // Send a single AJAX request to submit the combined form data
+    fetch('{{ route('offers.store') }}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            // If you're using a CSRF token globally, you can set it in the headers.
+            // 'X-CSRF-TOKEN': csrfToken.value // Only needed if you need to send it separately in headers
+        }
+    })
+        .then(response => {
+            // Handle response statuses
+            if (!response.ok) {
+                return response.json().then(err => {
+                    console.error(`Validation errors:`, err.errors);
+                    alert(`Validation errors: ${JSON.stringify(err.errors)}`);
+                    throw new Error('Validation failed');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Forms submitted successfully:', data);
+            alert("Forms submitted successfully.");
+        })
+        .catch(error => {
+            console.error('Error submitting forms:', error);
+            alert('Error submitting forms: ' + error.message);
+        });
 });
 
 </script>

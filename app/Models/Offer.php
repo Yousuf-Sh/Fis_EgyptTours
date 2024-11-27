@@ -9,6 +9,7 @@ class Offer extends Model
 {
     use HasFactory;
     protected $fillable =[
+    'secondary_id',    
     'title',
     'language',
     'type',
