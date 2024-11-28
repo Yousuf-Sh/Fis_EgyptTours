@@ -11,7 +11,8 @@ class PagesController extends Controller
     //
     public function index(){
 		//return 'szfds';
-		$cms=CMS::all();
+		$cms=CMS::where('slug','=','explore-more')
+		->get();
 		return view('Admin.cmspages.index',compact('cms'));
 	
 }

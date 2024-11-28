@@ -36,6 +36,7 @@ use App\Http\Controllers\Backend\ServicesDetailsController;
 use App\Http\Controllers\Backend\ServicesMenuController ;
 use App\Http\Controllers\newsletterController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\ExploreController;
 
 
 /*
@@ -209,7 +210,7 @@ Route::group(['middleware' => ['admin']],function () {
     // Route::post('/admin/registered-members/update', [RegisteredMembersController::class,'update'])->name('registered-members.update');
     // Route::get('/admin/registered-members/delete/{id}',[RegisteredMembersController::class,'delete'])->name('registered-members.delete');
     /*About Us Routes*/
-    Route::get('/admin/aboutus', [CMSController::class,'index']);
+    Route::get('/admin/aboutus', [CMSController::class,'index']); 
     Route::get('/admin/aboutus/create', [CMSController::class,'create'])->name('cms.add');
     Route::post('/admin/aboutus/store', [CMSController::class,'store'])->name('cms.store');
     Route::get('/admin/aboutus{slug}',[CMSController::class,'edit'])->name('cms.edit');
