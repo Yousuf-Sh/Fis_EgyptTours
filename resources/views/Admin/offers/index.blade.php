@@ -13,11 +13,11 @@
     @endif
   <main id="main" class="main" >
   <div class="pagetitle">
-      <h1>Offers</h1>
+      <h1>Services</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Management</li>
-          <li class="breadcrumb-item active">Manage Offers</li>
+          <li class="breadcrumb-item active">Manage Services</li>
         </ol>
       </nav>
     </div>
@@ -27,7 +27,7 @@
 
         <div class="card">
           <div class="card-header d-flex">
-            <a href="{{route('offers.create')}}" title="click to Add New Row" class="btn1 btn btn-primary my-auto ms-auto add">
+            <a href="{{route('offers.make')}}" title="click to Add New Row" class="btn1 btn btn-primary my-auto ms-auto add">
               <span class="fa fa-plus text-white"> Add</span>
             </a>
           </div>
@@ -41,7 +41,7 @@
                     <th scope="col">Sr.No</th>
                     <th scope="col">Language</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Offer Type</th>
+                    <th scope="col">Service Type</th>
                     <th scope="col">Feature 1</th>
                     <th scope="col">Feature 2</th>
                     <th scope="col">Feature 3</th>
@@ -127,7 +127,7 @@
 
                 Swal.fire({
                     title: 'Are you sure?',
-                    text: "Do you want to delete this offer?",
+                    text: "Do you want to delete this Service?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#4caf50',

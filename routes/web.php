@@ -187,12 +187,12 @@ Route::group(['middleware' => ['admin']],function () {
     Route::get('/admin/testimonials/delete/{id}',[TestimonialsController::class,'delete'])->name('testimonials.delete');
     
     //Offers
-    Route::get('/admin/offers/index',[OfferController::class,'index'])->name('offers.index');
-    Route::get('/admin/offers/create',[OfferController::class,'create'])->name('offers.create');
-    Route::post('/admin/offers/save',[OfferController::class,'store'])->name('offers.store');
-    Route::get('/admin/offers/edit/{id}',[OfferController::class,'edit'])->name('offers.edit');
-    Route::post('/admin/offers/update/{id}',[OfferController::class,'update'])->name('offers.update');
-    Route::delete('/admin/offers/delete/{id}',[OfferController::class,'destroy'])->name('offers.destroy');
+    Route::get('/admin/services',[OfferController::class,'index'])->name('offers.index');
+    Route::get('/admin/services/create',[OfferController::class,'create'])->name('offers.make');
+    Route::post('/admin/services/save',[OfferController::class,'store'])->name('offers.store');
+    Route::get('/admin/services/edit/{id}',[OfferController::class,'edit'])->name('offers.edit');
+    Route::post('/admin/services/update/{id}',[OfferController::class,'update'])->name('offers.update');
+    Route::delete('/admin/services/delete/{id}',[OfferController::class,'destroy'])->name('offers.destroy');
     
     
     /*Admin Routes*/
@@ -259,14 +259,14 @@ Route::get('admin/committee-list/remove/{id}',[CommitteeListController::class,'m
     Route::get('/admin/audit/delete/{id}',[AuditController::class,'delete'])->name('audit.delete');
 
     /*Services */
-    Route::get('admin/services',[ServicesController::class,'index']);
-    Route::get('admin/services/create', [ServicesController::class,'create'])->name('services.add');
-    Route::post('admin/services/store', [ServicesController::class,'store'])->name('services.store');
-    // Route::post('admin/services/arabicstore', [ServicesController::class,'arabicstore'])->name('arabic_services.store');
-    Route::get('admin/services/edit/{id}/{language}',[ServicesController::class,'edit'])->name('services.edit');
-    Route::post('admin/services/update', [ServicesController::class,'update'])->name('services.update');
-    Route::get('admin/services/delete/{id}',[ServicesController::class,'delete'])->name('services.delete');
-    Route::get('admin/airservicesdetails',[ServicesController::class,'airportservicesindex']);
+    // Route::get('admin/services',[ServicesController::class,'index']);
+    // Route::get('admin/services/create/add', [ServicesController::class,'create'])->name('services.add');
+    // Route::post('admin/services/store', [ServicesController::class,'store'])->name('services.store');
+    // // Route::post('admin/services/arabicstore', [ServicesController::class,'arabicstore'])->name('arabic_services.store');
+    // Route::get('admin/services/edit/{id}/{language}',[ServicesController::class,'edit'])->name('services.edit');
+    // Route::post('admin/services/update', [ServicesController::class,'update'])->name('services.update');
+    // Route::get('admin/services/delete/{id}',[ServicesController::class,'delete'])->name('services.delete');
+    // Route::get('admin/airservicesdetails',[ServicesController::class,'airportservicesindex']);
     
      /*Services */
      Route::get('admin/servicesdetails',[ServicesDetailsController::class,'index']);

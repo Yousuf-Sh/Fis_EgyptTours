@@ -56,7 +56,7 @@
 
 
                                     <div class="col-md-6">
-                                        <label for="type_{{ $language->slug }}" class="form-label">Offer Type</label>
+                                        <label for="type_{{ $language->slug }}" class="form-label">Service Type</label>
                                         <input type="text" name="{{ $language->slug }}_type" class="form-control" id="type_{{ $language->slug }}" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} required>
                                     </div>
                                 </div>
