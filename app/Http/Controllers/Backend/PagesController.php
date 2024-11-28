@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
+use App\Models\Language;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Models\CMS;
@@ -43,10 +44,28 @@ public function store(Request $request){
 	return redirect('admin/cms');
 	}
     public function edit($id)
-	{
-		$cms=CMS::findOrFail($id);
-		return view('Admin.cmspages.edit',compact('cms'));
-	}
+{
+    // Fetch the main CMS record
+    $primaryCms = CMS::findOrFail($id);
+	
+    // Find all related CMS records including the primary one
+    $cmsRecords = CMS::where('slug', 'like', 'explore-more%')
+	->get()
+	->keyBy(function ($item) {
+		return $item->slug === 'explore-more' ? 'en' : str_replace('explore-more-', '', $item->slug);
+	});
+	
+	// dd($cmsRecords);
+
+    // Fetch all languages
+    $languages = Language::all();
+
+    return view('Admin.cmspages.edit', [
+        'cmsRecords' => $cmsRecords,
+        'primaryCms' => $primaryCms,
+        'languages' => $languages,
+    ]);
+}
     public function update(Request $request){
 		
 		

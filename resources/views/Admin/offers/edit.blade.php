@@ -124,7 +124,7 @@
                                         <label for="image" class="form-label">Image</label>
                                         <input type="file" name="images" id="imgInp" accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile(event)">
                                         @if($primaryOffer->image)
-                                            <img src="{{ Storage::url($primaryOffer->image) }}" id="output" width="100" classs="my-3">
+                                            <img src="{{ Storage::url($primaryOffer->image) }}" id="output" width="100" class="my-3">
                                         @endif
                                     </div>
                         
