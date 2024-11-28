@@ -94,47 +94,127 @@ class OfferController extends Controller
     ]);
 }
 
-    public function edit($id)
-    {
-        $offer= Offer::where('id','=',$id)
-        ->orWhere('secondary_id','=',$id)
-        ->get();
-        dd($offer);
-        $languages = Language::all();
-        return view('Admin.offers.edit',[
-            'offer'=>$offer,
-            'languages'=>$languages
-        ]);
-    }
-
-   
-    public function update(Request $request, $id)
+public function edit($id)
 {
-    // Find the existing offer
-    $offer = Offer::findOrFail($id);
-    if ($request->hasFile('images')) {
-        if ($offer->image) {
-            Storage::disk('public')->delete($offer->image);
-        }
-        $imagePath = $request->file('images')->store('offers', 'public');
-    } else {
-        $imagePath = $offer->image;
-    }
-    $offer->update([
-        'language' => $request->input('language'),
-        'title' => $request->input("title"),
-        'type' => $request->input("type"),
-        'feature1' => $request->input("feature1"),
-        'feature2' => $request->input("feature2"),
-        'feature3' => $request->input("feature3"),
-        'price' => $request->input("price"),
-        'discount_price' => $request->input("discount_price"),
-        'image' => $imagePath,
-    ]);
+    // Find the primary offer (English record)
+    $primaryOffer = Offer::findOrFail($id);
 
-    return redirect('offers.index')->with('status','updated item successfully');
+    // Find all related offers (including the primary offer)
+    $offers = Offer::where('id', $id)
+        ->orWhere('secondary_id', $id)
+        ->get()
+        ->keyBy('language');
+
+    $languages = Language::all();
+    
+    return view('Admin.offers.edit', [
+        'offers' => $offers,
+        'primaryOffer' => $primaryOffer,
+        'languages' => $languages
+    ]);
+}
+private function getBoundary(Request $request)
+{
+    $contentType = $request->header('Content-Type');
+
+    if ($contentType && preg_match('/boundary=(.+)$/', $contentType, $matches)) {
+        return trim($matches[1]);
+    }
+
+    return null;
 }
 
+   
+public function update(Request $request, $id)
+{
+    // Validate basic inputs
+    // $content = $request->getContent();
+    // $boundary = $this->getBoundary($request);
+    
+    // if ($boundary) {
+    //     $parts = $this->parseMultipartFormData($content, $boundary);
+        
+    //     // Manually add parsed data to the request
+    //     foreach ($parts as $name => $value) {
+    //         $request->merge([$name => $value]);
+    //     }
+    // }
+
+    // Find the primary offer
+    $primaryOffer = Offer::findOrFail($id);
+
+    // Process image upload
+    $imagePath = $primaryOffer->image;
+    if ($request->hasFile('images')) {
+        // Delete existing image if it exists
+        if ($primaryOffer->image) {
+            Storage::disk('public')->delete($primaryOffer->image);
+        }
+        // Store new image
+        $imagePath = $request->file('images')->store('offers', 'public');
+    }
+
+    // Identify language inputs dynamically
+    $languages = collect($request->all())
+        ->keys()
+        ->filter(function ($key) {
+            return strpos($key, '_title') !== false;
+        })
+        ->map(function ($key) {
+            return str_replace('_title', '', $key);
+        })
+        ->unique()
+        ->values();
+
+    // Process offers for each language
+    foreach ($languages as $language) {
+        // Skip if required fields are not filled
+        if (!$request->filled([
+            "{$language}_title",
+            "{$language}_type",
+            "{$language}_feature1",
+            "{$language}_feature2",
+            "{$language}_feature3"
+        ])) {
+            continue;
+        }
+
+        // Prepare offer data
+        $offerData = [
+            'language' => $language,
+            'title' => $request->input("{$language}_title"),
+            'type' => $request->input("{$language}_type"),
+            'feature1' => $request->input("{$language}_feature1"),
+            'feature2' => $request->input("{$language}_feature2"),
+            'feature3' => $request->input("{$language}_feature3"),
+            'price' => $request->input('price'),
+            'discount_price' => $request->input('discount_price'),
+            'image' => $imagePath,
+            'secondary_id' => $language === 'en' ? 0 : $id
+        ];
+
+        // Find or create offer for this language
+        $existingOffer = Offer::where('language', $language)
+            ->where(function ($query) use ($id) {
+                $query->where('id', $id)
+                     ->orWhere('secondary_id', $id);
+            })
+            ->first();
+
+        if ($existingOffer) {
+            $existingOffer->update($offerData);
+        } else {
+            Offer::create($offerData);
+        }
+    }
+
+    // Return JSON response for AJAX request
+    return response()->json([
+        'success' => true,
+        'message' => 'Offer updated successfully',
+        'redirect' => route('offers.index')
+    ]);
+}
 
 public function destroy($id)
 {

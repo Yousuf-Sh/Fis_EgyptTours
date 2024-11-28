@@ -49,14 +49,14 @@
                                 <div class="row g3 my-3">
 
                                     <div class="col-md-6">
-                                        <label for="title_{{ $language->slug }}" class="form-label">{{ ucfirst($language->name) }} Title</label>
+                                        <label for="title_{{ $language->slug }}" class="form-label">Title</label>
                                         <input type="text" name="{{ $language->slug }}_title" class="form-control" id="title_{{ $language->slug }}" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} required>
                                         <input type="hidden" name="language_{{ $language->slug }}" class="form-control" id="language_{{ $language->slug }}" value="{{ $language->slug }}" required>
                                     </div>
 
 
                                     <div class="col-md-6">
-                                        <label for="type_{{ $language->slug }}" class="form-label">{{ ucfirst($language->name) }} Offer Type</label>
+                                        <label for="type_{{ $language->slug }}" class="form-label">Offer Type</label>
                                         <input type="text" name="{{ $language->slug }}_type" class="form-control" id="type_{{ $language->slug }}" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} required>
                                     </div>
                                 </div>
@@ -64,19 +64,19 @@
                                 <div class="row g-3 mb-3">
 
                                     <div class="col-md-4">
-                                        <label for="price_{{ $language->slug }}" class="form-label">{{ ucfirst($language->name) }} Feature 1</label>
+                                        <label for="price_{{ $language->slug }}" class="form-label">Feature 1</label>
                                         <input type="text" name="{{ $language->slug }}_feature1" class="form-control" id="feature1_{{ $language->slug }}" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} required>
                                     </div>
 
 
                                     <div class="col-md-4">
-                                        <label for="feature2_{{ $language->slug }}" class="form-label">{{ ucfirst($language->name) }} Feature 2</label>
+                                        <label for="feature2_{{ $language->slug }}" class="form-label">Feature 2</label>
                                         <input type="text" name="{{ $language->slug }}_feature2" class="form-control" id="feature2_{{ $language->slug }}" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} required>
                                     </div>
 
 
                                     <div class="col-md-4">
-                                        <label for="feature3_{{ $language->slug }}" class="form-label">{{ ucfirst($language->name) }} Feature 3</label>
+                                        <label for="feature3_{{ $language->slug }}" class="form-label">Feature 3</label>
                                         <input name="{{ $language->slug }}_feature3" class="form-control" id="feature3_{{ $language->slug }}" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} required>
                                     </div>
 
