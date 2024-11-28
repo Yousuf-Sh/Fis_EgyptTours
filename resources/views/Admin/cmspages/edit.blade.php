@@ -64,7 +64,7 @@
                                  id="{{ $language->slug }}" 
                                  role="tabpanel" 
                                  aria-labelledby="{{ $language->slug }}-tab">
-                                <form class="" method="POST" action="{{ route('cms.update', $primaryCms->id) }}" enctype="multipart/form-data">
+                                <form class="" method="POST" action="{{ route('cmspages.update', $primaryCms->id) }}" enctype="multipart/form-data">
                                     @csrf
                                     @method('POST')
                                     <div class="row g3 my-3">
@@ -150,9 +150,6 @@
   </section>
 
   </main>
-  @include('Admin.include.footer')
-  @include('Admin.include.script')
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
   const submitButton = document.getElementById('submitAll');
@@ -175,13 +172,13 @@
               throw new Error('No forms found in the specified content area');
           }
 
-          // Validate price inputs
-          const priceInput = document.getElementById('price');
-          const discountPriceInput = document.getElementById('discount_price');
+          // // Validate price inputs
+          // const priceInput = document.getElementById('price');
+          // const discountPriceInput = document.getElementById('discount_price');
           
-          if (!priceInput || !discountPriceInput) {
-              throw new Error('Price or discount price input not found');
-          }
+          // if (!priceInput || !discountPriceInput) {
+          //     throw new Error('Price or discount price input not found');
+          // }
 
           // Create a single FormData object to store all form data
           const formData = new FormData();
@@ -204,8 +201,8 @@
           });
 
           // Append price fields
-          formData.append('price', priceInput.value);
-          formData.append('discount_price', discountPriceInput.value);
+          // formData.append('price', priceInput.value);
+          // formData.append('discount_price', discountPriceInput.value);
 
           // Get CSRF token
           const csrfToken = document.querySelector('input[name="_token"]');
@@ -215,7 +212,7 @@
           }
 
           // Determine submission URL (using Laravel Blade syntax)
-          const currentUrl = "{{ route('offers.update', ['id' => $primaryCms->id]) }}";
+          const currentUrl = "{{ route('cmspages.update', ['id' => $primaryCms->id]) }}";
           // Improved fetch request with more comprehensive error handling
           fetch(currentUrl, {
               method: 'POST',
@@ -252,7 +249,7 @@
               console.error('Submission error:', error);
               
               // User-friendly error message
-              alert('Failed to submit forms. ' + error.message);
+              alert('Failed to submit forms. bla bla ' + error.message);
           });
 
       } catch (error) {

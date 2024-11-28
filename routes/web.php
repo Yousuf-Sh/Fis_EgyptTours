@@ -218,11 +218,11 @@ Route::group(['middleware' => ['admin']],function () {
     Route::get('/admin/aboutus/delete/{id}',[CMSController::class,'delete'])->name('cms.delete');
 
      /*About Us CMS Pages Routes*/
-     Route::get('/admin/cms', [PagesController::class,'index']);
+     Route::get('/admin/cms', [PagesController::class,'index'])->name('cms_index');
      Route::get('/admin/cms/create', [PagesController::class,'create'])->name('cmspages.add');
      Route::post('/admin/cms/store', [PagesController::class,'store'])->name('cmspages.store');
      Route::get('/admin/cms/{id}',[PagesController::class,'edit'])->name('cmspages.edit');
-     Route::post('/admin/cms', [PagesController::class,'update'])->name('cmspages.update');
+     Route::post('/admin/cms/{id}', [PagesController::class,'update'])->name('cmspages.update');
     //  Route::post('/admin/cms/update', [PagesController::class,'arabic_update'])->name('cmspages_arabic.update');
      
      Route::get('/admin/cms/delete/{id}',[PagesController::class,'delete'])->name('cmspages.delete');
