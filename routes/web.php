@@ -135,7 +135,7 @@ Route::group(['middleware' => ['admin']],function () {
     Route::post('/admin/clients/update', [ClientController::class,'update'])->name('clients.update');
     Route::get('/admin/clients/delete/{id}', [ClientController::class,'delete'])->name('clients.delete');
     /*Slider Routes*/
-    Route::get('/admin/slider',[SliderController::class,'index']);
+    Route::get('/admin/slider',[SliderController::class,'index'])->name('slider.index');
     Route::get('/admin/slider/create',[SliderController::class,'create'])->name('slider.add');
     Route::post('/admin/slider/store', [SliderController::class,'store'])->name('slider.store');
     Route::get('/admin/slider/edit/{id}',[SliderController::class,'edit'])->name('slider.edit');
@@ -218,11 +218,11 @@ Route::group(['middleware' => ['admin']],function () {
     Route::get('/admin/aboutus/delete/{id}',[CMSController::class,'delete'])->name('cms.delete');
 
      /*About Us CMS Pages Routes*/
-     Route::get('/admin/cms', [PagesController::class,'index']);
+     Route::get('/admin/cms', [PagesController::class,'index'])->name('cms_index');
      Route::get('/admin/cms/create', [PagesController::class,'create'])->name('cmspages.add');
      Route::post('/admin/cms/store', [PagesController::class,'store'])->name('cmspages.store');
      Route::get('/admin/cms/{id}',[PagesController::class,'edit'])->name('cmspages.edit');
-     Route::post('/admin/cms', [PagesController::class,'update'])->name('cmspages.update');
+     Route::post('/admin/cms/{id}', [PagesController::class,'update'])->name('cmspages.update');
     //  Route::post('/admin/cms/update', [PagesController::class,'arabic_update'])->name('cmspages_arabic.update');
      
      Route::get('/admin/cms/delete/{id}',[PagesController::class,'delete'])->name('cmspages.delete');

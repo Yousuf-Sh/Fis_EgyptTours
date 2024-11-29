@@ -10,7 +10,12 @@ class CMS extends Model
     use HasFactory;
     protected $table='cms';
     protected $fillable = [
+        'title',
         'short_description',
+        'short_description1',
+        'slug',
+        'image'
+
        
     ];
     protected $guarded = [];
