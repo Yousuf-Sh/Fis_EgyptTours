@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Models\CMS;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
 
 use DB;
 class PagesController extends Controller
@@ -15,6 +16,7 @@ class PagesController extends Controller
     public function index(){
 		//return 'szfds';
 		$cms=CMS::where('slug','=','explore-more')
+        ->orWhere('slug','=','about-services')
 		->get();
 		return view('Admin.cmspages.index',compact('cms'));
 	
@@ -45,17 +47,26 @@ public function store(Request $request){
 	$items = $request->all('cms');
 	return redirect('admin/cms');
 	}
+
+
+
+
+
     public function edit($id)
 {
     // Fetch the main CMS record
     $primaryCms = CMS::findOrFail($id);
+    $slugToSearch = $primaryCms->slug;
+    // dd($slugToSearch);
 	
     // Find all related CMS records including the primary one
-    $cmsRecords = CMS::where('slug', 'like', 'explore-more%')
-	->get()
-	->keyBy(function ($item) {
-		return $item->slug === 'explore-more' ? 'en' : str_replace('explore-more-', '', $item->slug);
-	});
+    $cmsRecords = CMS::where('slug', 'like', "{$slugToSearch}%")
+    ->get()
+    ->keyBy(function ($item) use ($slugToSearch) {
+        return $item->slug === $slugToSearch
+            ? 'en'
+            : str_replace("{$slugToSearch}-", '', $item->slug);
+    });
 	
 	// dd($cmsRecords);
 
@@ -72,6 +83,31 @@ public function update(Request $request, $id)
 {
     // Find the primary CMS record
     $primaryCms = CMS::findOrFail($id);
+    $uploadedImages = [];
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $key => $image) {
+            // Check if file exists
+            if ($image->isValid()) {
+                // Define unique filename and path
+                $imagePath = $image->store('media', 'public');
+
+                // Store image path in the result array
+                $uploadedImages[$key] = $imagePath;
+            }
+        }
+    }
+
+    // Use `dd` to check uploaded image paths
+    foreach ($uploadedImages as $imageKey => $imagePath) {
+        // Check if the CMS record has a field for the image (e.g., 'image1', 'image2', etc.)
+        if (Schema::hasColumn('cms', $imageKey)) {
+            // Assign the image path to the corresponding column in the database
+            $primaryCms->{$imageKey} = $imagePath;
+        }
+    }
+
+    // Save the updated primary CMS record
+    $primaryCms->save();
     
     // Array to track updated records
     $updatedRecords = [];
