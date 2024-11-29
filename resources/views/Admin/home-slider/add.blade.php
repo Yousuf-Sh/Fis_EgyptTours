@@ -65,9 +65,9 @@
           </div>
               </div>
               <div class="col-md-6">
-                <label for="image" class="form-label">Image</label>
-                <input type="file" name="images" id="imgInp" required="" accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile(event)">
-                <a href=""><img src="" id="output"  width="100" ></a>
+                <label for="video" class="form-label">Video</label>
+                <input type="file" name="video" id="videoInp" accept="video/*" class="form-control input-default" placeholder="Select video" onchange="loadVideo(event)">
+                <a href=""><video id="output" width="100" controls></video></a>
             </div>
             <div class="col-md-12" style="text-align: right;">
               <button type="button" class="btn btn-primary submit" id="submitAll">Submit</button>
@@ -86,16 +86,15 @@
 
   </main><!-- End #main -->
   <script>
-  var loadFile = function(event) {
+  var loadVideo = function(event) {
     var reader = new FileReader();
-    reader.onload = function(){
+    reader.onload = function() {
         var output = document.getElementById('output');
-        var output1 = document.getElementById('output1');
         output.src = reader.result;
-        output1.src = reader.result;
     };
     reader.readAsDataURL(event.target.files[0]);
 };
+
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -148,67 +147,99 @@ document.addEventListener('DOMContentLoaded', function() {
 @include('Admin.include.footer')
 @include('Admin.include.script')
 <script>
-  document.getElementById('submitAll').addEventListener('click', function () {
-      // Find all forms inside the tab content
-      const forms = document.querySelectorAll('#languageTabsContent form');
+ document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('submitAll').addEventListener('click', function () {
+        // Create a single FormData object to capture all form data
+        const formData = new FormData();
 
-      // Iterate through each form
-      forms.forEach(form => {
-          // Check if the form has any input (excluding CSRF hidden fields)
-          const hasInput = Array.from(form.elements).some(input => {
-              return input.type !== 'hidden' && input.value.trim() !== '';
-          });
+        // Find all forms inside the tab content
+        const forms = document.querySelectorAll('#languageTabsContent form');
+        
+        // Flag to track if any valid data exists
+        let hasValidData = false;
 
-          // Skip empty forms
-          if (!hasInput) {
-              console.log(`Skipping form: ${form.id} (no input provided)`);
-              return;
-          }
+        // Iterate through each form to collect data
+        forms.forEach(form => {
+            // Collect language-specific inputs
+            const languageSlug = form.querySelector('input[name="language"]').value;
+            
+            // Check if the form has any meaningful input
+            const titleInput = form.querySelector(`input[name="${languageSlug}_title"]`);
+            const buttonInput = form.querySelector(`input[name="${languageSlug}_button"]`);
+            const descriptionInput = form.querySelector(`textarea[name="${languageSlug}_description"]`);
 
-          // Retrieve the CSRF token from the hidden input in the form
-          const csrfToken = form.querySelector('input[name="_token"]');
-          if (!csrfToken) {
-              console.error(`CSRF token missing in form: ${form.id}`);
-              alert(`CSRF token is missing in form: ${form.id}.`);
-              return;
-          }
+            if (titleInput.value.trim() !== '' && 
+                buttonInput.value.trim() !== '' && 
+                descriptionInput.value.trim() !== '') {
+                
+                // Add language-specific inputs to formData
+                formData.append(`${languageSlug}_title`, titleInput.value);
+                formData.append(`${languageSlug}_button`, buttonInput.value);
+                formData.append(`${languageSlug}_description`, descriptionInput.value);
+                
+                hasValidData = true;
+            }
+        });
 
-          // Create a new FormData object for the form
-          const formData = new FormData(form);
+        // Handle video upload
+        const videoInput = document.getElementById('videoInp');
+        if (videoInput.files.length > 0) {
+            formData.append('video', videoInput.files[0]);
+        }
 
-          // Debug: Log form data being submitted
-          console.log(`Submitting form data for ${form.id}:`);
-          for (let [key, value] of formData.entries()) {
-              console.log(`${key}: ${value}`);
-          }
+        // Add CSRF token
+        const csrfToken = document.querySelector('input[name="_token"]');
+        if (csrfToken) {
+            formData.append('_token', csrfToken.value);
+        }
 
-          // Send an AJAX request to the form's action URL
-          fetch(form.action, {
-              method: 'POST',
-              body: formData,
-              headers: {
-                  'X-CSRF-TOKEN': csrfToken.value, // Use the token value from the form
-              }
-          })
-              .then(response => {
-                  // Handle response statuses
-                  if (!response.ok) {
-                      return response.json().then(err => {
-                          console.error(`Validation errors for ${form.id}:`, err.errors);
-                          alert(`Validation errors: ${JSON.stringify(err.errors)}`);
-                          throw new Error(`Validation failed for ${form.id}`);
-                      });
-                  }
-                  return response.json();
-              })
-              .then(data => {
-                  console.log(`Form submitted successfully for ${form.id}:`, data);
-                  alert("Form submitted successfully for ");
-              })
-              .catch(error => {
-                  console.error(`Error submitting form for ${form.id}:`, error);
-                  alert(`Error submitting form for ${form.id}: ${error.message}`);
-              });
-      });
-  });
+        // Check if there's any valid data to submit
+        if (!hasValidData) {
+            alert('Please fill in at least one language\'s form completely');
+            return;
+        }
+
+        // Send AJAX request
+        fetch('{{ route('slider.store') }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                // Remove Content-Type header to let browser set it automatically with FormData
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {
+                    console.error('Validation errors:', err);
+                    throw new Error(err.message || 'Submission failed');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Submission successful:', data);
+            alert('Slider created successfully');
+            // Optional: redirect or reset form
+            // window.location.href = '{{ route('slider.index') }}';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Submission failed: ' + error.message);
+        });
+    });
+
+    // Existing video preview functionality
+    var loadVideo = function(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('output');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
+
+    // Attach loadVideo to the video input
+    document.getElementById('videoInp').addEventListener('change', loadVideo);
+});
 </script>

@@ -135,7 +135,7 @@ Route::group(['middleware' => ['admin']],function () {
     Route::post('/admin/clients/update', [ClientController::class,'update'])->name('clients.update');
     Route::get('/admin/clients/delete/{id}', [ClientController::class,'delete'])->name('clients.delete');
     /*Slider Routes*/
-    Route::get('/admin/slider',[SliderController::class,'index']);
+    Route::get('/admin/slider',[SliderController::class,'index'])->name('slider.index');
     Route::get('/admin/slider/create',[SliderController::class,'create'])->name('slider.add');
     Route::post('/admin/slider/store', [SliderController::class,'store'])->name('slider.store');
     Route::get('/admin/slider/edit/{id}',[SliderController::class,'edit'])->name('slider.edit');

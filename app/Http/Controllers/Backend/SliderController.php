@@ -24,31 +24,54 @@ public function create(){
 }
 public function store(Request $request)
 {
-    // $validated = $request->validate([
-    //     'en_title' => 'nullable|string',
-    //     'ar_title' => 'nullable|string',
-    //     'en_button' => 'nullable|string',
-    //     'ar_button' => 'nullable|string',
-    //     'images' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-    // ]);
+    // Find all languages in the request
+    $languages = collect($request->all())
+        ->keys()
+        ->filter(function ($key) {
+            return strpos($key, '_title') !== false;
+        })
+        ->map(function ($key) {
+            return str_replace('_title', '', $key);
+        })
+        ->unique()
+        ->values();
 
-    // Save uploaded image
-    if ($request->hasFile('images')) {
-        $imagePath = $request->file('images')->store('sliders', 'public');
+    // Validate each language's attributes
+    $validLanguages = $languages->filter(function ($language) use ($request) {
+        return $request->filled([
+            "{$language}_title",
+            "{$language}_button",
+            "{$language}_description"
+        ]);
+    });
+
+    // Process video upload
+    $videoPath = null;
+    if ($request->hasFile('video')) {
+        $video = $request->file('video');
+        $videoPath = $video->store('videos', 'public');
     }
 
-    // Insert data into database
-    Slider::create([
-        'language' => $request->input('language'), // e.g., 'en' or 'ar'
-        'title' => $request->input("{$request->language}_title"),
-        'button_text' => $request->input("{$request->language}_button"),
-        'description' => $request->input("{$request->language}_description"),
-        'image_path' => $imagePath ?? null,
+    $createdSliders = [];
+
+    // Create sliders for valid languages
+    foreach ($validLanguages as $language) {
+        $slider = Slider::create([
+            'language' => $language,
+            'title' => $request->input("{$language}_title"),
+            'button_text' => $request->input("{$language}_button"),
+            'description' => $request->input("{$language}_description"),
+            'video_path' => $videoPath
+        ]);
+
+        $createdSliders[$language] = $slider;
+    }
+
+    return response()->json([
+        'message' => 'Sliders created successfully',
+        'sliders' => $createdSliders
     ]);
-
-    return response()->json(['message' => 'Slider created successfully']);
 }
-
 	public function edit($id)
 	{
 		$slider=Slider::findOrFail($id);
