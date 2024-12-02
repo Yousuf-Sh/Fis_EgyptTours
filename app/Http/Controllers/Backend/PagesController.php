@@ -19,6 +19,7 @@ class PagesController extends Controller
         ->orWhere('slug','=','about-services')
         ->orWhere('slug','=','memories')
         ->orWhere('slug','=','tour-video')
+        ->orWhere('slug','=','faq')
 		->get();
 		return view('Admin.cmspages.index',compact('cms'));
 	
@@ -184,6 +185,7 @@ public function update(Request $request, $id)
         }else if($id==144){
         }else if($id==153){
         }else if($id==162){
+        }else if($id==144){
             // dd('HELLO');
         
             // Skip if required fields are not filled
