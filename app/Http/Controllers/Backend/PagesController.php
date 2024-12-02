@@ -17,6 +17,8 @@ class PagesController extends Controller
 		//return 'szfds';
 		$cms=CMS::where('slug','=','explore-more')
         ->orWhere('slug','=','about-services')
+        ->orWhere('slug','=','memories')
+        ->orWhere('slug','=','tour-video')
 		->get();
 		return view('Admin.cmspages.index',compact('cms'));
 	
@@ -180,17 +182,14 @@ public function update(Request $request, $id)
             }
 
         }else if($id==144){
+        }else if($id==153){
+            // dd('HELLO');
         
             // Skip if required fields are not filled
             if (!$request->filled([
                 "{$language}_title",
-                "{$language}_title_2",
-                "{$language}_title_3",
-                "{$language}_title_4",
+                "{$language}_btn",
                 "{$language}_para_1",
-                "{$language}_para_2",
-                "{$language}_para_3",
-                "{$language}_para_4",
             ])) {
                 continue;
             }
@@ -199,7 +198,7 @@ public function update(Request $request, $id)
             $imagePath = null;
             if ($request->hasFile("{$language}_image")) {
                 // Find the existing CMS record for the current language
-                $existingCms = CMS::where('slug', $language === 'en' ? 'about-services' : "about-services-{$language}")->first();
+                $existingCms = CMS::where('slug', $language === 'en' ? 'memories' : "memories-{$language}")->first();
                 
                 // Delete existing image if it exists
                 if ($existingCms && $existingCms->image) {
@@ -213,14 +212,9 @@ public function update(Request $request, $id)
             // Prepare CMS data
             $cmsData = [
                 'title' => $request->input("{$language}_title"),
-                'title1' => $request->input("{$language}_title_2"),
-                'title2' => $request->input("{$language}_title_3"),
-                'title3' => $request->input("{$language}_title_4"),
+                'title1' => $request->input("{$language}_btn"),
                 'short_description' => $request->input("{$language}_para_1"),
-                'short_description1' => $request->input("{$language}_para_2"),
-                'short_description2' => $request->input("{$language}_para_3"),
-                'short_description3' => $request->input("{$language}_para_4"),
-                'slug' => $language === 'en' ? 'about-services' : "about-services-{$language}",
+                'slug' => $language === 'en' ? 'memories' : "memories-{$language}",
             ];
             // dd($cmsData);    
             

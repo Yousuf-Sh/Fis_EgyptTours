@@ -152,6 +152,8 @@
   </div>
   </section>
 @elseif($primaryCms->slug=='about-services')
+@elseif($primaryCms->slug=='memories')
+@elseif($primaryCms->slug=='tour-video')
     <section class="section">
         <div class="row">
         
@@ -185,7 +187,7 @@
                                     @method('POST')
                                     <div class="row g3 my-3">
                                         <div class="col-md-6">
-                                            <label for="title_{{ $language->slug }}" class="form-label">Heading 1</label>
+                                            <label for="title_{{ $language->slug }}" class="form-label">Heading</label>
                                             <input type="text" 
                                                     name="{{ $language->slug }}_title" 
                                                     class="form-control" 
@@ -198,92 +200,32 @@
                                                     value="{{ $language->slug }}"
                                             >
                                         </div>
-                    
                                         <div class="col-md-6">
-                                            <label for="title_2_{{ $language->slug }}" class="form-label">Heading 2</label>
+                                            <label for="btn_{{ $language->slug }}" class="form-label">Button Text</label>
                                             <input type="text" 
-                                                    name="{{ $language->slug }}_title_2" 
-                                                    class="form-control mb-2" 
-                                                    id="title_{{ $language->slug }}" 
+                                                    name="{{ $language->slug }}_btn" 
+                                                    class="form-control" 
+                                                    id="btn_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
                                                     value="{{ $cmsRecords[$language->slug]->title1 ?? '' }}"
                                                     required>
-                                            <input type="hidden" 
-                                                    name="language" 
-                                                    value="{{ $language->slug }}"
-                                            >
                                         </div>
                     
-                                        <div class="col-md-6">
-                                            <label for="title_3_{{ $language->slug }}" class="form-label">Heading 3</label>
-                                            <input type="text" 
-                                                    name="{{ $language->slug }}_title_3" 
-                                                    class="form-control mb-2" 
-                                                    id="title_{{ $language->slug }}" 
-                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
-                                                    value="{{ $cmsRecords[$language->slug]->title2 ?? '' }}"
-                                                    required>
-                                            <input type="hidden" 
-                                                    name="language" 
-                                                    value="{{ $language->slug }}"
-                                            >
-                                        </div>
-                    
-                                        <div class="col-md-6">
-                                            <label for="title_4_{{ $language->slug }}" class="form-label">Heading 4</label>
-                                            <input type="text" 
-                                                    name="{{ $language->slug }}_title_4" 
-                                                    class="form-control mb-2" 
-                                                    id="title_{{ $language->slug }}" 
-                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
-                                                    value="{{ $cmsRecords[$language->slug]->title3 ?? '' }}"
-                                                    required>
-                                            <input type="hidden" 
-                                                    name="language" 
-                                                    value="{{ $language->slug }}"
-                                            >
-                                        </div>
-                    
-                                        <div class="col-md-6">
-                                            <label for="para_1_{{ $language->slug }}" class="form-label">Small Description 1</label>
+                                        
+                                    </div>
+                                    <div class="row g3 my-3">
+                                        <div class="col-md-12">
+                                            <label for="para_1_{{ $language->slug }}" class="form-label">Content</label>
                                             <textarea 
                                                 name="{{ $language->slug }}_para_1" 
-                                                class="form-control  mb-3" 
+                                                class="form-control  mb-3 ckeditor" 
                                                 id="para_1_{{ $language->slug }}" 
                                                 {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
                                                 rows="10"
                                                 required>{{ $cmsRecords[$language->slug]->short_description ?? '' }}</textarea>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label for="para_2_{{ $language->slug }}" class="form-label">Small Description 2</label>
-                                            <textarea 
-                                                name="{{ $language->slug }}_para_2" 
-                                                class="form-control mb-3" 
-                                                id="para_1_{{ $language->slug }}" 
-                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
-                                                rows="10"
-                                                required>{{ $cmsRecords[$language->slug]->short_description1 ?? '' }}</textarea>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="para_3_{{ $language->slug }}" class="form-label">Small Description 3</label>
-                                            <textarea 
-                                                name="{{ $language->slug }}_para_3" 
-                                                class="form-control  mb-3" 
-                                                id="para_1_{{ $language->slug }}" 
-                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
-                                                rows="10"
-                                                required>{{ $cmsRecords[$language->slug]->short_description2 ?? '' }}</textarea>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="para_4_{{ $language->slug }}" class="form-label">Small Description 4</label>
-                                            <textarea 
-                                                name="{{ $language->slug }}_para_4" 
-                                                class="form-control mb-3" 
-                                                id="para_1_{{ $language->slug }}" 
-                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }}
-                                                rows="10" 
-                                                required>{{ $cmsRecords[$language->slug]->short_description3 ?? '' }}</textarea>
-                                        </div>
+                                        
+                    
                                     </div>
                                 </form>
                             </div>
@@ -299,31 +241,10 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="image1" class="form-label">Image 1</label>
+                                    <label for="image1" class="form-label">Image</label>
                                     <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
                                     @if($primaryCms->image1)
                                     <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
-                                    @endif
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="image2" class="form-label">Image 2</label>
-                                    <input type="file" name="images[image2]" id="imgInp2" accept="image/*" class="form-control input-default" placeholder="Select image">
-                                    @if($primaryCms->image2)
-                                    <img src="{{ Storage::url($primaryCms->image2) }}" id="output2" width="100" class="my-3">
-                                    @endif
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="image3" class="form-label">Image 3</label>
-                                    <input type="file" name="images[image3]" id="imgInp3" accept="image/*" class="form-control input-default" placeholder="Select image">
-                                    @if($primaryCms->image3)
-                                    <img src="{{ Storage::url($primaryCms->image3) }}" id="output3" width="100" class="my-3">
-                                    @endif
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="image4" class="form-label">Image 4</label>
-                                    <input type="file" name="images[image4]" id="imgInp4" accept="image/*" class="form-control input-default" placeholder="Select image">
-                                    @if($primaryCms->image4)
-                                    <img src="{{ Storage::url($primaryCms->image4) }}" id="output4" width="100" class="my-3">
                                     @endif
                                 </div>
                                 <div class="col-md-12" style="text-align: right;">
