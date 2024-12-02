@@ -127,8 +127,7 @@ public function update(Request $request, $id)
         })
         ->unique()
         ->values();
-        // dd($languages);
-    
+        dd($languages);
     // Process CMS records for each language
     foreach ($languages as $language) {
         
@@ -183,9 +182,114 @@ public function update(Request $request, $id)
             }
 
         }else if($id==144){
+             // Skip if required fields are not filled
+             if (!$request->filled([
+                "{$language}_title",
+                "{$language}_title_2",
+                "{$language}_title_3",
+                "{$language}_title_4",
+                "{$language}_para_1",
+                "{$language}_para_2",
+                "{$language}_para_3",
+                "{$language}_para_4",
+            ])) {
+                continue;
+            }
+            
+            // Handle image upload for this language (if exists)
+            $imagePath = null;
+            if ($request->hasFile("{$language}_image")) {
+                // Find the existing CMS record for the current language
+                $existingCms = CMS::where('slug', $language === 'en' ? 'about-services' : "about-services-{$language}")->first();
+                
+                // Delete existing image if it exists
+                if ($existingCms && $existingCms->image) {
+                    Storage::disk('public')->delete($existingCms->image);
+                }
+                
+                // Store new image
+                $imagePath = $request->file("{$language}_image")->store('cms', 'public');
+            }
+            
+            // Prepare CMS data
+            $cmsData = [
+                'title' => $request->input("{$language}_title"),
+                'title1' => $request->input("{$language}_title_2"),
+                'title2' => $request->input("{$language}_title_3"),
+                'title3' => $request->input("{$language}_title_4"),
+                'short_description' => $request->input("{$language}_para_1"),
+                'short_description1' => $request->input("{$language}_para_2"),
+                'short_description2' => $request->input("{$language}_para_3"),
+                'short_description3' => $request->input("{$language}_para_4"),
+                'slug' => $language === 'en' ? 'about-services' : "about-services-{$language}",
+            ];
+            // dd($cmsData);    
+            
+            // Add image path if provided
+            if ($imagePath) {
+                $cmsData['image'] = $imagePath;
+            }
+            
+            // Find or create CMS record for this language
+            $existingCms = CMS::where('slug', $cmsData['slug'])->first();
+            if ($existingCms) {
+                $existingCms->update($cmsData);
+                $updatedRecords[] = $existingCms->slug;
+            } else {
+                $newCms = CMS::create($cmsData);
+                $updatedRecords[] = $newCms->slug;
+            }
         }else if($id==153){
+              // dd('HELLO');
+        
+            // Skip if required fields are not filled
+            if (!$request->filled([
+                "{$language}_title",
+                "{$language}_btn",
+                "{$language}_para_1",
+            ])) {
+                continue;
+            }
+            
+            // Handle image upload for this language (if exists)
+            $imagePath = null;
+            if ($request->hasFile("{$language}_image")) {
+                // Find the existing CMS record for the current language
+                $existingCms = CMS::where('slug', $language === 'en' ? 'memories' : "memories-{$language}")->first();
+                
+                // Delete existing image if it exists
+                if ($existingCms && $existingCms->image) {
+                    Storage::disk('public')->delete($existingCms->image);
+                }
+                
+                // Store new image
+                $imagePath = $request->file("{$language}_image")->store('cms', 'public');
+            }
+            
+            // Prepare CMS data
+            $cmsData = [
+                'title' => $request->input("{$language}_title"),
+                'title1' => $request->input("{$language}_btn"),
+                'short_description' => $request->input("{$language}_para_1"),
+                'slug' => $language === 'en' ? 'memories' : "memories-{$language}",
+            ];
+            // dd($cmsData);    
+            
+            // Add image path if provided
+            if ($imagePath) {
+                $cmsData['image'] = $imagePath;
+            }
+            
+            // Find or create CMS record for this language
+            $existingCms = CMS::where('slug', $cmsData['slug'])->first();
+            if ($existingCms) {
+                $existingCms->update($cmsData);
+                $updatedRecords[] = $existingCms->slug;
+            } else {
+                $newCms = CMS::create($cmsData);
+                $updatedRecords[] = $newCms->slug;
+            }
         }else if($id==162){
-        }else if($id==144){
             // dd('HELLO');
         
             // Skip if required fields are not filled
@@ -222,6 +326,68 @@ public function update(Request $request, $id)
                 'slug' => $language === 'en' ? 'tour-video' : "tour-video-{$language}",
             ];
             // dd($cmsData);    
+            
+            // Add image path if provided
+            if ($imagePath) {
+                $cmsData['image'] = $imagePath;
+            }
+            
+            // Find or create CMS record for this language
+            $existingCms = CMS::where('slug', $cmsData['slug'])->first();
+            if ($existingCms) {
+                $existingCms->update($cmsData);
+                $updatedRecords[] = $existingCms->slug;
+            } else {
+                $newCms = CMS::create($cmsData);
+                $updatedRecords[] = $newCms->slug;
+            }
+
+        }else if($id==170){
+            // dd('HELLO');
+            dd("{$language}");
+            // Skip if required fields are not filled
+            if (!$request->filled([
+                "{$language}_title_1",
+                "{$language}_title_2",
+                "{$language}_title_3",
+                "{$language}_title_4",
+                "{$language}_para_1",
+                "{$language}_para_2",
+                "{$language}_para_3",
+                "{$language}_para_4",
+            ])) {
+                dd('notfilled');
+                continue;
+            }
+            
+            // Handle image upload for this language (if exists)
+            $imagePath = null;
+            if ($request->hasFile("{$language}_image")) {
+                // Find the existing CMS record for the current language
+                $existingCms = CMS::where('slug', $language === 'en' ? 'tour-video' : "tour-video-{$language}")->first();
+                
+                // Delete existing image if it exists
+                if ($existingCms && $existingCms->image) {
+                    Storage::disk('public')->delete($existingCms->image);
+                }
+                
+                // Store new image
+                $imagePath = $request->file("{$language}_image")->store('cms', 'public');
+            }
+            
+            // Prepare CMS data
+            $cmsData = [
+                'title1' => $request->input("{$language}_title_1"),
+                'title2' => $request->input("{$language}_title_2"),
+                'title3' => $request->input("{$language}_title_3"),
+                'title4' => $request->input("{$language}_title_4"),
+                'tagline1' => $request->input("{$language}_para_1"),
+                'tagline2' => $request->input("{$language}_para_2"),
+                'tagline3' => $request->input("{$language}_para_3"),
+                'tagline4' => $request->input("{$language}_para_4"),
+                'slug' => $language === 'en' ? 'tour-video' : "tour-video-{$language}",
+            ];
+            dd($cmsData);    
             
             // Add image path if provided
             if ($imagePath) {
