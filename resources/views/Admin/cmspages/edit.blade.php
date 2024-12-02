@@ -236,7 +236,7 @@
                         <!-- Image section -->
                     <div class="card">
                         <div class="card-header">
-                            Images
+                            Image & Link
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -245,6 +245,17 @@
                                     <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
                                     @if($primaryCms->image1)
                                     <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="video_link" class="form-label">Video Link</label>
+                                    <input type="text" 
+                                    name="video_link" id="video_link" 
+                                    class="form-control input-default" 
+                                    placeholder="Insert Youtube Link"
+                                    value="{{ $primaryCms->title2 ?? $primaryCms->title2 }}"> 
+                                    @if( $primaryCms->title2)   
+                                    <a href="{{$primaryCms->title2 }}" class="btn btn-primary mt-3" target="_blank">Go To video</a>                               
                                     @endif
                                 </div>
                                 <div class="col-md-12" style="text-align: right;">
@@ -444,6 +455,8 @@
 
             // Explicitly select all forms you want to collect data from
             const forms = document.querySelectorAll('form');
+            const videolink= document.querySelector('#video_link').value;
+            // alert(videolink);
 
             forms.forEach((form) => {
                 // Collect all form elements
@@ -463,6 +476,9 @@
                     }
                 }
             });
+            if(videolink != ''){
+                formData.append('video_link',videolink);
+            }
 
             // Specifically handle file inputs for images (as in the original code)
             const imageFileInputs = document.querySelectorAll('input[name^="images["]');

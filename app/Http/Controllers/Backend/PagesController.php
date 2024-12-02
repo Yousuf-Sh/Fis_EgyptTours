@@ -183,6 +183,7 @@ public function update(Request $request, $id)
 
         }else if($id==144){
         }else if($id==153){
+        }else if($id==162){
             // dd('HELLO');
         
             // Skip if required fields are not filled
@@ -190,6 +191,7 @@ public function update(Request $request, $id)
                 "{$language}_title",
                 "{$language}_btn",
                 "{$language}_para_1",
+                "video_link"
             ])) {
                 continue;
             }
@@ -198,7 +200,7 @@ public function update(Request $request, $id)
             $imagePath = null;
             if ($request->hasFile("{$language}_image")) {
                 // Find the existing CMS record for the current language
-                $existingCms = CMS::where('slug', $language === 'en' ? 'memories' : "memories-{$language}")->first();
+                $existingCms = CMS::where('slug', $language === 'en' ? 'tour-video' : "tour-video-{$language}")->first();
                 
                 // Delete existing image if it exists
                 if ($existingCms && $existingCms->image) {
@@ -213,8 +215,9 @@ public function update(Request $request, $id)
             $cmsData = [
                 'title' => $request->input("{$language}_title"),
                 'title1' => $request->input("{$language}_btn"),
+                'title2' => $request->input("video_link"),
                 'short_description' => $request->input("{$language}_para_1"),
-                'slug' => $language === 'en' ? 'memories' : "memories-{$language}",
+                'slug' => $language === 'en' ? 'tour-video' : "tour-video-{$language}",
             ];
             // dd($cmsData);    
             
