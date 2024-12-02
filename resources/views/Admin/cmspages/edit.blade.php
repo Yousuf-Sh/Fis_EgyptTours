@@ -42,99 +42,7 @@
       
           <div class="col-lg-12">
               <div class="card">
-                <div class="card-header">Images</div>
-                <div class="card-body">
-                    <div class="row">
-                        <!-- Image 1 -->
-                        <div class="col-md-6">
-                            <label for="image1" class="form-label">Image 1</label>
-                            <input type="file" 
-                                   name="images[image1]" 
-                                   id="image1" 
-                                   data-output-id="output1" 
-                                   accept="image/*" 
-                                   class="form-control input-default">
-                            @if($primaryCms->image1)
-                            <img src="{{ Storage::url('media/'.$primaryCms->image1) }}" 
-                                 id="output1" 
-                                 width="100" 
-                                 class="my-3">
-                            @else
-                            <img id="output1" 
-                                 width="100" 
-                                 class="my-3" 
-                                 style="display:none;">
-                            @endif
-                        </div>
-                        <!-- Image 2 -->
-                        <div class="col-md-6">
-                            <label for="image2" class="form-label">Image 2</label>
-                            <input type="file" 
-                                   name="images[image2]" 
-                                   id="image2" 
-                                   data-output-id="output2" 
-                                   accept="image/*" 
-                                   class="form-control input-default">
-                            @if($primaryCms->image2)
-                            <img src="{{ Storage::url('media/'.$primaryCms->image2) }}" 
-                                 id="output2" 
-                                 width="100" 
-                                 class="my-3">
-                            @else
-                            <img id="output2" 
-                                 width="100" 
-                                 class="my-3" 
-                                 style="display:none;">
-                            @endif
-                        </div>
-                        <!-- Image 3 -->
-                        <div class="col-md-6">
-                            <label for="image3" class="form-label">Image 3</label>
-                            <input type="file" 
-                                   name="images[image3]" 
-                                   id="image3" 
-                                   data-output-id="output3" 
-                                   accept="image/*" 
-                                   class="form-control input-default">
-                            @if($primaryCms->image3)
-                            <img src="{{ Storage::url('media/'.$primaryCms->image3) }}" 
-                                 id="output3" 
-                                 width="100" 
-                                 class="my-3">
-                            @else
-                            <img id="output3" 
-                                 width="100" 
-                                 class="my-3" 
-                                 style="display:none;">
-                            @endif
-                        </div>
-                        <!-- Image 4 -->
-                        <div class="col-md-6">
-                            <label for="image4" class="form-label">Image 4</label>
-                            <input type="file" 
-                                   name="images[image4]" 
-                                   id="image4" 
-                                   data-output-id="output4" 
-                                   accept="image/*" 
-                                   class="form-control input-default">
-                            @if($primaryCms->image4)
-                            <img src="{{ Storage::url('media/'.$primaryCms->image4) }}" 
-                                 id="output4" 
-                                 width="100" 
-                                 class="my-3">
-                            @else
-                            <img id="output4" 
-                                 width="100" 
-                                 class="my-3" 
-                                 style="display:none;">
-                            @endif
-                        </div>
-                        <!-- Submit Button -->
-                        <div class="col-md-12" style="text-align: right;">
-                            <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
-                        </div>
-                    </div>
-                </div>
+               
             </div>
             
                   <div class="card-body">
@@ -206,32 +114,31 @@
                       
                       <!-- Prices & Image section -->
                       <div class="card">
-                          <div class="card-header">
-                          Prices & Image
-                          </div>
-                          <div class="card-body">
-                              <div class="row">
-                                  <div class="col-md-6">
-                                      <label for="image" class="form-label">Image 1</label>
-                                      <input type="file" name="images" id="imgInp" accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile(event)">
-                                      @if($primaryCms->image1)
-                                      <img src="{{ Storage::url('media/'.$primaryCms->image1) }}" id="output" width="100" class="my-3">
-
-
-                                      @endif
-                                  </div>
-                                  <div class="col-md-6">
-                                      <label for="image" class="form-label">Image 2</label>
-                                      <input type="file" name="images" id="imgInp" accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile(event)">
-                                      @if($primaryCms->image2)
-                                      <img src="{{ Storage::url('media/'.$primaryCms->image2) }}" id="output" width="100" class="my-3">
-                                      @endif
-                                  </div>
-                                  <div class="col-md-12" style="text-align: right;">
-                                      <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
-                                  </div>
-                              </div>
-                          </div>
+                        <div class="card-header">
+                            Images
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="image1" class="form-label">Image 1</label>
+                                    <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    @if($primaryCms->image1)
+                                    <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="image2" class="form-label">Image 2</label>
+                                    <input type="file" name="images[image2]" id="imgInp2" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    @if($primaryCms->image2)
+                                    <img src="{{ Storage::url($primaryCms->image2) }}" id="output2" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                
+                                <div class="col-md-12" style="text-align: right;">
+                                    <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
+                                </div>
+                            </div>
+                        </div>
                       </div>
               
               
@@ -295,7 +202,7 @@
                                         <div class="col-md-6">
                                             <label for="title_2_{{ $language->slug }}" class="form-label">Heading 2</label>
                                             <input type="text" 
-                                                    name="{{ $language->slug }}_title" 
+                                                    name="{{ $language->slug }}_title_2" 
                                                     class="form-control mb-2" 
                                                     id="title_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
@@ -310,7 +217,7 @@
                                         <div class="col-md-6">
                                             <label for="title_3_{{ $language->slug }}" class="form-label">Heading 3</label>
                                             <input type="text" 
-                                                    name="{{ $language->slug }}_title" 
+                                                    name="{{ $language->slug }}_title_3" 
                                                     class="form-control mb-2" 
                                                     id="title_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
@@ -325,7 +232,7 @@
                                         <div class="col-md-6">
                                             <label for="title_4_{{ $language->slug }}" class="form-label">Heading 4</label>
                                             <input type="text" 
-                                                    name="{{ $language->slug }}_title" 
+                                                    name="{{ $language->slug }}_title_4" 
                                                     class="form-control mb-2" 
                                                     id="title_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
@@ -360,7 +267,7 @@
                                         <div class="col-md-6">
                                             <label for="para_3_{{ $language->slug }}" class="form-label">Small Description 3</label>
                                             <textarea 
-                                                name="{{ $language->slug }}_para_1" 
+                                                name="{{ $language->slug }}_para_3" 
                                                 class="form-control  mb-3" 
                                                 id="para_1_{{ $language->slug }}" 
                                                 {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
@@ -370,7 +277,7 @@
                                         <div class="col-md-6">
                                             <label for="para_4_{{ $language->slug }}" class="form-label">Small Description 4</label>
                                             <textarea 
-                                                name="{{ $language->slug }}_para_2" 
+                                                name="{{ $language->slug }}_para_4" 
                                                 class="form-control mb-3" 
                                                 id="para_1_{{ $language->slug }}" 
                                                 {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }}
@@ -395,28 +302,28 @@
                                     <label for="image1" class="form-label">Image 1</label>
                                     <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
                                     @if($primaryCms->image1)
-                                    <img src="{{ Storage::url('media/'.$primaryCms->image1) }}" id="output1" width="100" class="my-3">
+                                    <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
                                     @endif
                                 </div>
                                 <div class="col-md-6">
                                     <label for="image2" class="form-label">Image 2</label>
                                     <input type="file" name="images[image2]" id="imgInp2" accept="image/*" class="form-control input-default" placeholder="Select image">
                                     @if($primaryCms->image2)
-                                    <img src="{{ Storage::url('media/'.$primaryCms->image2) }}" id="output2" width="100" class="my-3">
+                                    <img src="{{ Storage::url($primaryCms->image2) }}" id="output2" width="100" class="my-3">
                                     @endif
                                 </div>
                                 <div class="col-md-6">
                                     <label for="image3" class="form-label">Image 3</label>
                                     <input type="file" name="images[image3]" id="imgInp3" accept="image/*" class="form-control input-default" placeholder="Select image">
                                     @if($primaryCms->image3)
-                                    <img src="{{ Storage::url('media/'.$primaryCms->image3) }}" id="output3" width="100" class="my-3">
+                                    <img src="{{ Storage::url($primaryCms->image3) }}" id="output3" width="100" class="my-3">
                                     @endif
                                 </div>
                                 <div class="col-md-6">
                                     <label for="image4" class="form-label">Image 4</label>
                                     <input type="file" name="images[image4]" id="imgInp4" accept="image/*" class="form-control input-default" placeholder="Select image">
                                     @if($primaryCms->image4)
-                                    <img src="{{ Storage::url('media/'.$primaryCms->image4) }}" id="output4" width="100" class="my-3">
+                                    <img src="{{ Storage::url($primaryCms->image4) }}" id="output4" width="100" class="my-3">
                                     @endif
                                 </div>
                                 <div class="col-md-12" style="text-align: right;">
@@ -437,7 +344,7 @@
     </section>
 @endif 
   </main>
-  <script>
+  {{-- <script>
     document.addEventListener('DOMContentLoaded', function () {
     const submitButton = document.getElementById('submitAll');
 
@@ -479,8 +386,28 @@
         event.preventDefault();
 
         try {
+            const forms = document.querySelectorAll('#languageTabsContent form');
+          
+          if (forms.length === 0) {
+              throw new Error('No forms found in the specified content area');
+          }
             // Create a single FormData object
             const formData = new FormData();
+            forms.forEach((form, formIndex) => {
+              // Append all form data (including hidden fields) to formData
+              Array.from(form.elements).forEach(input => {
+                  if (input.name) {
+                      // Handle different input types
+                      if (input.type === 'file') {
+                          if (input.files.length > 0) {
+                              formData.append(input.name, input.files[0]);
+                          }
+                      } else {
+                          formData.append(input.name, input.value);
+                      }
+                  }
+              });
+          });
 
             // Specifically handle file inputs for images
             const fileInputs = document.querySelectorAll('input[name^="images["]');
@@ -549,8 +476,141 @@
         }
     });
 });
-</script>
+</script> --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const submitButton = document.getElementById('submitAll');
 
+    if (!submitButton) {
+        console.error('Submit button not found!');
+        return;
+    }
+
+    // Restore the image preview function
+    function loadFile(event, outputId) {
+        const input = event.target;
+        const outputElement = document.getElementById(outputId);
+        
+        if (outputElement && input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                outputElement.src = e.target.result;
+                outputElement.style.display = 'block';
+            };
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Add event listeners to all file inputs for previewing images
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+    fileInputs.forEach((input) => {
+        // Dynamically set output ID based on input ID
+        const outputId = input.id.replace('imgInp', 'output');
+        
+        input.addEventListener('change', (event) => {
+            loadFile(event, outputId);
+        });
+    });
+
+    submitButton.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        try {
+            // Create a single FormData object
+            const formData = new FormData();
+
+            // Explicitly select all forms you want to collect data from
+            const forms = document.querySelectorAll('form');
+
+            forms.forEach((form) => {
+                // Collect all form elements
+                const elements = form.elements;
+                
+                for (let element of elements) {
+                    if (element.name) {
+                        if (element.type === 'file') {
+                            // For file inputs, append only if a file is selected
+                            if (element.files.length > 0) {
+                                formData.append(element.name, element.files[0]);
+                            }
+                        } else if (element.type !== 'submit') {
+                            // Append non-file, non-submit inputs
+                            formData.append(element.name, element.value);
+                        }
+                    }
+                }
+            });
+
+            // Specifically handle file inputs for images (as in the original code)
+            const imageFileInputs = document.querySelectorAll('input[name^="images["]');
+            
+            console.log('File Inputs Found:', imageFileInputs.length);
+
+            imageFileInputs.forEach((input) => {
+                if (input.files.length > 0) {
+                    console.log('Appending File:', input.name, input.files[0]);
+                    formData.append(input.name, input.files[0]);
+                }
+            });
+
+            // Log FormData contents
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ', pair[1]);
+            }
+
+            // Get CSRF token
+            const csrfToken = document.querySelector('input[name="_token"]');
+            if (!csrfToken) {
+                throw new Error('CSRF token not found');
+            }
+
+            // Determine submission URL (assuming Laravel route)
+            const currentUrl = "{{ route('cmspages.update', ['id' => $primaryCms->id]) }}";
+
+            // Submit using fetch
+            fetch(currentUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken.value,
+                    'Accept': 'application/json',
+                },
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((errorData) => {
+                        throw new Error(errorData.message || 'Server error occurred');
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Success handling
+                console.log('Server response:', data);
+
+                // Show success message to user
+                alert(data.message || 'Forms submitted successfully');
+
+                // Optional: Redirect or update UI
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                }
+            })
+            .catch((error) => {
+                // Comprehensive error handling
+                console.error('Submission error:', error);
+                alert('Failed to submit forms. Please try again. ' + error.message);
+            });
+        } catch (error) {
+            // Catch any errors during form preparation
+            console.error('Preparation error:', error);
+            alert('Error preparing form submission: ' + error.message);
+        }
+    });
+});
+</script>
 
 @include('Admin.include.footer')
 @include('Admin.include.script')
