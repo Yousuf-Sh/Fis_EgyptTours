@@ -120,37 +120,123 @@ return response()->json([
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+
+
     public function edit($id)
     {
-        //
+        $PrimaryBlog=Blog::findOrFail($id);
+		$blogs=Blog::where('secondary_id',$id)->get();
+		// dd($testimonials);
+		$languages = Language::all();
+		return view('Admin.blogs.edit',compact('blogs','languages','PrimaryBlog'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request);
+    $PrimaryBlog = Blog::findOrFail($id);
+
+    // Find all languages in the request
+    $languages = collect($request->all())
+        ->keys()
+        ->filter(function ($key) {
+            return strpos($key, '_title') !== false;
+        })
+        ->map(function ($key) {
+            return str_replace('_title', '', $key);
+        })
+        ->unique()
+        ->values();
+        // dd($languages);
+	
+
+    $uploadedImages = [];
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $key => $image) {
+            // Check if file exists
+            if ($image->isValid()) {
+                // Define unique filename and path
+                $imagePath = $image->store('media', 'public');
+				// dd($imagePath);
+                // Store image path in the result array
+                $uploadedImages[$key] = $imagePath;
+            }
+        }
+    }else if($PrimaryBlog->image){
+        $imagePath =$PrimaryBlog->image;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    // Validate each language's attributes
+    $validLanguages = $languages->filter(function ($language) use ($request) {
+        return $request->filled([
+            "{$language}_title",
+            "{$language}_description"
+        ]);
+    });
+	// dd($validLanguages);
+    $createdSliders = [];
+
+    // Create sliders for valid languages
+    foreach ($validLanguages as $language) {
+        // Default data for the testimonial
+        $blogData = [
+            'title' => $request->input('en_title'),
+            'content' => $request->input('en_description'),
+            'image' => $imagePath, 
+            'language' => 'en',
+        ];
+        // dd($blogData);  
+
+
+        // If the language is not 'en', add the secondary_id
+        if ($language !== 'en') {
+            $blogData['secondary_id'] = $id;
+            $blog = Blog::where('secondary_id','=',$id)
+            ->where('language','=',$language)
+            ->first();
+            if($blog){
+                $blog->update($blogData);
+                $createdSliders[$language] = $blog;
+            } 
+            else{
+                $newTestimonial= Blog::create($blogData);
+                $createdSliders[$language] = $newTestimonial;
+            }          
+        }else {
+            $PrimaryBlog->update($blogData);
+        }
+
+        // Create the testimonial
+        // $testimonial = Testimonials::where('secondary_id','=',$id)
+        // ->where('language','=',$language)
+        // ->get();
+        // dd($testimonial);
+        
+        // Store the created testimonial in the createdSliders array
+        // $createdSliders[$language] = $testimonial;
+    }
+
+    return response()->json([
+        'message' => 'Forms submitted successfully',
+        'sliders' => $createdSliders,
+        'redirect' => route('blogs.index')
+    ]);
+    }
+
+    public function delete($id){
+        
+       
+    $blogs = Blog::where('secondary_id', '=', $id)->get();
+
+    foreach ($blogs as $blog) {
+        $blog->delete();
+    }
+    $primaryBlog = Blog::find($id);
+    if ($primaryBlog) {
+        $primaryBlog->delete();
+    }
+
+        return redirect()->back()->with('message','success');
     }
 }

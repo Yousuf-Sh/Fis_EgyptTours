@@ -5,11 +5,11 @@
 
   <main id="main" class="main" >
   <div class="pagetitle">
-      <h1>Home Slider</h1>
+      <h1>Blogs</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Management</li>
-          <li class="breadcrumb-item active">Manage Testimonials</li>
+          <li class="breadcrumb-item active">Manage Blogs</li>
         </ol>
       </nav>
     </div>

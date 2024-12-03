@@ -5,7 +5,7 @@
 
   <main id="main" class="main" >
   <div class="pagetitle">
-      <h1>Home Slider</h1>
+      <h1>Testimonial</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Management</li>

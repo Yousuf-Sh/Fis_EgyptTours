@@ -196,5 +196,23 @@ public function store(Request $request)
         'redirect' => route('testimonials.index')
     ]);
 }
+public function delete($id)
+{
+   
+    $testimonials = Testimonials::where('secondary_id', '=', $id)->get();
+
+    foreach ($testimonials as $testimonial) {
+        $testimonial->delete();
+    }
+    $primaryTestimonial = Testimonials::find($id);
+    if ($primaryTestimonial) {
+        $primaryTestimonial->delete();
+    }
+
+    
+    return redirect()->back()->with('message', 'Testimonials deleted successfully.');
+}
+
+
 
 }

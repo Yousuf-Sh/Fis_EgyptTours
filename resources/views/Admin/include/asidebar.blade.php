@@ -53,6 +53,11 @@
                    <i class="bi bi-circle"></i><span>Testimonials</span>
                </a>
            </li>
+            <li>
+               <a href="{{url('/admin/blogs')}}" class="{{ (request()->segment(2) == 'blogs') ? 'active' : '' }}">
+                   <i class="bi bi-circle"></i><span>Blogs</span>
+               </a>
+           </li>
          </ul>
       </li>
      

@@ -39,14 +39,14 @@
                             @foreach($languages as $index => $language)
                                 @php
                                     // Fetch the testimonial for the current language if it exists
-                                    $testimonial = $testimonials->where('language', $language->slug)->first();
-                                    // print_r($testimonial);die();
+                                    $blog = $blogs->where('language', $language->slug)->first();
+                                  
                                 @endphp
                                 <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
                                      id="{{ $language->slug }}" 
                                      role="tabpanel" 
                                      aria-labelledby="{{ $language->slug }}-tab">
-                                    <form class="row g-3 my-3" method="POST" action="{{ route('testimonials.update', $PrimaryTestimonial->id) }}" enctype="multipart/form-data">
+                                    <form class="row g-3 my-3" method="POST" action="{{ route('blogs.update', $PrimaryBlog->id) }}" enctype="multipart/form-data">
                                         @csrf
                                         @method('POST')
                                         <div class="col-md-3">
@@ -55,7 +55,7 @@
                                                    name="{{ $language->slug }}_title" 
                                                    class="form-control" 
                                                    id="title_{{ $language->slug }}" 
-                                                   value="{{ old("{$language->slug}_title", $testimonial->name ?? ($language->slug === 'en' ? $PrimaryTestimonial->name : '')) }}" 
+                                                   value="{{ old("{$language->slug}_title", $blog->title ?? ($language->slug === 'en' ? $PrimaryBlog->title : '')) }}" 
                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
                                                    required>
                                             <input type="hidden" name="language" value="{{ $language->slug }}">
@@ -67,11 +67,11 @@
                                                       id="description_{{ $language->slug }}" 
                                                       rows="10" 
                                                       {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
-                                                      required>{{ old("{$language->slug}_description", $testimonial->review ?? ($language->slug === 'en' ? $PrimaryTestimonial->review : '')) }}</textarea>
+                                                      required>{{ old("{$language->slug}_description", $blog->content ?? ($language->slug === 'en' ? $PrimaryBlog->content : '')) }}</textarea>
                                         </div>
                                        
                                         @if ($language->slug !== 'en')
-                                            <input type="hidden" name="secondary_id" value="{{ $PrimaryTestimonial->id }}">
+                                            <input type="hidden" name="secondary_id" value="{{ $PrimaryBlog->id }}">
                                         @endif
                                     </form>
                                 </div>
@@ -90,7 +90,7 @@
                                         <label for="image1" class="form-label">Image</label>
                                         <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
 
-                                        <img src="{{ Storage::url($PrimaryTestimonial->image) }}" id="output1" width="100" class="my-3">
+                                        <img src="{{ Storage::url($PrimaryBlog->image) }}" id="output1" width="100" class="my-3">
                                         
                                     </div>
                                     
