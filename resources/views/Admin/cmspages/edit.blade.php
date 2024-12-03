@@ -72,7 +72,7 @@
                                     @csrf
                                     @method('POST')
                                     <div class="row g3 my-3">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12 mt-3">
                                             <label for="title_{{ $language->slug }}" class="form-label">Heading</label>
                                             <input type="text" 
                                                    name="{{ $language->slug }}_title" 
@@ -87,22 +87,24 @@
                                             >
                                         </div>
                     
-                                        <div class="col-md-6">
+                                        <div class="col-md-12 mt-3">
                                             <label for="para_1_{{ $language->slug }}" class="form-label">Small Description 1</label>
                                             <textarea 
                                                 name="{{ $language->slug }}_para_1" 
                                                 class="form-control" 
                                                 id="para_1_{{ $language->slug }}" 
                                                 {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="7"
                                                 required>{{ $cmsRecords[$language->slug]->short_description ?? '' }}</textarea>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-12 mt-3">
                                             <label for="para_2_{{ $language->slug }}" class="form-label">Small Description 2</label>
                                             <textarea 
                                                 name="{{ $language->slug }}_para_2" 
                                                 class="form-control" 
                                                 id="para_1_{{ $language->slug }}" 
                                                 {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="7"
                                                 required>{{ $cmsRecords[$language->slug]->short_description1 ?? '' }}</textarea>
                                         </div>
                                     </div>
@@ -202,7 +204,7 @@
                                         <div class="col-md-6">
                                             <label for="title_2_{{ $language->slug }}" class="form-label">Heading 2</label>
                                             <input type="text" 
-                                                    name="{{ $language->slug }}_title_2" 
+                                                    name="{{ $language->slug }}_title2" 
                                                     class="form-control mb-2" 
                                                     id="title_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
@@ -343,6 +345,114 @@
     </div>
     </section>
 @elseif($primaryCms->slug=='memories')
+    <section class="section">
+        <div class="row">
+        
+            <div class="col-lg-12">
+                <div class="card">
+                
+            </div>
+            
+                    <div class="card-body">
+                        <!-- <h5 class="card-title">Home Slider Form</h5> -->
+                        <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
+                            @foreach($languages as $index => $language)
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
+                                        id="{{ $language->slug }}-tab" 
+                                        data-bs-toggle="tab" 
+                                        href="#{{ $language->slug }}" 
+                                        role="tab" 
+                                        aria-controls="{{ $language->slug }}" 
+                                        aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
+                                        {{ ucfirst($language->name) }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content" id="languageTabsContent">
+                        @foreach($languages as $index => $language)
+                            <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
+                                id="{{ $language->slug }}" 
+                                role="tabpanel" 
+                                aria-labelledby="{{ $language->slug }}-tab">
+                                <form class="" method="POST" action="{{ route('cmspages.update', $primaryCms->id) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('POST')
+                                    <div class="row g3 my-3">
+                                        <div class="col-md-6">
+                                            <label for="title_{{ $language->slug }}" class="form-label">Heading</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_title" 
+                                                    class="form-control" 
+                                                    id="title_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title ?? '' }}"
+                                                    required>
+                                            <input type="hidden" 
+                                                    name="language" 
+                                                    value="{{ $language->slug }}"
+                                            >
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="btn_txt_{{ $language->slug }}" class="form-label">Button Text</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_btn_txt" 
+                                                    class="form-control" 
+                                                    id="btn_txt_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title1 ?? '' }}"
+                                                    required>
+                                            </div>
+                    
+                                        <div class="col-md-12">
+                                            <label for="para_1_{{ $language->slug }}" class="form-label my-3">Small Description</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_1" 
+                                                class="form-control" 
+                                                id="para_1_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="10"
+                                                required>{{ $cmsRecords[$language->slug]->short_description ?? '' }}</textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                        
+                        <!-- Prices & Image section -->
+                        <div class="card">
+                        <div class="card-header">
+                            Images
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="image1" class="form-label">Image 1</label>
+                                    <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    @if($primaryCms->image1)
+                                    <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                <div class="col-md-12" style="text-align: right;">
+                                    <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                
+                
+                    
+            
+            
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
+    </section>
 @elseif($primaryCms->slug=='tour-video')
     <section class="section">
         <div class="row">
@@ -381,7 +491,7 @@
                                             <input type="text" 
                                                     name="{{ $language->slug }}_title" 
                                                     class="form-control" 
-                                                    id="title_1_{{ $language->slug }}" 
+                                                    id="title_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
                                                     value="{{ $cmsRecords[$language->slug]->title ?? '' }}"
                                                     required>

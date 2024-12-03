@@ -115,7 +115,7 @@ public function update(Request $request, $id)
     
     // Array to track updated records
     $updatedRecords = [];
-    
+    // dd($request->all());
     // Identify the languages from the input fields
     $languages = collect($request->all())
         ->keys()
@@ -128,9 +128,9 @@ public function update(Request $request, $id)
         ->unique()
         ->values();
         dd($languages);
-    // Process CMS records for each language
-    foreach ($languages as $language) {
-        
+        // Process CMS records for each language
+        foreach ($languages as $language) {
+            
         if($id==135){
         
             // Skip if required fields are not filled
@@ -241,11 +241,12 @@ public function update(Request $request, $id)
             }
         }else if($id==153){
               // dd('HELLO');
+            //   dd('title : '.$request->input("{$language}_title").'btn : '.$request->input("{$language}_btn_txt").'para : '.$request->input("{$language}_para_1"));
         
             // Skip if required fields are not filled
             if (!$request->filled([
                 "{$language}_title",
-                "{$language}_btn",
+                "{$language}_btn_txt",
                 "{$language}_para_1",
             ])) {
                 continue;
@@ -269,11 +270,11 @@ public function update(Request $request, $id)
             // Prepare CMS data
             $cmsData = [
                 'title' => $request->input("{$language}_title"),
-                'title1' => $request->input("{$language}_btn"),
+                'title1' => $request->input("{$language}_btn_txt"),
                 'short_description' => $request->input("{$language}_para_1"),
                 'slug' => $language === 'en' ? 'memories' : "memories-{$language}",
             ];
-            // dd($cmsData);    
+            // dd($cmsData);     
             
             // Add image path if provided
             if ($imagePath) {
