@@ -204,7 +204,7 @@
                                         <div class="col-md-6">
                                             <label for="title_2_{{ $language->slug }}" class="form-label">Heading 2</label>
                                             <input type="text" 
-                                                    name="{{ $language->slug }}_title2" 
+                                                    name="{{ $language->slug }}_heading_2" 
                                                     class="form-control mb-2" 
                                                     id="title_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
@@ -219,7 +219,7 @@
                                         <div class="col-md-6">
                                             <label for="title_3_{{ $language->slug }}" class="form-label">Heading 3</label>
                                             <input type="text" 
-                                                    name="{{ $language->slug }}_title_3" 
+                                                    name="{{ $language->slug }}_heading_3" 
                                                     class="form-control mb-2" 
                                                     id="title_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
@@ -234,7 +234,7 @@
                                         <div class="col-md-6">
                                             <label for="title_4_{{ $language->slug }}" class="form-label">Heading 4</label>
                                             <input type="text" 
-                                                    name="{{ $language->slug }}_title_4" 
+                                                    name="{{ $language->slug }}_heading_4" 
                                                     class="form-control mb-2" 
                                                     id="title_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
@@ -610,7 +610,7 @@
                                         <div class="col-md-6">
                                             <label for="title_1_{{ $language->slug }}" class="form-label">Question 1</label>
                                             <input type="text" 
-                                                    name="{{ $language->slug }}_title_1" 
+                                                    name="{{ $language->slug }}_title" 
                                                     class="form-control" 
                                                     id="title_1_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
@@ -624,7 +624,7 @@
                                         <div class="col-md-6">
                                             <label for="title_2_{{ $language->slug }}" class="form-label">Question 2</label>
                                             <input type="text" 
-                                                    name="{{ $language->slug }}_title_2" 
+                                                    name="{{ $language->slug }}_Qtitle_2" 
                                                     class="form-control" 
                                                     id="title_2_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
@@ -635,7 +635,7 @@
                                         <div class="col-md-6">
                                             <label for="title_3_{{ $language->slug }}" class="form-label">Question 3</label>
                                             <input type="text" 
-                                                    name="{{ $language->slug }}_title_3" 
+                                                    name="{{ $language->slug }}_Qtitle_3" 
                                                     class="form-control" 
                                                     id="title_3_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
@@ -645,7 +645,7 @@
                                         <div class="col-md-6">
                                             <label for="title_4_{{ $language->slug }}" class="form-label">Question 4</label>
                                             <input type="text" 
-                                                    name="{{ $language->slug }}_title_4" 
+                                                    name="{{ $language->slug }}_Qtitle_4" 
                                                     class="form-control" 
                                                     id="title_4_{{ $language->slug }}" 
                                                     {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
