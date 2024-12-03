@@ -34,6 +34,7 @@ use App\Http\Controllers\Backend\CommitteeListController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Backend\ServicesDetailsController;
 use App\Http\Controllers\Backend\ServicesMenuController ;
+use App\Http\Controllers\BlogController ;
 use App\Http\Controllers\newsletterController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ExploreController;
@@ -186,6 +187,13 @@ Route::group(['middleware' => ['admin']],function () {
     Route::get('/admin/testimonials/edit/{id}',[TestimonialsController::class,'edit'])->name('testimonials.edit');
     Route::post('/admin/testimonials/update/{id}', [TestimonialsController::class,'update'])->name('testimonials.update');
     Route::get('/admin/testimonials/delete/{id}',[TestimonialsController::class,'delete'])->name('testimonials.delete');
+    /*Blog Routes*/
+    Route::get('/admin/blogs', [BlogController::class,'index'])->name('blogs.index');
+    Route::get('/admin/blogs/create', [BlogController::class,'create'])->name('blogs.add');
+    Route::post('/admin/blogs/store', [BlogController::class,'store'])->name('blogs.store');
+    Route::get('/admin/blogs/edit/{id}',[BlogController::class,'edit'])->name('blogs.edit');
+    Route::post('/admin/blogs/update/{id}', [BlogController::class,'update'])->name('blogs.update');
+    Route::get('/admin/blogs/delete/{id}',[BlogController::class,'delete'])->name('blogs.delete');
     
     //Offers
     Route::get('/admin/services',[OfferController::class,'index'])->name('offers.index');
