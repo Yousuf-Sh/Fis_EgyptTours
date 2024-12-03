@@ -11,93 +11,101 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Testimonials</li>
-          <li class="breadcrumb-item active">Add testimonial</li>
+          <li class="breadcrumb-item active">Add Testimonials</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
     <section class="section">
-      <div class="row">
-        
-
-        <div class="col-lg-12">
-          <div class="card">
-            <div class="card-body">
-              <!-- <h5 class="card-title">Home Slider Form</h5> -->
-              <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
-                @foreach($languages as $index => $language)
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
-                           id="{{ $language->slug }}-tab" 
-                           data-bs-toggle="tab" 
-                           href="#{{ $language->slug }}" 
-                           role="tab" 
-                           aria-controls="{{ $language->slug }}" 
-                           aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
-                            {{ ucfirst($language->name) }}
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-            <div class="tab-content" id="languageTabsContent">
-              @foreach($languages as $index => $language)
-                  <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
-                       id="{{ $language->slug }}" 
-                       role="tabpanel" 
-                       aria-labelledby="{{ $language->slug }}-tab">
-                      <form class="row g-3 my-3" method="POST" action="{{ route('testimonials.store') }}" enctype="multipart/form-data">
-                          @csrf
-                          <div class="col-md-3">
-                              <label for="title_{{ $language->slug }}" class="form-label">Name</label>
-                              <input type="text" name="{{ $language->slug }}_title" class="form-control" id="title_{{ $language->slug }}" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} required>
-                              <input type="hidden" name="language" class="form-control" id="language" value="{{ $language->slug }}" required>
-                          </div>
-                          <div class="col-md-12">
-                              <label for="description_{{ $language->slug }}" class="form-label">Review</label>
-                              <textarea name="{{ $language->slug }}_description" 
-                                class="form-control" id="description_{{ $language->slug }}" 
-                                rows="10" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} required></textarea>
-                          </div>
-                      </form>
-                  </div>
-              @endforeach
-          </div>
-      </div>
-    </div> 
-
-
-            
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
+                            @foreach($languages as $index => $language)
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
+                                       id="{{ $language->slug }}-tab" 
+                                       data-bs-toggle="tab" 
+                                       href="#{{ $language->slug }}" 
+                                       role="tab" 
+                                       aria-controls="{{ $language->slug }}" 
+                                       aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
+                                        {{ ucfirst($language->name) }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content" id="languageTabsContent">
+                            @foreach($languages as $index => $language)
+                                @php
+                                    // Fetch the testimonial for the current language if it exists
+                                    $testimonial = $testimonials->where('language', $language->slug)->first();
+                                    // print_r($testimonial);die();
+                                @endphp
+                                <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
+                                     id="{{ $language->slug }}" 
+                                     role="tabpanel" 
+                                     aria-labelledby="{{ $language->slug }}-tab">
+                                    <form class="row g-3 my-3" method="POST" action="{{ route('testimonials.update', $PrimaryTestimonial->id) }}" enctype="multipart/form-data">
+                                        @csrf
+                                        @method('POST')
+                                        <div class="col-md-3">
+                                            <label for="title_{{ $language->slug }}" class="form-label">Name</label>
+                                            <input type="text" 
+                                                   name="{{ $language->slug }}_title" 
+                                                   class="form-control" 
+                                                   id="title_{{ $language->slug }}" 
+                                                   value="{{ old("{$language->slug}_title", $testimonial->name ?? ($language->slug === 'en' ? $PrimaryTestimonial->name : '')) }}" 
+                                                   {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                   required>
+                                            <input type="hidden" name="language" value="{{ $language->slug }}">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="description_{{ $language->slug }}" class="form-label">Review</label>
+                                            <textarea name="{{ $language->slug }}_description" 
+                                                      class="form-control" 
+                                                      id="description_{{ $language->slug }}" 
+                                                      rows="10" 
+                                                      {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                      required>{{ old("{$language->slug}_description", $testimonial->review ?? ($language->slug === 'en' ? $PrimaryTestimonial->review : '')) }}</textarea>
+                                        </div>
+                                       
+                                        @if ($language->slug !== 'en')
+                                            <input type="hidden" name="secondary_id" value="{{ $PrimaryTestimonial->id }}">
+                                        @endif
+                                    </form>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
                         <!-- Image section -->
                         <div class="card">
-                          <div class="card-header">
-                              Image
-                          </div>
-                          <div class="card-body">
-                              <div class="row">
-                                  <div class="col-md-6">
-                                      <label for="image1" class="form-label">Image</label>
-                                      <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
+                            <div class="card-header">
+                                Image
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="image1" class="form-label">Image</label>
+                                        <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
 
-                                      <img src="" id="output1" width="100" class="my-3">
-                                      
-                                  </div>
-                                  
-                              </div>
+                                        <img src="{{ Storage::url($PrimaryTestimonial->image) }}" id="output1" width="100" class="my-3">
+                                        
+                                    </div>
+                                    
+                                </div>
 
-                          </div>
-                      </div>
-                      <div class="col-md-12" style="text-align: right;">
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="text-align: right;">
                         <button type="submit" class="btn btn-primary submit" id="submitAll">SUBMIT</button>
                     </div>
-                
-             
-        
-      </form>
-    </div>
-      </div>
-    </div>
-  </div>
-</div>
+            </div>
+        </div>
     </section>
+    
+
 
   </main><!-- End #main -->
   {{-- <script>
@@ -355,7 +363,7 @@
           }
 
           // Determine submission URL (assuming Laravel route)
-          const currentUrl = "{{ route('testimonials.store')}}";
+          const currentUrl = forms[0].action;
 
           // Submit using fetch
           fetch(currentUrl, {

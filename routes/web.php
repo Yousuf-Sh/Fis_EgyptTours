@@ -184,7 +184,7 @@ Route::group(['middleware' => ['admin']],function () {
     Route::get('/admin/testimonials/create', [TestimonialsController::class,'create'])->name('testimonials.add');
     Route::post('/admin/testimonials/store', [TestimonialsController::class,'store'])->name('testimonials.store');
     Route::get('/admin/testimonials/edit/{id}',[TestimonialsController::class,'edit'])->name('testimonials.edit');
-    Route::post('/admin/testimonials/update', [TestimonialsController::class,'update'])->name('testimonials.update');
+    Route::post('/admin/testimonials/update/{id}', [TestimonialsController::class,'update'])->name('testimonials.update');
     Route::get('/admin/testimonials/delete/{id}',[TestimonialsController::class,'delete'])->name('testimonials.delete');
     
     //Offers
