@@ -115,7 +115,7 @@ public function update(Request $request, $id)
     
     // Array to track updated records
     $updatedRecords = [];
-    
+    // dd($request->all());
     // Identify the languages from the input fields
     $languages = collect($request->all())
         ->keys()
@@ -127,10 +127,10 @@ public function update(Request $request, $id)
         })
         ->unique()
         ->values();
-        dd($languages);
-    // Process CMS records for each language
-    foreach ($languages as $language) {
-        
+        // dd($languages);
+        // Process CMS records for each language
+        foreach ($languages as $language) {
+            
         if($id==135){
         
             // Skip if required fields are not filled
@@ -185,9 +185,9 @@ public function update(Request $request, $id)
              // Skip if required fields are not filled
              if (!$request->filled([
                 "{$language}_title",
-                "{$language}_title_2",
-                "{$language}_title_3",
-                "{$language}_title_4",
+                "{$language}_heading_2",
+                "{$language}_heading_3",
+                "{$language}_heading_4",
                 "{$language}_para_1",
                 "{$language}_para_2",
                 "{$language}_para_3",
@@ -214,9 +214,9 @@ public function update(Request $request, $id)
             // Prepare CMS data
             $cmsData = [
                 'title' => $request->input("{$language}_title"),
-                'title1' => $request->input("{$language}_title_2"),
-                'title2' => $request->input("{$language}_title_3"),
-                'title3' => $request->input("{$language}_title_4"),
+                'title1' => $request->input("{$language}_heading_2"),
+                'title2' => $request->input("{$language}_heading_3"),
+                'title3' => $request->input("{$language}_heading_4"),
                 'short_description' => $request->input("{$language}_para_1"),
                 'short_description1' => $request->input("{$language}_para_2"),
                 'short_description2' => $request->input("{$language}_para_3"),
@@ -241,11 +241,12 @@ public function update(Request $request, $id)
             }
         }else if($id==153){
               // dd('HELLO');
+            //   dd('title : '.$request->input("{$language}_title").'btn : '.$request->input("{$language}_btn_txt").'para : '.$request->input("{$language}_para_1"));
         
             // Skip if required fields are not filled
             if (!$request->filled([
                 "{$language}_title",
-                "{$language}_btn",
+                "{$language}_btn_txt",
                 "{$language}_para_1",
             ])) {
                 continue;
@@ -269,11 +270,11 @@ public function update(Request $request, $id)
             // Prepare CMS data
             $cmsData = [
                 'title' => $request->input("{$language}_title"),
-                'title1' => $request->input("{$language}_btn"),
+                'title1' => $request->input("{$language}_btn_txt"),
                 'short_description' => $request->input("{$language}_para_1"),
                 'slug' => $language === 'en' ? 'memories' : "memories-{$language}",
             ];
-            // dd($cmsData);    
+            // dd($cmsData);     
             
             // Add image path if provided
             if ($imagePath) {
@@ -344,19 +345,18 @@ public function update(Request $request, $id)
 
         }else if($id==170){
             // dd('HELLO');
-            dd("{$language}");
+            // dd("{$language}");
             // Skip if required fields are not filled
             if (!$request->filled([
-                "{$language}_title_1",
-                "{$language}_title_2",
-                "{$language}_title_3",
-                "{$language}_title_4",
+                "{$language}_title",
+                "{$language}_Qtitle_2",
+                "{$language}_Qtitle_3",
+                "{$language}_Qtitle_4",
                 "{$language}_para_1",
                 "{$language}_para_2",
                 "{$language}_para_3",
                 "{$language}_para_4",
             ])) {
-                dd('notfilled');
                 continue;
             }
             
@@ -364,7 +364,7 @@ public function update(Request $request, $id)
             $imagePath = null;
             if ($request->hasFile("{$language}_image")) {
                 // Find the existing CMS record for the current language
-                $existingCms = CMS::where('slug', $language === 'en' ? 'tour-video' : "tour-video-{$language}")->first();
+                $existingCms = CMS::where('slug', $language === 'en' ? 'faq' : "faq-{$language}")->first();
                 
                 // Delete existing image if it exists
                 if ($existingCms && $existingCms->image) {
@@ -377,17 +377,17 @@ public function update(Request $request, $id)
             
             // Prepare CMS data
             $cmsData = [
-                'title1' => $request->input("{$language}_title_1"),
-                'title2' => $request->input("{$language}_title_2"),
-                'title3' => $request->input("{$language}_title_3"),
-                'title4' => $request->input("{$language}_title_4"),
+                'title1' => $request->input("{$language}_title"),
+                'title2' => $request->input("{$language}_Qtitle_2"),
+                'title3' => $request->input("{$language}_Qtitle_3"),
+                'title4' => $request->input("{$language}_Qtitle_4"),
                 'tagline1' => $request->input("{$language}_para_1"),
                 'tagline2' => $request->input("{$language}_para_2"),
                 'tagline3' => $request->input("{$language}_para_3"),
                 'tagline4' => $request->input("{$language}_para_4"),
-                'slug' => $language === 'en' ? 'tour-video' : "tour-video-{$language}",
+                'slug' => $language === 'en' ? 'faq' : "faq-{$language}",
             ];
-            dd($cmsData);    
+            // dd($cmsData);    
             
             // Add image path if provided
             if ($imagePath) {
@@ -409,6 +409,7 @@ public function update(Request $request, $id)
 
 
     }
+    // dd($updatedRecords);
     
     // Return JSON response instead of redirect
     return response()->json([
