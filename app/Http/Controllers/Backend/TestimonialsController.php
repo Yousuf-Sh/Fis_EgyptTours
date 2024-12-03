@@ -11,7 +11,8 @@ class TestimonialsController extends Controller
 {
     //
     public function index(){
-		$testimonials=Testimonials::all();
+		$testimonials=Testimonials::where('secondary_id','=','0')
+        ->get();
 		return view('Admin.testimonials.index',compact('testimonials'));
 	
 }
@@ -90,7 +91,7 @@ public function store(Request $request)
     }
 
     return response()->json([
-        'message' => 'Sliders created successfully',
+        'message' => 'Forms submitted successfully',
         'sliders' => $createdSliders,
         'redirect' => route('testimonials.index'),
     ]);
@@ -98,64 +99,102 @@ public function store(Request $request)
 
     public function edit($id)
 	{
-		$testimonials=Testimonials::findOrFail($id);
-		return view('Admin.testimonials.edit',compact('testimonials'));
+		$PrimaryTestimonial=Testimonials::findOrFail($id);
+		$testimonials=Testimonials::where('secondary_id',$id)->get();
+		// dd($testimonials);
+		$languages = Language::all();
+		return view('Admin.testimonials.edit',compact('testimonials','languages','PrimaryTestimonial'));
 	}
-    public function update(Request $request){
-		$res=Testimonials::find($request->id);
-		
-		if ($request->has('Customer')) {
-			$res->Customer = $request->input('Customer');
-		}
-		if ($request->has('name')) {
-			$res->name = $request->input('name');
-		}
-		if ($request->has('description')) {
-			$res->description = $request->input('description');
-		}
+    
+    
+    public function update(Request $request,$id)
+{
+	// dd($request);
+    $Primarytestimonial = Testimonials::findOrFail($id);
 
-		$image1 = $request->file('image');
-		if ($image1) {
-			$name_gen = hexdec(uniqid());
-			$image_ext = strtolower($image1->getClientOriginalExtension());
-			$image_name1 = $name_gen . '.' . $image_ext;
-			$up_location = 'Backend/images/';
-			$last_img = $up_location . $image_name1;
-			$image1->move(public_path($up_location), $image_name1);
-			$res->image = $image_name1;
-		}
-		
-		if ($request->has('arabic_Customer')) {
-			$res->arabic_Customer = $request->input('arabic_Customer');
-		}
-		if ($request->has('arabic_name')) {
-			$res->arabic_name = $request->input('arabic_name');
-		}
-		if ($request->has('arabic_description')) {
-			$res->arabic_description = $request->input('arabic_description');
-		}
+    // Find all languages in the request
+    $languages = collect($request->all())
+        ->keys()
+        ->filter(function ($key) {
+            return strpos($key, '_title') !== false;
+        })
+        ->map(function ($key) {
+            return str_replace('_title', '', $key);
+        })
+        ->unique()
+        ->values();
 	
-		$image1 = $request->file('arabic_image');
-		if ($image1) {
-			$name_gen = hexdec(uniqid());
-			$image_ext = strtolower($image1->getClientOriginalExtension());
-			$image_name1 = $name_gen . '.' . $image_ext;
-			$up_location = 'Backend/images/';
-			$last_img = $up_location . $image_name1;
-			$image1->move(public_path($up_location), $image_name1);
-			$res->arabic_image= $image_name1;
-		}
-		
 
-		
-        $res->save();
-		return redirect('admin/testimonials');
-		}
-    public function delete($id)
-	{
-		
-		Testimonials::findOrFail($id)->delete();
-	   return redirect()->back();
+    $uploadedImages = [];
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $key => $image) {
+            // Check if file exists
+            if ($image->isValid()) {
+                // Define unique filename and path
+                $imagePath = $image->store('media', 'public');
+				// dd($imagePath);
+                // Store image path in the result array
+                $uploadedImages[$key] = $imagePath;
+            }
+        }
+    }else if($Primarytestimonial->image){
+        $imagePath =$Primarytestimonial->image;
+    }
 
-	}
+    // Validate each language's attributes
+    $validLanguages = $languages->filter(function ($language) use ($request) {
+        return $request->filled([
+            "{$language}_title",
+            "{$language}_description"
+        ]);
+    });
+	// dd($validLanguages);
+    $createdSliders = [];
+
+    // Create sliders for valid languages
+    foreach ($validLanguages as $language) {
+        // Default data for the testimonial
+        $testimonialData = [
+            'name' => $request->input("{$language}_title"),
+            'review' => $request->input("{$language}_description"),
+            'image' => $imagePath ?? 'media/',
+            'language' => $language
+        ];
+
+
+        // If the language is not 'en', add the secondary_id
+        if ($language !== 'en') {
+            $testimonialData['secondary_id'] = $id;
+            $testimonial = Testimonials::where('secondary_id','=',$id)
+            ->where('language','=',$language)
+            ->first();
+            if($testimonial){
+                $testimonial->update($testimonialData);
+                $createdSliders[$language] = $testimonial;
+            } 
+            else{
+                $newTestimonial= Testimonials::create($testimonialData);
+                $createdSliders[$language] = $newTestimonial;
+            }          
+        }else {
+            $Primarytestimonial->update($testimonialData);
+        }
+
+        // Create the testimonial
+        // $testimonial = Testimonials::where('secondary_id','=',$id)
+        // ->where('language','=',$language)
+        // ->get();
+        // dd($testimonial);
+        
+        // Store the created testimonial in the createdSliders array
+        // $createdSliders[$language] = $testimonial;
+    }
+
+    return response()->json([
+        'message' => 'Forms submitted successfully',
+        'sliders' => $createdSliders,
+        'redirect' => route('testimonials.index')
+    ]);
+}
+
 }

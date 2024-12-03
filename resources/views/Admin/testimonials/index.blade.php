@@ -43,7 +43,7 @@
                     <td>{{$record->name}}</td>
                     <td>
                       <div class="">
-                        {{$record->review}}
+                        {{Str::limit($record->review,40)}}
                       </div>
                     </td>
                     <td>
