@@ -48,6 +48,11 @@
                <i class="bi bi-circle"></i><span>FAQs</span>
                </a>
             </li>
+            <li>
+               <a href="{{url('/admin/testimonials')}}" class="{{ (request()->segment(2) == 'testimonials') ? 'active' : '' }}">
+                   <i class="bi bi-circle"></i><span>Testimonials</span>
+               </a>
+           </li>
          </ul>
       </li>
      
