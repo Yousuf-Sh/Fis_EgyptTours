@@ -180,7 +180,7 @@ Route::group(['middleware' => ['admin']],function () {
     Route::get('/admin/pest/delete/{id}',[PestController::class,'delete'])->name('pest.delete');
 
     /*Testimonials Routes*/
-    Route::get('/admin/testimonials', [TestimonialsController::class,'index']);
+    Route::get('/admin/testimonials', [TestimonialsController::class,'index'])->name('testimonials.index');
     Route::get('/admin/testimonials/create', [TestimonialsController::class,'create'])->name('testimonials.add');
     Route::post('/admin/testimonials/store', [TestimonialsController::class,'store'])->name('testimonials.store');
     Route::get('/admin/testimonials/edit/{id}',[TestimonialsController::class,'edit'])->name('testimonials.edit');
