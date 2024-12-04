@@ -36,1480 +36,982 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
+@if($primaryCms->slug=='explore-more')
     <section class="section">
       <div class="row">
-        <div class="col-lg-12">
-          <div class="card">
-            <div class="card-body">
-              <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <a class="nav-link active" id="english-tab" data-bs-toggle="tab" href="#english" role="tab" aria-controls="english" aria-selected="true">English</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <a class="nav-link" id="arabic-tab" data-bs-toggle="tab" href="#arabic" role="tab" aria-controls="arabic" aria-selected="false">Arabic</a>
-                </li>
-              </ul>
-              <div class="tab-content" id="languageTabsContent">
-              <!-- <h5 class="card-title">Edit About Us</h5> -->
-              <div class="tab-pane fade show active" id="english" role="tabpanel" aria-labelledby="english-tab">
-              <!-- Multi Columns Form -->
-              <form class="row g-3" method="POST" action="{{route('cmspages.update')}}" enctype="multipart/form-data">
-			          @csrf
-                @if($cms->id=='111')
-                 <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5" name="title" value="{{$cms->title}}">
-                </div>
-                {{-- <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5" name="tagline" value="{{$cms->tagline}}">
-                </div> --}}
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Logo</label>
-                  <input type="text" class="form-control" id="inputName5"  name="logo" value="{{$cms->logo}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName6" name="short_description">{{$cms->short_description}}</textarea>
-                </div>
-                {{-- <input type="hidden" name="id" value="{{$cms->id}}"/> --}}
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5" name="title1" value="{{$cms->title1}}">
-                </div>
-                {{-- <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5" name="tagline1" value="{{$cms->tagline1}}">
-                </div> --}}
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Logo</label>
-                  <input type="text" class="form-control" id="inputName5" name="logo1" value="{{$cms->logo1}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName6" name="short_description1">{{$cms->short_description1}}</textarea>
-                </div>
-                {{-- <input type="hidden" name="id" value="{{$cms->id}}"/> --}}
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5" name="title2" value="{{$cms->title2}}">
-                </div>
-                {{-- <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5" name="tagline2" value="{{$cms->tagline2}}">
-                </div> --}}
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Logo</label>
-                  <input type="text" class="form-control" id="inputName5"  name="logo2" value="{{$cms->logo2}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName6" name="short_description2">{{$cms->short_description2}}</textarea>
-                </div>
-                 @elseif($cms->id=='115')
-                 <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5" name="title" value="{{$cms->title}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5" name="tagline" value="{{$cms->tagline}}">
-                </div>
-                {{-- <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName6" name="short_description">{{$cms->short_description}}</textarea>
-                </div> --}}
-                {{-- <div class="col-md-12">
-                  <label for="description" class="form-label">Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5" name="description">{{$cms->description}}</textarea>
-                </div> --}}
-                {{-- <div class="col-md-6">
-                  <label for="inputState" class="form-label">Image</label>
-                  <input type="file" name="image" id="imgInp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile(event)">
-                  <a href=""><img src="{{ asset('Backend/images/' . $cms->image) }}" id="output"  width="100" ></a>
-                </div> --}}
-                {{-- <div class=" mt-3">
-                  <div class="col-md-12" style="text-align: right;">
-                    <button type="submit" class="btn btn-primary submit">Update</button>
-                    <!-- <button type="reset" class="btn btn-secondary">Reset</button> -->
-                  </div>
-                </div>  
-               --}}
-                {{-- @elseif($cms->id=='113') --}}
-                @elseif($cms->id=='116')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5" name="title" value="{{$cms->title}}">
-                </div>
+      
+          <div class="col-lg-12">
+              <div class="card">
                
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Header Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"
-                   name="tagline"   value="{{$cms->tagline}}">
-                </div>
-               
-               
-               
-                
-
-              @elseif($cms->id=='113')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-12">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5" name="title" value="{{$cms->title}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="title" class="form-label">Header tagline1</label>
-                  <input type="text" class="form-control" id="inputName5" name="tagline" value="{{$cms->tagline}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="title" class="form-label">Header tagline2</label>
-                  <input type="text" class="form-control" id="inputName5" name="tagline1" value="{{$cms->tagline1}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="description" class="form-label">Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5" name="short_description">{{$cms->short_description}}</textarea>
-                </div>
-                @elseif($cms->id=='114')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                  <div class="col-md-12">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="inputName5" name="title" value="{{$cms->title}}">
-                  </div>
-                  <div class="col-md-12">
-                  <label for="description" class="form-label">Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5" name="short_description">{{$cms->short_description}}</textarea>
-                </div>
-                {{-- <div class=" mt-3">
-                  <div class="col-md-12" style="text-align: right;">
-                    <button type="submit" class="btn btn-primary submit">Update</button>
-                    <!-- <button type="reset" class="btn btn-secondary">Reset</button> -->
-                  </div>
-                </div>   --}}
-                
-                @elseif($cms->id=='117')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                  <div class="col-md-6">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="inputName5" name="title" value="{{$cms->title}}">
-                  </div>
-                  <div class="col-md-6">
-                    <label for="title" class="form-label">Tagline</label>
-                    <input type="text" class="form-control" id="inputName5" name="tagline" value="{{$cms->tagline}}">
-                  </div>
-                  {{-- <div class=" mt-3">
-                    <div class="col-md-12" style="text-align: right;">
-                      <button type="submit" class="btn btn-primary submit">Update</button>
-                      <!-- <button type="reset" class="btn btn-secondary">Reset</button> -->
-                    </div>
-                  </div>   --}}
-                   @elseif($cms->id=='117')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                  <div class="col-md-6">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="inputName5" name="title" value="{{$cms->title}}">
-                  </div>
-                  <div class="col-md-6">
-                    <label for="title" class="form-label">Tagline</label>
-                    <input type="text" class="form-control" id="inputName5" name="tagline" value="{{$cms->tagline}}">
-                  </div>
-                  {{-- <div class=" mt-3">
-                    <div class="col-md-12" style="text-align: right;">
-                      <button type="submit" class="btn btn-primary submit">Update</button>
-                      <!-- <button type="reset" class="btn btn-secondary">Reset</button> -->
-                    </div>
-                  </div>   --}}
-                  @elseif($cms->id=='118')
-                  <input type="hidden" name="id" value="{{$cms->id}}"/>
-                  <div class="col-md-6">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-                  </div>
-                  <div class="col-md-6">
-                    <label for="title" class="form-label">Tagline</label>
-                    <input type="text" class="form-control" id="inputName5"  name="tagline" value="{{$cms->tagline}}">
-                  </div>
-                  
-                  <div class="col-md-12">
-                    <label for="short description" class="form-label">Short Description</label>
-                    <textarea type="text" class="form-control ckeditor" id="inputName5"  name="arabic_short_description">{{$cms->short_description}}</textarea>
-                  </div>
-
-                  @elseif($cms->id=='119')
-                  <input type="hidden" name="id" value="{{$cms->id}}"/>
-                  <div class="col-md-6">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-                  </div>
-                  <div class="col-md-6">
-                    <label for="title" class="form-label">Tagline</label>
-                    <input type="text" class="form-control" id="inputName5"  name="tagline" value="{{$cms->tagline}}">
-                  </div>
-                  
-                  <div class="col-md-12">
-                    <label for="title" class="form-label">Header Tagline</label>
-                    <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-                  </div>
-                  <div class="col-md-12">
-                    <label for="short description" class="form-label">Short Description</label>
-                    <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-                  </div>
-                  {{-- <div class=" mt-3">
-                    <div class="col-md-12" style="text-align: right;">
-                      <button type="submit" class="btn btn-primary submit">Update</button>
-                      <!-- <button type="reset" class="btn btn-secondary">Reset</button> -->
-                    </div>
-                  </div>  --}}
-            
-            
-              @elseif($cms->id=='120')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline" value="{{$cms->tagline}}">
-              </div>
-              <div class="col-md-12">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-              </div>
-              
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-
-              
-              @elseif($cms->id=='121')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline" value="{{$cms->tagline}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label"> Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline2" value="{{$cms->tagline2}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description1">{{$cms->short_description1}}</textarea>
-              </div>
-              
-              @elseif($cms->id=='122')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline" value="{{$cms->tagline}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">header Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline2" value="{{$cms->tagline2}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-              @elseif($cms->id=='123')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline" value="{{$cms->tagline}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-              </div>
-              
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-            
-
-              @elseif($cms->id=='124')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline" value="{{$cms->tagline}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-              </div>
-              
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-
-
-              @elseif($cms->id=='125')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-12">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-              </div>
-             
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title1" value="{{$cms->title1}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-              </div>
-              
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description1">{{$cms->short_description1}}</textarea>
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title2" value="{{$cms->title2}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline2" value="{{$cms->tagline2}}">
-              </div>
-              
-
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description2">{{$cms->short_description2}}</textarea>
-              </div>
-           <div class="col-md-12">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline3" value="{{$cms->tagline3}}">
-              </div>
-             
-
-              @elseif($cms->id=='126')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline" value="{{$cms->tagline}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title1" value="{{$cms->title1}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description1">{{$cms->short_description1}}</textarea>
-              </div>
-              
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title2" value="{{$cms->title2}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline2" value="{{$cms->tagline2}}">
-              </div>
-
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description2">{{$cms->short_description2}}</textarea>
-              </div>
-             
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline3" value="{{$cms->tagline3}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline4" value="{{$cms->tagline4}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline5" value="{{$cms->tagline5}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline6" value="{{$cms->tagline6}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline7" value="{{$cms->tagline7}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description3">{{$cms->short_description3}}</textarea>
-              </div>
-
-              @elseif($cms->id=='127')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->	title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-12">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline2" value="{{$cms->tagline2}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description1">{{$cms->short_description1}}</textarea>
-              </div>
-              <div class="col-md-12">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline3" value="{{$cms->tagline3}}">
-              </div>
-              @elseif($cms->id=='128')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->	title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline2" value="{{$cms->tagline2}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline3" value="{{$cms->tagline3}}">
-              </div>
-              <div class="col-md-12">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline4" value="{{$cms->tagline4}}">
-              </div>
-              @elseif($cms->id=='129')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->	title}}">
-              </div>
-             
-              <div class="col-md-12">
-                <label for="title" class="form-label">Header tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline" value="{{$cms->	tagline}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description1">{{$cms->short_description1}}</textarea>
-              </div>
-             
-
-
-              @elseif($cms->id=='134')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline" value="{{$cms->tagline}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title1" value="{{$cms->title1}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description1">{{$cms->short_description1}}</textarea>
-              </div>
-              
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title2" value="{{$cms->title2}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline2" value="{{$cms->tagline2}}">
-              </div>
-
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description2">{{$cms->short_description2}}</textarea>
-              </div>
-             
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline3" value="{{$cms->tagline3}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline4" value="{{$cms->tagline4}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline5" value="{{$cms->tagline5}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline6" value="{{$cms->tagline6}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description3">{{$cms->short_description3}}</textarea>
-              </div>
-
-              @elseif($cms->id=='127')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->	title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-12">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline2" value="{{$cms->tagline2}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description1">{{$cms->short_description1}}</textarea>
-              </div>
-              <div class="col-md-12">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline3" value="{{$cms->tagline3}}">
-              </div>
-              @elseif($cms->id=='128')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->	title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline1" value="{{$cms->tagline1}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline2" value="{{$cms->tagline2}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline3" value="{{$cms->tagline3}}">
-              </div>
-              <div class="col-md-12">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline4" value="{{$cms->tagline4}}">
-              </div>
-              @elseif($cms->id=='129')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->	title}}">
-              </div>
-             
-              <div class="col-md-12">
-                <label for="title" class="form-label">Header tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="tagline" value="{{$cms->	tagline}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description">{{$cms->short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="short_description1">{{$cms->short_description1}}</textarea>
-              </div>
-             
-
-              {{-- @elseif($cms->id=='130')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-12">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->	title}}">
-              </div>
-             
-              @for($i = 0; $i < 10; $i++)
-              <div class="col-md-6">
-              
-                <label for="taglines">Taglines (English):</label>
-                  
-                <input type="text" class="form-control mb-2" id="tagline_{{ $i }}" name="taglines[]" value="{{ isset($cms->taglines[$i]) ? $cms->taglines[$i] : '' }}">
-                  </div>
-                 @endfor
-               --}}
-             
-             
- 
-               @elseif($cms->id=='131')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5" name="tagline" value="{{$cms->tagline}}">
-              </div>
-              @elseif($cms->id=='132')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5" name="tagline" value="{{$cms->tagline}}">
-              </div>
-              @elseif($cms->id=='133')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="title" value="{{$cms->title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5" name="tagline" value="{{$cms->tagline}}">
-              </div>
-          @endif
             </div>
-            <div class="tab-pane fade" id="arabic" role="tabpanel" aria-labelledby="arabic-tab">
-              <!-- Multi Columns Form -->
-             <div class="row">
-			          @csrf
-                @if($cms->id=='111')
-                 <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
-
-                {{-- <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-                </div> --}}
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Logo</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_logo" value="{{$cms->arabic_logo}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title1}}">
-                </div>
-                {{-- <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-                </div> --}}
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Logo</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_logo1" value="{{$cms->arabic_logo1}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description1">{{$cms->arabic_short_description1}}</textarea>
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title2" value="{{$cms->arabic_title2}}">
-                </div>
-                {{-- <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline2" value="{{$cms->arabic_tagline2}}">
-                </div> --}}
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Logo</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_logo2" value="{{$cms->arabic_logo2}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description2">{{$cms->arabic_short_description2}}</textarea>
-                </div>
-                @elseif( $cms->id=='115')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-               <div class="col-md-6">
-                 <label for="title" class="form-label">Title</label>
-                 <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-              </div>
-               <div class="col-md-6">
-                 <label for="title" class="form-label">Tagline</label>
-                 <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-               </div> 
+            
+                  <div class="card-body">
+                      <!-- <h5 class="card-title">Home Slider Form</h5> -->
+                      <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
+                          @foreach($languages as $index => $language)
+                              <li class="nav-item" role="presentation">
+                                  <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
+                                      id="{{ $language->slug }}-tab" 
+                                      data-bs-toggle="tab" 
+                                      href="#{{ $language->slug }}" 
+                                      role="tab" 
+                                      aria-controls="{{ $language->slug }}" 
+                                      aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
+                                      {{ ucfirst($language->name) }}
+                                  </a>
+                              </li>
+                          @endforeach
+                      </ul>
+                      <div class="tab-content" id="languageTabsContent">
+                        @foreach($languages as $index => $language)
+                            <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
+                                 id="{{ $language->slug }}" 
+                                 role="tabpanel" 
+                                 aria-labelledby="{{ $language->slug }}-tab">
+                                <form class="" method="POST" action="{{ route('cmspages.update', $primaryCms->id) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('POST')
+                                    <div class="row g3 my-3">
+                                        <div class="col-md-12 mt-3">
+                                            <label for="title_{{ $language->slug }}" class="form-label">Heading</label>
+                                            <input type="text" 
+                                                   name="{{ $language->slug }}_title" 
+                                                   class="form-control" 
+                                                   id="title_{{ $language->slug }}" 
+                                                   {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                   value="{{ $cmsRecords[$language->slug]->title ?? '' }}"
+                                                   required>
+                                            <input type="hidden" 
+                                                   name="language" 
+                                                   value="{{ $language->slug }}"
+                                            >
+                                        </div>
+                    
+                                        <div class="col-md-12 mt-3">
+                                            <label for="para_1_{{ $language->slug }}" class="form-label">Small Description 1</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_1" 
+                                                class="form-control" 
+                                                id="para_1_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="7"
+                                                required>{{ $cmsRecords[$language->slug]->short_description ?? '' }}</textarea>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <label for="para_2_{{ $language->slug }}" class="form-label">Small Description 2</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_2" 
+                                                class="form-control" 
+                                                id="para_1_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="7"
+                                                required>{{ $cmsRecords[$language->slug]->short_description1 ?? '' }}</textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                      
+                      <!-- Prices & Image section -->
+                      <div class="card">
+                        <div class="card-header">
+                            Images
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="image1" class="form-label">Image 1</label>
+                                    <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    @if($primaryCms->image1)
+                                    <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="image2" class="form-label">Image 2</label>
+                                    <input type="file" name="images[image2]" id="imgInp2" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    @if($primaryCms->image2)
+                                    <img src="{{ Storage::url($primaryCms->image2) }}" id="output2" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                
+                                <div class="col-md-12" style="text-align: right;">
+                                    <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
               
-               
-
-
-                @elseif($cms->id=='116')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
- <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
               
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Header Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-                </div>
-                {{-- <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-                </div> --}}
-                
-
-                @elseif($cms->id=='113')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-12">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="title" class="form-label">Header Tagline1</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="title" class="form-label">Header Tagline2</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-                </div>
-               <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-                </div>
-                @elseif( $cms->id=='114')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-                </div>
-                {{-- <div class=" mt-3">
-                  <div class="col-md-12" style="text-align: right;">
-                    <button type="submit" class="btn btn-primary submit">Update</button>
-                    <!-- <button type="reset" class="btn btn-secondary">Reset</button> -->
-                  </div>
-                </div>   --}}
-                
-                @elseif($cms->id=='117')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-                </div>
+                  
           
-
-                @elseif($cms->id=='118')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-                </div>
-                
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-                </div>
-
-                @elseif($cms->id=='119')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-                </div>
-                
-                <div class="col-md-12">
-                  <label for="title" class="form-label">Header Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-                </div>
-                
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-                </div>
-              
-              
-
-                @elseif($cms->id=='120')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="title" class="form-label">Header Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-                </div>
-              
-
-                @elseif($cms->id=='121')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Header Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label"> Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline2" value="{{$cms->arabic_tagline2}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description1">{{$cms->arabic_short_description1}}</textarea>
-                </div>
-
-                @elseif($cms->id=='122')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-                </div>
-
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Header Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label"> Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline2" value="{{$cms->arabic_tagline2}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-                </div>
-
-                @elseif($cms->id=='125')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-12">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
-                {{-- <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-                </div> --}}
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-                </div>
-
-                
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" 
-                  name="arabic_title1" value="{{$cms->arabic_title1}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description1">{{$cms->arabic_short_description1}}</textarea>
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title2" value="{{$cms->arabic_title2}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" 
-                  name="arabic_tagline2" value="{{$cms->arabic_tagline2}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;" name="arabic_short_description2">{{$cms->arabic_short_description2}}</textarea>
-                </div>
-                <div class="col-md-12">
-                  <label for="title" class="form-label">Header Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" 
-                  name="arabic_tagline3" value="{{$cms->arabic_tagline3}}">
-                </div>
-                @elseif($cms->id=='124')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="title" class="form-label">Header Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  style="direction: rtl;" name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;"name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-                </div>
-
-                @elseif($cms->id=='123')
-                <input type="hidden" name="id" value="{{$cms->id}}"/>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="inputName5"  name="arabic_title" value="{{$cms->arabic_title}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-                </div>
-                <div class="col-md-6">
-                  <label for="title" class="form-label">Header Tagline</label>
-                  <input type="text" class="form-control" id="inputName5"  name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-                </div>
-                <div class="col-md-12">
-                  <label for="short description" class="form-label">Short Description</label>
-                  <textarea type="text" class="form-control ckeditor" id="inputName5"  name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-                </div>
-                @elseif($cms->id=='126')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="arabic_title" style="direction: rtl;"  value=" {{$cms->arabic_title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="arabic_tagline" value="{{$cms->arabic_tagline}}" style="direction: rtl;" >
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" style="direction: rtl;"  id="inputName5"  name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" style="direction: rtl;" id="inputName5"  name="arabic_title1" value="{{$cms->arabic_title1}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" style="direction: rtl;" id="inputName5"  name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" style="direction: rtl;"  id="inputName5"  name="arabic_short_description1">{{$cms->arabic_short_description1}}</textarea>
-              </div>
-              
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_title2" value="{{$cms->arabic_title2}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline2" value="{{$cms->arabic_tagline2}}">
-              </div>
-
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" style="direction: rtl;"  class="form-control ckeditor" id="inputName5"  name="arabic_short_description2">{{$cms->arabic_short_description2}}</textarea>
-              </div>
-            
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline3" value="{{$cms->arabic_tagline3}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"   name="arabic_tagline4" value="{{$cms->arabic_tagline4}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline5" value="{{$cms->arabic_tagline5}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline6" value="{{$cms->arabic_tagline6}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline7" value="{{$cms->arabic_tagline7}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" style="direction: rtl;"  id="inputName5"  name="arabic_short_description3">{{$cms->arabic_short_description3}}</textarea>
-              </div>
-
-              @elseif($cms->id=='134')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5"  name="arabic_title" style="direction: rtl;"  value=" {{$cms->arabic_title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="arabic_tagline" value="{{$cms->arabic_tagline}}" style="direction: rtl;" >
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" style="direction: rtl;"  id="inputName5"  name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" style="direction: rtl;" id="inputName5"  name="arabic_title1" value="{{$cms->arabic_title1}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" style="direction: rtl;" id="inputName5"  name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" style="direction: rtl;"  id="inputName5"  name="arabic_short_description1">{{$cms->arabic_short_description1}}</textarea>
-              </div>
-              
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_title2" value="{{$cms->arabic_title2}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline2" value="{{$cms->arabic_tagline2}}">
-              </div>
-
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" style="direction: rtl;"  class="form-control ckeditor" id="inputName5"  name="arabic_short_description2">{{$cms->arabic_short_description2}}</textarea>
-              </div>
-            
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline3" value="{{$cms->arabic_tagline3}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"   name="arabic_tagline4" value="{{$cms->arabic_tagline4}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline5" value="{{$cms->arabic_tagline5}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline6" value="{{$cms->arabic_tagline6}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" style="direction: rtl;"  id="inputName5"  name="arabic_short_description2">{{$cms->arabic_short_description2}}</textarea>
-              </div>
-              @elseif($cms->id=='127')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_title" value="{{$cms->arabic_title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"  name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;" name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-12">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="arabic_tagline2" value="{{$cms->arabic_tagline2}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  name="arabic_short_description2">{{$cms->arabic_short_description2}}</textarea>
-              </div>
-              <div class="col-md-12">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="arabic_tagline3" value="{{$cms->arabic_tagline3}}">
-              </div>
-
-
-              @elseif($cms->id=='128')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_title" value="{{$cms->arabic_title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  style="direction: rtl;"  name="arabic_tagline1" value="{{$cms->arabic_tagline1}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;" name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="arabic_tagline2" value="{{$cms->arabic_tagline2}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="arabic_tagline3" value="{{$cms->arabic_tagline3}}">
-              </div>
-              <div class="col-md-12">
-                <label for="title" class="form-label">Tagline</label>
-                <input type="text" class="form-control" id="inputName5"  name="arabic_tagline4" value="{{$cms->arabic_tagline4}}">
-              </div>
-              @elseif($cms->id=='129')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_title" value="{{$cms->arabic_title}}">
-              </div>
-              <div class="col-md-12">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-              </div>
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;" name="arabic_short_description">{{$cms->arabic_short_description}}</textarea>
-              </div>
-             
-              <div class="col-md-12">
-                <label for="short description" class="form-label">Short Description</label>
-                <textarea type="text" class="form-control ckeditor" id="inputName5"  style="direction: rtl;" name="arabic_short_description1">{{$cms->arabic_short_description1}}</textarea>
-              </div>
-             
-              @elseif($cms->id=='131')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_title" value="{{$cms->arabic_title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-              </div>
-              @elseif($cms->id=='132')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_title" value="{{$cms->arabic_title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-              </div>
-             
-              @elseif($cms->id=='133')
-              <input type="hidden" name="id" value="{{$cms->id}}"/>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_title" value="{{$cms->arabic_title}}">
-              </div>
-              <div class="col-md-6">
-                <label for="title" class="form-label">Header Tagline</label>
-                <input type="text" class="form-control" id="inputName5" style="direction: rtl;"  name="arabic_tagline" value="{{$cms->arabic_tagline}}">
-              </div>
-                @endif
-                
-              <!-- End Multi Columns Form -->
-
-            </div>
-          </div>
-          @if($cms->id=='111' || $cms->id=='115'  ||$cms->id=='114'   || $cms->id=='119' || $cms->id=='120' || $cms->id=='129'|| $cms->id=='131' || $cms->id=='122' | $cms->id=='123')
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image) }}" id="output"  width="100" ></a>
-          </div>
-          @elseif($cms->id=='121')
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Header Image</label>
-            <input type="file" name="image" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image) }}" id="output"  width="100" ></a>
-          </div>
-          @elseif($cms->id=='132')
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Header Image</label>
-            <input type="file" name="image" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image) }}" id="output"  width="100" ></a>
-          </div>
-          @elseif($cms->id=='133')
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Header Image</label>
-            <input type="file" name="image" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image) }}" id="output"  width="100" ></a>
-          </div>
-          @elseif($cms->id=='127')
-          <div class="row">
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Header Image</label>
-            <input type="file" name="image" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image) }}" id="output"  width="100" ></a>
-          </div>
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Header Image</label>
-            <input type="file" name="image1" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile1(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image1) }}" id="output1"  width="100" ></a>
-          </div>
-        </div>
-        @elseif($cms->id=='124')
-          <div class="row">
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image) }}" id="output"  width="100" ></a>
-          </div>
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Header Image</label>
-            <input type="file" name="image1" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile1(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image1) }}" id="output1"  width="100" ></a>
-          </div>
-        </div>
-        @elseif($cms->id=='128')
-          <div class="row">
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image) }}" id="output"  width="100" ></a>
-          </div>
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Header Image</label>
-            <input type="file" name="image1" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile1(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image1) }}" id="output1"  width="100" ></a>
-          </div>
-        </div>
-          @elseif($cms->id=='125')
-          <div class="row">
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image) }}" id="output"  width="100" ></a>
-          </div>
-         
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Header Image</label>
-            <input type="file" name="image1" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile1(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image1) }}" id="output1"  width="100" ></a>
-          </div>
-        </div>
-          @elseif( $cms->id=='134')
-          <div class="row">
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image) }}" id="output"  width="100" ></a>
-          </div><div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image1" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile1(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image1) }}" id="output1"  width="100" ></a>
-          </div>
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image2" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile2(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image2) }}" id="output2"  width="100" ></a>
-          </div>
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image3" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile3(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image3) }}" id="output3"  width="100" ></a>
-          </div>
-          </div>
-         
-
-
-          @elseif($cms->id=='126')
-          <div class="row">
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image) }}" id="output"  width="100" ></a>
-          </div><div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image1" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile1(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image1) }}" id="output1"  width="100" ></a>
-          </div>
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image2" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile2(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image2) }}" id="output2"  width="100" ></a>
-          </div>
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image3" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile3(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image3) }}" id="output3"  width="100" ></a>
-          </div>
-          <div class="col-md-6 ">
-            <label for="inputState" class="">Image</label>
-            <input type="file" name="image4" id="imgInnpp" accept="image/*" class="form-control input-default " placeholder="Select image" onchange="loadFile4(event)">
-            <a href=""><img src="{{ asset('Backend/images/' . $cms->image4) }}" id="output4"  width="100" ></a>
-          </div>
-          </div>
-          @endif
-          <div class=" mt-3">
-            <div class="col-md-12" style="text-align: right;">
-              <button type="submit" class="btn btn-primary submit">Update</button>
-              <!-- <button type="reset" class="btn btn-secondary">Reset</button> -->
-            </div>
-          </div> 
-        </form>
-        </div>
+          
+          </form>
       </div>
+  </div>
+  </div>
+  </div>
+  </section>
+@elseif($primaryCms->slug=='about-services')
+    <section class="section">
+        <div class="row">
+        
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h5 class="card-title">Home Slider Form</h5> -->
+                        <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
+                            @foreach($languages as $index => $language)
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
+                                        id="{{ $language->slug }}-tab" 
+                                        data-bs-toggle="tab" 
+                                        href="#{{ $language->slug }}" 
+                                        role="tab" 
+                                        aria-controls="{{ $language->slug }}" 
+                                        aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
+                                        {{ ucfirst($language->name) }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content" id="languageTabsContent">
+                        @foreach($languages as $index => $language)
+                            <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
+                                id="{{ $language->slug }}" 
+                                role="tabpanel" 
+                                aria-labelledby="{{ $language->slug }}-tab">
+                                <form class="" method="POST" action="{{ route('cmspages.update', $primaryCms->id) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('POST')
+                                    <div class="row g3 my-3">
+                                        <div class="col-md-6">
+                                            <label for="title_{{ $language->slug }}" class="form-label">Heading 1</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_title" 
+                                                    class="form-control" 
+                                                    id="title_1_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title ?? '' }}"
+                                                    required>
+                                            <input type="hidden" 
+                                                    name="language" 
+                                                    value="{{ $language->slug }}"
+                                            >
+                                        </div>
+                    
+                                        <div class="col-md-6">
+                                            <label for="title_2_{{ $language->slug }}" class="form-label">Heading 2</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_heading_2" 
+                                                    class="form-control mb-2" 
+                                                    id="title_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title1 ?? '' }}"
+                                                    required>
+                                            {{-- <input type="hidden" 
+                                                    name="language" 
+                                                    value="{{ $language->slug }}"
+                                            > --}}
+                                        </div>
+                    
+                                        <div class="col-md-6">
+                                            <label for="title_3_{{ $language->slug }}" class="form-label">Heading 3</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_heading_3" 
+                                                    class="form-control mb-2" 
+                                                    id="title_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title2 ?? '' }}"
+                                                    required>
+                                            {{-- <input type="hidden" 
+                                                    name="language" 
+                                                    value="{{ $language->slug }}"
+                                            > --}}
+                                        </div>
+                    
+                                        <div class="col-md-6">
+                                            <label for="title_4_{{ $language->slug }}" class="form-label">Heading 4</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_heading_4" 
+                                                    class="form-control mb-2" 
+                                                    id="title_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title3 ?? '' }}"
+                                                    required>
+                                            {{-- <input type="hidden" 
+                                                    name="language" 
+                                                    value="{{ $language->slug }}"
+                                            > --}}
+                                        </div>
+                    
+                                        <div class="col-md-6">
+                                            <label for="para_1_{{ $language->slug }}" class="form-label">Small Description 1</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_1" 
+                                                class="form-control  mb-3" 
+                                                id="para_1_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="10"
+                                                required>{{ $cmsRecords[$language->slug]->short_description ?? '' }}</textarea>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="para_2_{{ $language->slug }}" class="form-label">Small Description 2</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_2" 
+                                                class="form-control mb-3" 
+                                                id="para_1_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="10"
+                                                required>{{ $cmsRecords[$language->slug]->short_description1 ?? '' }}</textarea>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="para_3_{{ $language->slug }}" class="form-label">Small Description 3</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_3" 
+                                                class="form-control  mb-3" 
+                                                id="para_1_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="10"
+                                                required>{{ $cmsRecords[$language->slug]->short_description2 ?? '' }}</textarea>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="para_4_{{ $language->slug }}" class="form-label">Small Description 4</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_4" 
+                                                class="form-control mb-3" 
+                                                id="para_1_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }}
+                                                rows="10" 
+                                                required>{{ $cmsRecords[$language->slug]->short_description3 ?? '' }}</textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                        
+                        <!-- Image section -->
+                    <div class="card">
+                        <div class="card-header">
+                            Images
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="image1" class="form-label">Image 1</label>
+                                    <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    @if($primaryCms->image1)
+                                    <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="image2" class="form-label">Image 2</label>
+                                    <input type="file" name="images[image2]" id="imgInp2" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    @if($primaryCms->image2)
+                                    <img src="{{ Storage::url($primaryCms->image2) }}" id="output2" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="image3" class="form-label">Image 3</label>
+                                    <input type="file" name="images[image3]" id="imgInp3" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    @if($primaryCms->image3)
+                                    <img src="{{ Storage::url($primaryCms->image3) }}" id="output3" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="image4" class="form-label">Image 4</label>
+                                    <input type="file" name="images[image4]" id="imgInp4" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    @if($primaryCms->image4)
+                                    <img src="{{ Storage::url($primaryCms->image4) }}" id="output4" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                <div class="col-md-12" style="text-align: right;">
+                                    <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    
+            
+            
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
     </section>
+@elseif($primaryCms->slug=='memories')
+    <section class="section">
+        <div class="row">
+        
+            <div class="col-lg-12">
+                <div class="card">
+                
+            </div>
+            
+                    <div class="card-body">
+                        <!-- <h5 class="card-title">Home Slider Form</h5> -->
+                        <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
+                            @foreach($languages as $index => $language)
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
+                                        id="{{ $language->slug }}-tab" 
+                                        data-bs-toggle="tab" 
+                                        href="#{{ $language->slug }}" 
+                                        role="tab" 
+                                        aria-controls="{{ $language->slug }}" 
+                                        aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
+                                        {{ ucfirst($language->name) }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content" id="languageTabsContent">
+                        @foreach($languages as $index => $language)
+                            <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
+                                id="{{ $language->slug }}" 
+                                role="tabpanel" 
+                                aria-labelledby="{{ $language->slug }}-tab">
+                                <form class="" method="POST" action="{{ route('cmspages.update', $primaryCms->id) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('POST')
+                                    <div class="row g3 my-3">
+                                        <div class="col-md-6">
+                                            <label for="title_{{ $language->slug }}" class="form-label">Heading</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_title" 
+                                                    class="form-control" 
+                                                    id="title_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title ?? '' }}"
+                                                    required>
+                                            <input type="hidden" 
+                                                    name="language" 
+                                                    value="{{ $language->slug }}"
+                                            >
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="btn_txt_{{ $language->slug }}" class="form-label">Button Text</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_btn_txt" 
+                                                    class="form-control" 
+                                                    id="btn_txt_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title1 ?? '' }}"
+                                                    required>
+                                            </div>
+                    
+                                        <div class="col-md-12">
+                                            <label for="para_1_{{ $language->slug }}" class="form-label my-3">Small Description</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_1" 
+                                                class="form-control" 
+                                                id="para_1_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="10"
+                                                required>{{ $cmsRecords[$language->slug]->short_description ?? '' }}</textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                        
+                        <!-- Prices & Image section -->
+                        <div class="card">
+                        <div class="card-header">
+                            Images
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="image1" class="form-label">Image 1</label>
+                                    <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    @if($primaryCms->image1)
+                                    <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                <div class="col-md-12" style="text-align: right;">
+                                    <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                
+                
+                    
+            
+            
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
+    </section>
+@elseif($primaryCms->slug=='tour-video')
+    <section class="section">
+        <div class="row">
+        
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h5 class="card-title">Home Slider Form</h5> -->
+                        <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
+                            @foreach($languages as $index => $language)
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
+                                        id="{{ $language->slug }}-tab" 
+                                        data-bs-toggle="tab" 
+                                        href="#{{ $language->slug }}" 
+                                        role="tab" 
+                                        aria-controls="{{ $language->slug }}" 
+                                        aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
+                                        {{ ucfirst($language->name) }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content" id="languageTabsContent">
+                        @foreach($languages as $index => $language)
+                            <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
+                                id="{{ $language->slug }}" 
+                                role="tabpanel" 
+                                aria-labelledby="{{ $language->slug }}-tab">
+                                <form class="" method="POST" action="{{ route('cmspages.update', $primaryCms->id) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('POST')
+                                    <div class="row g3 my-3">
+                                        <div class="col-md-6">
+                                            <label for="title_{{ $language->slug }}" class="form-label">Heading</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_title" 
+                                                    class="form-control" 
+                                                    id="title_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title ?? '' }}"
+                                                    required>
+                                            <input type="hidden" 
+                                                    name="language" 
+                                                    value="{{ $language->slug }}"
+                                            >
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="btn_{{ $language->slug }}" class="form-label">Button Text</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_btn" 
+                                                    class="form-control" 
+                                                    id="btn_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title1 ?? '' }}"
+                                                    required>
+                                        </div>
+                    
+                                        
+                                    </div>
+                                    <div class="row g3 my-3">
+                                        <div class="col-md-12">
+                                            <label for="para_1_{{ $language->slug }}" class="form-label">Content</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_1" 
+                                                class="form-control  mb-3 ckeditor" 
+                                                id="para_1_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="10"
+                                                required>{{ $cmsRecords[$language->slug]->short_description ?? '' }}</textarea>
+                                        </div>
+                                        
+                    
+                                    </div>
+                                </form>
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                        
+                        <!-- Image section -->
+                    <div class="card">
+                        <div class="card-header">
+                            Image & Link
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="image1" class="form-label">Image</label>
+                                    <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    @if($primaryCms->image1)
+                                    <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="video_link" class="form-label">Video Link</label>
+                                    <input type="text" 
+                                    name="video_link" id="video_link" 
+                                    class="form-control input-default" 
+                                    placeholder="Insert Youtube Link"
+                                    value="{{ $primaryCms->title2 ?? $primaryCms->title2 }}"> 
+                                    @if( $primaryCms->title2)   
+                                    <a href="{{$primaryCms->title2 }}" class="btn btn-primary mt-3" target="_blank">Go To video</a>                               
+                                    @endif
+                                </div>
+                                <div class="col-md-12" style="text-align: right;">
+                                    <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    
+            
+            
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
+    </section>
+@elseif($primaryCms->slug=='faq')
+    <section class="section">
+        <div class="row">
+        
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h5 class="card-title">Home Slider Form</h5> -->
+                        <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
+                            @foreach($languages as $index => $language)
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
+                                        id="{{ $language->slug }}-tab" 
+                                        data-bs-toggle="tab" 
+                                        href="#{{ $language->slug }}" 
+                                        role="tab" 
+                                        aria-controls="{{ $language->slug }}" 
+                                        aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
+                                        {{ ucfirst($language->name) }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content" id="languageTabsContent">
+                        @foreach($languages as $index => $language)
+                            <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
+                                id="{{ $language->slug }}" 
+                                role="tabpanel" 
+                                aria-labelledby="{{ $language->slug }}-tab">
+                                <form class="" method="POST" action="{{ route('cmspages.update', $primaryCms->id) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('POST')
+                                    <div class="row g3 my-3">
+                                        <div class="col-md-6">
+                                            <label for="title_1_{{ $language->slug }}" class="form-label">Question 1</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_title" 
+                                                    class="form-control" 
+                                                    id="title_1_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title1 ?? '' }}"
+                                                    required>
+                                            <input type="hidden" 
+                                                    name="language" 
+                                                    value="{{ $language->slug }}"
+                                            >
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="title_2_{{ $language->slug }}" class="form-label">Question 2</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_Qtitle_2" 
+                                                    class="form-control" 
+                                                    id="title_2_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title2 ?? '' }}"
+                                                    required>
+                                           
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="title_3_{{ $language->slug }}" class="form-label">Question 3</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_Qtitle_3" 
+                                                    class="form-control" 
+                                                    id="title_3_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title3 ?? '' }}"
+                                                    required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="title_4_{{ $language->slug }}" class="form-label">Question 4</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_Qtitle_4" 
+                                                    class="form-control" 
+                                                    id="title_4_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title4 ?? '' }}"
+                                                    required>
+                                        </div>
+                                        
+                    
+                                        
+                                    </div>
+                                    <div class="row g3 my-3">
+                                        <div class="col-md-6">
+                                            <label for="para_1_{{ $language->slug }}" class="form-label">Answer 1</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_1" 
+                                                class="form-control  mb-3" 
+                                                id="para_1_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="10"
+                                                required>{{ $cmsRecords[$language->slug]->tagline1 ?? '' }}</textarea>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="para_2_{{ $language->slug }}" class="form-label">Answer 2</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_2" 
+                                                class="form-control  mb-3" 
+                                                id="para_2_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="10"
+                                                required>{{ $cmsRecords[$language->slug]->tagline2 ?? '' }}</textarea>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="para_3_{{ $language->slug }}" class="form-label">Answer 3</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_3" 
+                                                class="form-control  mb-3" 
+                                                id="para_3_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="10"
+                                                required>{{ $cmsRecords[$language->slug]->tagline3 ?? '' }}</textarea>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="para_4_{{ $language->slug }}" class="form-label">Answer 4</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_4" 
+                                                class="form-control  mb-3" 
+                                                id="para_4_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="10"
+                                                required>{{ $cmsRecords[$language->slug]->tagline4 ?? '' }}</textarea>
+                                        </div>
+                                        
+                    
+                                    </div>
+                                </form>
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                        
+                        <!-- Image section -->
+                    <div class="card">
+                        <div class="card-header">
+                            Image
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="image1" class="form-label">Image</label>
+                                    <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    @if($primaryCms->image1)
+                                    <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
+                                    @endif
+                                </div>
+                                <div class="col-md-12" style="text-align: right;">
+                                    <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    
+            
+            
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
+    </section>
+@endif 
+  </main>
+  {{-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const submitButton = document.getElementById('submitAll');
 
-  </main><!-- End #main -->
+    if (!submitButton) {
+        console.error('Submit button not found!');
+        return;
+    }
 
-  <script>
-    var loadFile = function(event) {
-      var reader = new FileReader();
-      reader.onload = function(){
-        var output = document.getElementById('output');
-        output.src = reader.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    };
-    var loadFile1 = function(event) {
-      var reader = new FileReader();
-      reader.onload = function(){
-        var output = document.getElementById('output1');
-        output.src = reader.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    };
-    var loadFile2 = function(event) {
-      var reader = new FileReader();
-      reader.onload = function(){
-        var output = document.getElementById('output2');
-        output.src = reader.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    };
-    var loadFile3 = function(event) {
-      var reader = new FileReader();
-      reader.onload = function(){
-        var output = document.getElementById('output3');
-        output.src = reader.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    };
+    // Enhanced function to dynamically preview images
+    function loadFile(event, outputId) {
+        const input = event.target;
+        const outputElement = document.getElementById(outputId);
+        
+        if (outputElement && input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                outputElement.src = e.target.result;
+                outputElement.style.display = 'block';
+            };
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 
-     var loadFile4 = function(event) {
-      var reader = new FileReader();
-      reader.onload = function(){
-        var output = document.getElementById('output4');
-        output.src = reader.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    };
-  </script>
+    // Add event listeners to all file inputs for previewing images
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+    fileInputs.forEach((input) => {
+        // Dynamically set output ID based on input ID
+        const outputId = input.id.replace('imgInp', 'output');
+        
+        input.addEventListener('change', (event) => {
+            loadFile(event, outputId);
+        });
+    });
+
+    // Handle form submission
+    submitButton.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        try {
+            const forms = document.querySelectorAll('#languageTabsContent form');
+          
+          if (forms.length === 0) {
+              throw new Error('No forms found in the specified content area');
+          }
+            // Create a single FormData object
+            const formData = new FormData();
+            forms.forEach((form, formIndex) => {
+              // Append all form data (including hidden fields) to formData
+              Array.from(form.elements).forEach(input => {
+                  if (input.name) {
+                      // Handle different input types
+                      if (input.type === 'file') {
+                          if (input.files.length > 0) {
+                              formData.append(input.name, input.files[0]);
+                          }
+                      } else {
+                          formData.append(input.name, input.value);
+                      }
+                  }
+              });
+          });
+
+            // Specifically handle file inputs for images
+            const fileInputs = document.querySelectorAll('input[name^="images["]');
+            
+            console.log('File Inputs Found:', fileInputs.length);
+
+            fileInputs.forEach((input) => {
+                if (input.files.length > 0) {
+                    console.log('Appending File:', input.name, input.files[0]);
+                    formData.append(input.name, input.files[0]);
+                }
+            });
+
+            // Log FormData contents
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ', pair[1]);
+            }
+
+            // Get CSRF token
+            const csrfToken = document.querySelector('input[name="_token"]');
+            if (!csrfToken) {
+                throw new Error('CSRF token not found');
+            }
+
+            // Determine submission URL (assuming Laravel route)
+            const currentUrl = "{{ route('cmspages.update', ['id' => $primaryCms->id]) }}";
+
+            // Submit using fetch
+            fetch(currentUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken.value,
+                    'Accept': 'application/json',
+                },
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((errorData) => {
+                        throw new Error(errorData.message || 'Server error occurred');
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Success handling
+                console.log('Server response:', data);
+
+                // Show success message to user
+                alert(data.message || 'Forms submitted successfully');
+
+                // Optional: Redirect or update UI
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                }
+            })
+            .catch((error) => {
+                // Comprehensive error handling
+                console.error('Submission error:', error);
+                alert('Failed to submit forms. Please try again. ' + error.message);
+            });
+        } catch (error) {
+            // Catch any errors during form preparation
+            console.error('Preparation error:', error);
+            alert('Error preparing form submission: ' + error.message);
+        }
+    });
+});
+</script> --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const submitButton = document.getElementById('submitAll');
+
+    if (!submitButton) {
+        console.error('Submit button not found!');
+        return;
+    }
+
+    // Restore the image preview function
+    function loadFile(event, outputId) {
+        const input = event.target;
+        const outputElement = document.getElementById(outputId);
+        
+        if (outputElement && input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                outputElement.src = e.target.result;
+                outputElement.style.display = 'block';
+            };
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Add event listeners to all file inputs for previewing images
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+    fileInputs.forEach((input) => {
+        // Dynamically set output ID based on input ID
+        const outputId = input.id.replace('imgInp', 'output');
+        
+        input.addEventListener('change', (event) => {
+            loadFile(event, outputId);
+        });
+    });
+
+    submitButton.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        try {
+            // Create a single FormData object
+            const formData = new FormData();
+
+            // Explicitly select all forms you want to collect data from
+            const forms = document.querySelectorAll('form');
+            // alert(videolink);
+
+            forms.forEach((form) => {
+                // Collect all form elements
+                const elements = form.elements;
+                
+                for (let element of elements) {
+                    if (element.name) {
+                        if (element.type === 'file') {
+                            // For file inputs, append only if a file is selected
+                            if (element.files.length > 0) {
+                                formData.append(element.name, element.files[0]);
+                            }
+                        } else if (element.type !== 'submit') {
+                            // Append non-file, non-submit inputs
+                            formData.append(element.name, element.value);
+                        }
+                    }
+                }
+            });
+            if(document.getElementById('video_link')){
+                 const videolink= document.querySelector('#video_link').value;
+                if(videolink != ''){
+                    formData.append('video_link',videolink);
+                }
+            }
+
+            // Specifically handle file inputs for images (as in the original code)
+            const imageFileInputs = document.querySelectorAll('input[name^="images["]');
+            
+            console.log('File Inputs Found:', imageFileInputs.length);
+
+            imageFileInputs.forEach((input) => {
+                if (input.files.length > 0) {
+                    console.log('Appending File:', input.name, input.files[0]);
+                    formData.append(input.name, input.files[0]);
+                }
+            });
+
+            // Log FormData contents
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ', pair[1]);
+            }
+
+            // Get CSRF token
+            const csrfToken = document.querySelector('input[name="_token"]');
+            if (!csrfToken) {
+                throw new Error('CSRF token not found');
+            }
+
+            // Determine submission URL (assuming Laravel route)
+            const currentUrl = "{{ route('cmspages.update', ['id' => $primaryCms->id]) }}";
+
+            // Submit using fetch
+            fetch(currentUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken.value,
+                    'Accept': 'application/json',
+                },
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((errorData) => {
+                        throw new Error(errorData.message || 'Server error occurred');
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Success handling
+                console.log('Server response:', data);
+
+                // Show success message to user
+                alert(data.message || 'Forms submitted successfully');
+
+                // Optional: Redirect or update UI
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                }
+            })
+            .catch((error) => {
+                // Comprehensive error handling
+                console.error('Submission error:', error);
+                alert('Failed to submit forms. Please try again. ' + error.message);
+            });
+        } catch (error) {
+            // Catch any errors during form preparation
+            console.error('Preparation error:', error);
+            alert('Error preparing form submission: ' + error.message);
+        }
+    });
+});
+</script>
 
 @include('Admin.include.footer')
 @include('Admin.include.script')

@@ -10,7 +10,8 @@ class CMSController extends Controller
 {
     //
     public function index(){
-		$cms=CMS::all();
+		$cms=CMS::where('slug','=','explore-more')
+		->get();
 		return view('Admin.cms.index',compact('cms'));
 	
 }

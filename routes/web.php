@@ -34,7 +34,10 @@ use App\Http\Controllers\Backend\CommitteeListController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Backend\ServicesDetailsController;
 use App\Http\Controllers\Backend\ServicesMenuController ;
+use App\Http\Controllers\BlogController ;
 use App\Http\Controllers\newsletterController;
+use App\Http\Controllers\OfferController;
+use App\Http\Controllers\ExploreController;
 
 
 /*
@@ -133,7 +136,7 @@ Route::group(['middleware' => ['admin']],function () {
     Route::post('/admin/clients/update', [ClientController::class,'update'])->name('clients.update');
     Route::get('/admin/clients/delete/{id}', [ClientController::class,'delete'])->name('clients.delete');
     /*Slider Routes*/
-    Route::get('/admin/slider',[SliderController::class,'index']);
+    Route::get('/admin/slider',[SliderController::class,'index'])->name('slider.index');
     Route::get('/admin/slider/create',[SliderController::class,'create'])->name('slider.add');
     Route::post('/admin/slider/store', [SliderController::class,'store'])->name('slider.store');
     Route::get('/admin/slider/edit/{id}',[SliderController::class,'edit'])->name('slider.edit');
@@ -178,12 +181,29 @@ Route::group(['middleware' => ['admin']],function () {
     Route::get('/admin/pest/delete/{id}',[PestController::class,'delete'])->name('pest.delete');
 
     /*Testimonials Routes*/
-    Route::get('/admin/testimonials', [TestimonialsController::class,'index']);
+    Route::get('/admin/testimonials', [TestimonialsController::class,'index'])->name('testimonials.index');
     Route::get('/admin/testimonials/create', [TestimonialsController::class,'create'])->name('testimonials.add');
     Route::post('/admin/testimonials/store', [TestimonialsController::class,'store'])->name('testimonials.store');
     Route::get('/admin/testimonials/edit/{id}',[TestimonialsController::class,'edit'])->name('testimonials.edit');
-    Route::post('/admin/testimonials/update', [TestimonialsController::class,'update'])->name('testimonials.update');
+    Route::post('/admin/testimonials/update/{id}', [TestimonialsController::class,'update'])->name('testimonials.update');
     Route::get('/admin/testimonials/delete/{id}',[TestimonialsController::class,'delete'])->name('testimonials.delete');
+    /*Blog Routes*/
+    Route::get('/admin/blogs', [BlogController::class,'index'])->name('blogs.index');
+    Route::get('/admin/blogs/create', [BlogController::class,'create'])->name('blogs.add');
+    Route::post('/admin/blogs/store', [BlogController::class,'store'])->name('blogs.store');
+    Route::get('/admin/blogs/edit/{id}',[BlogController::class,'edit'])->name('blogs.edit');
+    Route::post('/admin/blogs/update/{id}', [BlogController::class,'update'])->name('blogs.update');
+    Route::get('/admin/blogs/delete/{id}',[BlogController::class,'delete'])->name('blogs.delete');
+    
+    //Offers
+    Route::get('/admin/services',[OfferController::class,'index'])->name('offers.index');
+    Route::get('/admin/services/create',[OfferController::class,'create'])->name('offers.make');
+    Route::post('/admin/services/save',[OfferController::class,'store'])->name('offers.store');
+    Route::get('/admin/services/edit/{id}',[OfferController::class,'edit'])->name('offers.edit');
+    Route::post('/admin/services/update/{id}',[OfferController::class,'update'])->name('offers.update');
+    Route::delete('/admin/services/delete/{id}',[OfferController::class,'destroy'])->name('offers.destroy');
+    
+    
     /*Admin Routes*/
     Route::get('/admin/registered', [AdminController::class,'adminregistered'])->name('admin.registered');
     Route::post('/admin/registered-admin', [AdminController::class,'registeredadmin'])->name('registered-admin.store');
@@ -198,7 +218,7 @@ Route::group(['middleware' => ['admin']],function () {
     // Route::post('/admin/registered-members/update', [RegisteredMembersController::class,'update'])->name('registered-members.update');
     // Route::get('/admin/registered-members/delete/{id}',[RegisteredMembersController::class,'delete'])->name('registered-members.delete');
     /*About Us Routes*/
-    Route::get('/admin/aboutus', [CMSController::class,'index']);
+    Route::get('/admin/aboutus', [CMSController::class,'index']); 
     Route::get('/admin/aboutus/create', [CMSController::class,'create'])->name('cms.add');
     Route::post('/admin/aboutus/store', [CMSController::class,'store'])->name('cms.store');
     Route::get('/admin/aboutus{slug}',[CMSController::class,'edit'])->name('cms.edit');
@@ -206,11 +226,11 @@ Route::group(['middleware' => ['admin']],function () {
     Route::get('/admin/aboutus/delete/{id}',[CMSController::class,'delete'])->name('cms.delete');
 
      /*About Us CMS Pages Routes*/
-     Route::get('/admin/cms', [PagesController::class,'index']);
+     Route::get('/admin/cms', [PagesController::class,'index'])->name('cms_index');
      Route::get('/admin/cms/create', [PagesController::class,'create'])->name('cmspages.add');
      Route::post('/admin/cms/store', [PagesController::class,'store'])->name('cmspages.store');
      Route::get('/admin/cms/{id}',[PagesController::class,'edit'])->name('cmspages.edit');
-     Route::post('/admin/cms', [PagesController::class,'update'])->name('cmspages.update');
+     Route::post('/admin/cms/{id}', [PagesController::class,'update'])->name('cmspages.update');
     //  Route::post('/admin/cms/update', [PagesController::class,'arabic_update'])->name('cmspages_arabic.update');
      
      Route::get('/admin/cms/delete/{id}',[PagesController::class,'delete'])->name('cmspages.delete');
@@ -248,14 +268,14 @@ Route::get('admin/committee-list/remove/{id}',[CommitteeListController::class,'m
     Route::get('/admin/audit/delete/{id}',[AuditController::class,'delete'])->name('audit.delete');
 
     /*Services */
-    Route::get('admin/services',[ServicesController::class,'index']);
-    Route::get('admin/services/create', [ServicesController::class,'create'])->name('services.add');
-    Route::post('admin/services/store', [ServicesController::class,'store'])->name('services.store');
-    // Route::post('admin/services/arabicstore', [ServicesController::class,'arabicstore'])->name('arabic_services.store');
-    Route::get('admin/services/edit/{id}/{language}',[ServicesController::class,'edit'])->name('services.edit');
-    Route::post('admin/services/update', [ServicesController::class,'update'])->name('services.update');
-    Route::get('admin/services/delete/{id}',[ServicesController::class,'delete'])->name('services.delete');
-    Route::get('admin/airservicesdetails',[ServicesController::class,'airportservicesindex']);
+    // Route::get('admin/services',[ServicesController::class,'index']);
+    // Route::get('admin/services/create/add', [ServicesController::class,'create'])->name('services.add');
+    // Route::post('admin/services/store', [ServicesController::class,'store'])->name('services.store');
+    // // Route::post('admin/services/arabicstore', [ServicesController::class,'arabicstore'])->name('arabic_services.store');
+    // Route::get('admin/services/edit/{id}/{language}',[ServicesController::class,'edit'])->name('services.edit');
+    // Route::post('admin/services/update', [ServicesController::class,'update'])->name('services.update');
+    // Route::get('admin/services/delete/{id}',[ServicesController::class,'delete'])->name('services.delete');
+    // Route::get('admin/airservicesdetails',[ServicesController::class,'airportservicesindex']);
     
      /*Services */
      Route::get('admin/servicesdetails',[ServicesDetailsController::class,'index']);

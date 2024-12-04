@@ -1,13 +1,11 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Testimonials extends Model
+class Excursion extends Model
 {
-    protected $table = 'testimonials';
-    protected $guarded=[];
     use HasFactory;
 }
-?>
