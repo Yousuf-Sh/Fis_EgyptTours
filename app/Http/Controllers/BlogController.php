@@ -109,16 +109,6 @@ return response()->json([
 ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
 
 
@@ -235,7 +225,7 @@ return response()->json([
     $primaryBlog = Blog::find($id);
     if ($primaryBlog) {
         $primaryBlog->delete();
-    }
+    }   
 
         return redirect()->back()->with('message','success');
     }

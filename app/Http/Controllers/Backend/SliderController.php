@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Backend;
+use App\Models\Language;
 use App\Models\LiveProduct;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,8 +12,9 @@ class SliderController extends Controller
 {
     //
     public function index(){
-		$slider=Slider::all();
-		$languages = DB::table('languages')->get();
+		$slider=Slider::where('secondary_id','=','0')
+        ->get();
+		$languages = Language::all();
 		return view('Admin.home-slider.index',compact('slider','languages'));
 	
 }
@@ -24,6 +26,23 @@ public function create(){
 }
 public function store(Request $request)
 {
+    // dd( $request->allFiles());
+    
+    // Check if a video file is present
+    $uploadedVideo = null;
+    if ($request->hasFile('videos')) {
+        foreach ($request->file('videos') as $key => $video) {
+            // Check if file exists and is valid
+            if ($video->isValid()) {
+                // Store video in the media directory
+                $videoPath = $video->store('media/videos', 'public');
+                $uploadedVideo = $videoPath;
+                break; // Assuming single video upload
+            }
+        }
+    }
+    // dd($uploadedVideo);
+
     // Find all languages in the request
     $languages = collect($request->all())
         ->keys()
@@ -35,41 +54,58 @@ public function store(Request $request)
         })
         ->unique()
         ->values();
+        
+        // Validate each language's attributes
+        $validLanguages = $languages->filter(function ($language) use ($request) {
+            return $request->filled([
+                "{$language}_title",
+                "{$language}_btn",
+                "{$language}_description"
+            ]);
+        });
+    // dd($validLanguages);
+        
+    $createdSliders= [];
+    $englishRecordId = null;
 
-    // Validate each language's attributes
-    $validLanguages = $languages->filter(function ($language) use ($request) {
-        return $request->filled([
-            "{$language}_title",
-            "{$language}_button",
-            "{$language}_description"
+    // First, create the English record
+    if ($validLanguages->contains('en')) {
+        $englishRecord = Slider::create([
+            'title' => $request->input('en_title'),
+            'description' => $request->input('en_description'),
+            'video_path' => $uploadedVideo, 
+            'button_text' => $request->input('en_btn'), 
+            'language' => 'en',
+            
         ]);
-    });
 
-    // Process video upload
-    $videoPath = null;
-    if ($request->hasFile('video')) {
-        $video = $request->file('video');
-        $videoPath = $video->store('videos', 'public');
+        // Store the ID of the English record
+        $englishRecordId = $englishRecord->id;
+        // dd($englishRecordId);
+        $createdSliders['en'] = $englishRecord;
     }
 
-    $createdSliders = [];
-
-    // Create sliders for valid languages
+    // Create blogs for other languages and assign secondary_id for non-English languages
     foreach ($validLanguages as $language) {
-        $slider = Slider::create([
-            'language' => $language,
-            'title' => $request->input("{$language}_title"),
-            'button_text' => $request->input("{$language}_button"),
-            'description' => $request->input("{$language}_description"),
-            'video_path' => $videoPath
-        ]);
-
-        $createdSliders[$language] = $slider;
+        if ($language !== 'en') {
+            $blog = Slider::create([
+                'secondary_id' => $englishRecordId,
+                'title' => $request->input("{$language}_title"),
+                'description' => $request->input("{$language}_description"),
+                'button_text' => $request->input("{$language}_btn"),
+                'video_path' => $uploadedVideo,
+                'language' => $language,
+                
+            ]);
+            $createdSliders[$language] = $blog;
+            // dd($createdSliders);
+        }
     }
 
     return response()->json([
-        'message' => 'Sliders created successfully',
-        'sliders' => $createdSliders
+        'message' => 'Forms submitted successfully',
+        'blogs' => $createdSliders,
+        'redirect' => route('blogs.index'),
     ]);
 }
 	public function edit($id)
@@ -80,62 +116,88 @@ public function store(Request $request)
 	}
 
 	public function update(Request $request){
-		$res = Slider::find($request->id);
-$image = $request->file('images');
-
-if ($image) {
-    $name_gen = hexdec(uniqid());
-    $image_ext = strtolower($image->getClientOriginalExtension());
-    $image_name = $name_gen . '.' . $image_ext;
-    $up_location = 'Backend/images/';
-    $last_img = $up_location . $image_name;
-    $image->move(public_path($up_location), $image_name);
-    $res->images = $image_name;
-}
-
-if ($request->has('title')) {
-    $res->title = $request->input('title');
-}
-
-if ($request->has('label')) {
-    $res->label = $request->input('label');
-}
-
-if ($request->has('button')) {
-    $res->button = $request->input('button');
-}
-
-if ($request->has('short_description')) {
-    $res->short_description = $request->input('short_description');
-}
-
-if ($request->has('arabic_title')) {
-    $res->arabic_title = $request->input('arabic_title');
-}
-
-if ($request->has('arabic_label')) {
-    $res->arabic_label = $request->input('arabic_label');
-}
-
-if ($request->has('arabic_button')) {
-    $res->arabic_button = $request->input('arabic_button');
-}
-
-if ($request->has('arabic_short_description')) {
-    $res->arabic_short_description = $request->input('arabic_short_description');
-}
-
-$res->save();
-return redirect('admin/slider');
-
 	
-			return redirect('admin/slider');
-			}
-	public function delete($id)
-	{
-       Slider::findOrFail($id)->delete();
-	   return redirect()->back();
+    dd( $request->allFiles());
+    
+    // Check if a video file is present
+    $uploadedVideo = null;
+    if ($request->hasFile('videos')) {
+        foreach ($request->file('videos') as $key => $video) {
+            // Check if file exists and is valid
+            if ($video->isValid()) {
+                // Store video in the media directory
+                $videoPath = $video->store('media/videos', 'public');
+                $uploadedVideo = $videoPath;
+                break; // Assuming single video upload
+            }
+        }
+    }
+    // dd($uploadedVideo);
 
+    // Find all languages in the request
+    $languages = collect($request->all())
+        ->keys()
+        ->filter(function ($key) {
+            return strpos($key, '_title') !== false;
+        })
+        ->map(function ($key) {
+            return str_replace('_title', '', $key);
+        })
+        ->unique()
+        ->values();
+        
+        // Validate each language's attributes
+        $validLanguages = $languages->filter(function ($language) use ($request) {
+            return $request->filled([
+                "{$language}_title",
+                "{$language}_btn",
+                "{$language}_description"
+            ]);
+        });
+    // dd($validLanguages);
+        
+    $createdSliders= [];
+    $englishRecordId = null;
+
+    // First, create the English record
+    if ($validLanguages->contains('en')) {
+        $englishRecord = Slider::create([
+            'title' => $request->input('en_title'),
+            'description' => $request->input('en_description'),
+            'video_path' => $uploadedVideo, 
+            'button_text' => $request->input('en_btn'), 
+            'language' => 'en',
+            
+        ]);
+
+        // Store the ID of the English record
+        $englishRecordId = $englishRecord->id;
+        // dd($englishRecordId);
+        $createdSliders['en'] = $englishRecord;
+    }
+
+    // Create blogs for other languages and assign secondary_id for non-English languages
+    foreach ($validLanguages as $language) {
+        if ($language !== 'en') {
+            $blog = Slider::create([
+                'secondary_id' => $englishRecordId,
+                'title' => $request->input("{$language}_title"),
+                'description' => $request->input("{$language}_description"),
+                'button_text' => $request->input("{$language}_btn"),
+                'video_path' => $uploadedVideo,
+                'language' => $language,
+                
+            ]);
+            $createdSliders[$language] = $blog;
+            // dd($createdSliders);
+        }
+    }
+
+    return response()->json([
+        'message' => 'Forms submitted successfully',
+        'blogs' => $createdSliders,
+        'redirect' => route('blogs.index'),
+    ]);
 	}
 }
 
