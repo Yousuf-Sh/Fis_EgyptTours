@@ -110,9 +110,10 @@ public function store(Request $request)
 }
 	public function edit($id)
 	{
-		$slider=Slider::findOrFail($id);
-		
-		return view('Admin.home-slider.edit',compact('slider'));
+        $PrimarySlider=Slider::findOrFail($id);
+		$sliders=Slider::where('secondary_id',$id)->get();
+		$languages = Language::all();
+		return view('Admin.blogs.edit',compact('sliders','languages','PrimarySlider'));
 	}
 
 	public function update(Request $request){
