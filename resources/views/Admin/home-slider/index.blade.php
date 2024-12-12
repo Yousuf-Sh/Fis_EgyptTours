@@ -20,9 +20,9 @@
         <div class="card">
           <div class="card-header d-flex">
             <!-- <h5 class="card-title">Home Slider</h5> -->
-            <a href="{{route('slider.add')}}" title="click to Add New Row" class="btn1 btn btn-primary my-auto ms-auto add">
+            {{-- <a href="{{route('slider.add')}}" title="click to Add New Row" class="btn1 btn btn-primary my-auto ms-auto add">
               <span class="fa fa-plus text-white"><b> ADD  </b></span>
-            </a>
+            </a> --}}
           </div>
           <div class="card-body">  
             <!-- Table with stripped rows -->
@@ -51,7 +51,7 @@
                     <td>
                       <div class="d-flex">
                         <a href="{{route('slider.edit',$record->id)}}" title="click to Edit" class="text-info"><span class="fa fa-pencil"></span></a>&nbsp;
-                        <a href="{{route('slider.delete',$record->id)}}" title="click to Delete" class="text-danger"><span class="fa fa-trash"></span></a>
+                        {{-- <a href="{{route('slider.delete',$record->id)}}" title="click to Delete" class="text-danger"><span class="fa fa-trash"></span></a> --}}
                       </div>
                     </td>
                   </tr>

@@ -14,17 +14,12 @@
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
-              <div class="py-3" style="background: #104382;text-align:center;width: 100%;">
-                <a href="index.php" class="logo align-items-center w-auto">
-                  <img src="{{asset('Backend/img/logo.jpg')}}" alt="" class="img-fluid adminlogo">
-                  
-                </a>
-              </div><!-- End Logo -->
-
               <div class="card mb-3">
-
+                
                 <div class="card-body">
+                  <a href="index.php" class="logo d-flex align-items-center justify-content-center">
+                    <img src="{{asset('Backend/img/logo.png')}}" alt="" class="img-fluid adminlogo">
+                  </a> 
                     <h4>
                        @if (Session::has('error'))
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -41,7 +36,7 @@
 
                                       
                     </h4>
-                  <div class="pt-4 pb-2">
+                  <div class="pt-0 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Login to Admin Account</h5>
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
@@ -73,11 +68,11 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit" style="background: #cc123f; border: none;">Login</button>
+                      <button class="btn btn-primary w-100 loginBtn" type="submit">Login</button>
                     </div>
-                    <div class="col-12">
-                      <!-- <p class="small mb-0">Don't have account? <a href="{{url('admin/register')}}">Create an account</a></p> -->
-                    </div>
+                    <!-- <div class="col-12">
+                      <p class="small mb-0">Don't have account? <a href="{{url('admin/register')}}">Create an account</a></p>
+                    </div> -->
                   </form>
 
                 </div>

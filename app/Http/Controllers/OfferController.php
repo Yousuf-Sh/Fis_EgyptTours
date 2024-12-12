@@ -127,18 +127,6 @@ private function getBoundary(Request $request)
    
 public function update(Request $request, $id)
 {
-    // Validate basic inputs
-    // $content = $request->getContent();
-    // $boundary = $this->getBoundary($request);
-    
-    // if ($boundary) {
-    //     $parts = $this->parseMultipartFormData($content, $boundary);
-        
-    //     // Manually add parsed data to the request
-    //     foreach ($parts as $name => $value) {
-    //         $request->merge([$name => $value]);
-    //     }
-    // }
 
     // Find the primary offer
     $primaryOffer = Offer::findOrFail($id);
@@ -152,6 +140,7 @@ public function update(Request $request, $id)
         }
         // Store new image
         $imagePath = $request->file('images')->store('offers', 'public');
+        dd($imagePath);
     }
 
     // Identify language inputs dynamically

@@ -9,10 +9,7 @@ class Faq extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $fillable = [
-        'question',
-        'question_description',
-        'question_ar',
-        'question_description_ar',
-    ];
+
+    protected $table= 'faqs'; 
+    protected $guarded = [];
 }

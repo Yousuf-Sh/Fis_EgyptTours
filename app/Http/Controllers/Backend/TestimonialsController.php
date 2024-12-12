@@ -66,7 +66,7 @@ public function store(Request $request)
         $englishRecord = Testimonials::create([
             'name' => $request->input('en_title'),
             'review' => $request->input('en_description'),
-            'image' => $imagePath, // Ensure there's an image for English
+            'image' => $imagePath ?? '', // Ensure there's an image for English
             'language' => 'en',
         ]);
         

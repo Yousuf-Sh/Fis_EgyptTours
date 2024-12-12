@@ -43,7 +43,7 @@
           <div class="col-lg-12">
               <div class="card">
                
-            </div>
+            
             
                   <div class="card-body">
                       <!-- <h5 class="card-title">Home Slider Form</h5> -->
@@ -88,17 +88,17 @@
                                         </div>
                     
                                         <div class="col-md-12 mt-3">
-                                            <label for="para_1_{{ $language->slug }}" class="form-label">Small Description 1</label>
+                                            <label for="para_1_{{ $language->slug }}" class="form-label">Description </label>
                                             <textarea 
                                                 name="{{ $language->slug }}_para_1" 
-                                                class="form-control" 
+                                                class="form-control ckeditor mb-3" 
                                                 id="para_1_{{ $language->slug }}" 
                                                 {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
                                                 rows="7"
                                                 required>{{ $cmsRecords[$language->slug]->short_description ?? '' }}</textarea>
                                         </div>
-                                        <div class="col-md-12 mt-3">
-                                            <label for="para_2_{{ $language->slug }}" class="form-label">Small Description 2</label>
+                                        <!-- <div class="col-md-12 mt-3">
+                                            <label for="para_2_{{ $language->slug }}" class="form-label">Description 2</label>
                                             <textarea 
                                                 name="{{ $language->slug }}_para_2" 
                                                 class="form-control" 
@@ -106,48 +106,81 @@
                                                 {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
                                                 rows="7"
                                                 required>{{ $cmsRecords[$language->slug]->short_description1 ?? '' }}</textarea>
-                                        </div>
+                                        </div> -->
                                     </div>
-                                </form>
+                                    <!-- Add Button Link -->
+                                
+                                    <a href="#" id="addRow_{{ $language->slug }}" class="add-button-link link link-primary">Add a Button</a>
+
+<div id="buttonFields_{{ $language->slug }}" style="display: none;">
+    
+</div>
+
                             </div>
+                                </form>
                         @endforeach
                     </div>
                     
                       
-                      <!-- Prices & Image section -->
-                      <div class="card">
-                        <div class="card-header">
-                            Images
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
+                        <!-- Image section -->
+                        <div class="card">
+                          <div class="card-header">
+                            Media
+                          </div>
+                          <div class="card-body">
+                            <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="image1" class="form-label">Image 1</label>
+                                  <label class="form-label">Select Media Type:</label>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="mediaType" id="imageOption" value="image">
+                                    <label class="form-check-label" for="imageOption">
+                                      Image
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="mediaType" id="videoOption" value="video" checked>
+                                    <label class="form-check-label" for="videoOption">
+                                      Video
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            {{-- <div class="row">
+                                <div class="col-md-6">
+                                    <label for="video1" class="form-label">Video</label>
+                                    <input type="file" name="videos[video1]" id="vidInp1" accept="video/*" class="form-control input-default" placeholder="Select video">
+                        
+                                    <video src="" id="output1" width="500" class="my-3" controls></video>
+                                </div>
+                            </div> --}}
+                            
+                            <!-- Image Section -->
+                           <!-- Image Section -->
+                            <div id="imageSection" class="row" style="display:none;">
+                                <div class="col-md-6">
+                                    <label for="image1" class="form-label">Image</label>
                                     <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
-                                    @if($primaryCms->image1)
-                                    <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
-                                    @endif
+                                    <img src="" id="imageOutput" class="my-3 w-100" style="display:none;" />
                                 </div>
+                            </div>
+
+                            <!-- Video Section -->
+                            <div id="videoSection" class="row">
                                 <div class="col-md-6">
-                                    <label for="image2" class="form-label">Image 2</label>
-                                    <input type="file" name="images[image2]" id="imgInp2" accept="image/*" class="form-control input-default" placeholder="Select image">
-                                    @if($primaryCms->image2)
-                                    <img src="{{ Storage::url($primaryCms->image2) }}" id="output2" width="100" class="my-3">
-                                    @endif
-                                </div>
-                                
-                                <div class="col-md-12" style="text-align: right;">
-                                    <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
+                                    <label for="video1" class="form-label">Video</label>
+                                    <input type="file" name="videos[video1]" id="vidInp1" accept="video/*" class="form-control input-default" placeholder="Select video">
+                                    <video src="" id="videoOutput"  class="my-3 w-100" controls style="display:none;"></video>
                                 </div>
                             </div>
                         </div>
-                      </div>
+                    </div>
               
               
                   
           
           
           </form>
+      </div>
       </div>
   </div>
   </div>
@@ -247,27 +280,28 @@
                                         </div>
                     
                                         <div class="col-md-6">
-                                            <label for="para_1_{{ $language->slug }}" class="form-label">Small Description 1</label>
+                                            <label for="para_1_{{ $language->slug }}" class="form-label">Description</label>
                                             <textarea 
                                                 name="{{ $language->slug }}_para_1" 
-                                                class="form-control  mb-3" 
+                                                class="form-control mb-3 ckeditor" 
+ 
                                                 id="para_1_{{ $language->slug }}" 
                                                 {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
                                                 rows="10"
                                                 required>{{ $cmsRecords[$language->slug]->short_description ?? '' }}</textarea>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="para_2_{{ $language->slug }}" class="form-label">Small Description 2</label>
+                                            <label for="para_2_{{ $language->slug }}" class="form-label">Description 2</label>
                                             <textarea 
                                                 name="{{ $language->slug }}_para_2" 
-                                                class="form-control mb-3" 
+                                                class="form-control mb-3 ckeditor" 
                                                 id="para_1_{{ $language->slug }}" 
                                                 {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
                                                 rows="10"
                                                 required>{{ $cmsRecords[$language->slug]->short_description1 ?? '' }}</textarea>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="para_3_{{ $language->slug }}" class="form-label">Small Description 3</label>
+                                            <label for="para_3_{{ $language->slug }}" class="form-label">Description 3</label>
                                             <textarea 
                                                 name="{{ $language->slug }}_para_3" 
                                                 class="form-control  mb-3" 
@@ -277,7 +311,7 @@
                                                 required>{{ $cmsRecords[$language->slug]->short_description2 ?? '' }}</textarea>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="para_4_{{ $language->slug }}" class="form-label">Small Description 4</label>
+                                            <label for="para_4_{{ $language->slug }}" class="form-label">Description 4</label>
                                             <textarea 
                                                 name="{{ $language->slug }}_para_4" 
                                                 class="form-control mb-3" 
@@ -287,12 +321,20 @@
                                                 required>{{ $cmsRecords[$language->slug]->short_description3 ?? '' }}</textarea>
                                         </div>
                                     </div>
-                                </form>
+                                            <!-- Add Button Link -->
+                                            
+                                            <a href="#" id="addRow_{{ $language->slug }}" class="add-button-link link link-primary">Add a Button</a>
+
+<div id="buttonFields_{{ $language->slug }}" style="display: none;">
+    
+</div>
+                        
+                                    </form>
                             </div>
                         @endforeach
                     </div>
                     
-                        
+                            
                         <!-- Image section -->
                     <div class="card">
                         <div class="card-header">
@@ -394,28 +436,32 @@
                                                     value="{{ $language->slug }}"
                                             >
                                         </div>
-                                        <div class="col-md-6">
-                                            <label for="btn_txt_{{ $language->slug }}" class="form-label">Button Text</label>
-                                            <input type="text" 
-                                                    name="{{ $language->slug }}_btn_txt" 
-                                                    class="form-control" 
-                                                    id="btn_txt_{{ $language->slug }}" 
-                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
-                                                    value="{{ $cmsRecords[$language->slug]->title1 ?? '' }}"
-                                                    required>
-                                            </div>
+                                        {{-- <div class="col-md-6 mt-3">
+                                <label for="btn_{{ $language->slug }}" class="form-label">Button Text</label>
+                                <input type="text" name="{{ $language->slug }}btn" class="form-control" id="btn{{ $language->slug }}" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                value="{{ old("{$language->slug}_btn", $primaryCms->button_text ?? ($language->slug === 'en' ? $primaryCms->button_text : '')) }}" 
+                                required>
+                            </div> --}}
                     
                                         <div class="col-md-12">
-                                            <label for="para_1_{{ $language->slug }}" class="form-label my-3">Small Description</label>
+                                            <label for="para_1_{{ $language->slug }}" class="form-label my-3">Description</label>
                                             <textarea 
                                                 name="{{ $language->slug }}_para_1" 
-                                                class="form-control" 
+                                                class="form-control ckeditor mb-3" 
                                                 id="para_1_{{ $language->slug }}" 
                                                 {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
                                                 rows="10"
                                                 required>{{ $cmsRecords[$language->slug]->short_description ?? '' }}</textarea>
                                         </div>
                                     </div>
+                                 <!-- Add Button Link -->
+                                
+                                 <a href="#" id="addRow_{{ $language->slug }}" class="add-button-link link link-primary">Add a Button</a>
+
+<div id="buttonFields_{{ $language->slug }}" style="display: none;">
+    
+</div>
+            
                                 </form>
                             </div>
                         @endforeach
@@ -423,25 +469,59 @@
                     
                         
                         <!-- Prices & Image section -->
+                        
+                        <!-- Image section -->
                         <div class="card">
-                        <div class="card-header">
-                            Images
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
+                          <div class="card-header">
+                            Media
+                          </div>
+                          <div class="card-body">
+                            <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="image1" class="form-label">Image 1</label>
-                                    <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
-                                    @if($primaryCms->image1)
-                                    <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
-                                    @endif
+                                  <label class="form-label">Select Media Type:</label>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="mediaType" id="imageOption" value="image">
+                                    <label class="form-check-label" for="imageOption">
+                                      Image
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="mediaType" id="videoOption" value="video" checked>
+                                    <label class="form-check-label" for="videoOption">
+                                      Video
+                                    </label>
+                                  </div>
                                 </div>
-                                <div class="col-md-12" style="text-align: right;">
-                                    <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
+                              </div>
+                            {{-- <div class="row">
+                                <div class="col-md-6">
+                                    <label for="video1" class="form-label">Video</label>
+                                    <input type="file" name="videos[video1]" id="vidInp1" accept="video/*" class="form-control input-default" placeholder="Select video">
+                        
+                                    <video src="" id="output1" width="500" class="my-3" controls></video>
+                                </div>
+                            </div> --}}
+                            
+                            <!-- Image Section -->
+                           <!-- Image Section -->
+                            <div id="imageSection" class="row" style="display:none;">
+                                <div class="col-md-6">
+                                    <label for="image1" class="form-label">Image</label>
+                                    <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    <img src="" id="imageOutput" class="my-3 w-100" style="display:none;" />
+                                </div>
+                            </div>
+
+                            <!-- Video Section -->
+                            <div id="videoSection" class="row">
+                                <div class="col-md-6">
+                                    <label for="video1" class="form-label">Video</label>
+                                    <input type="file" name="videos[video1]" id="vidInp1" accept="video/*" class="form-control input-default" placeholder="Select video">
+                                    <video src="" id="videoOutput"  class="my-3 w-100" controls style="display:none;"></video>
                                 </div>
                             </div>
                         </div>
-                        </div>
+                    </div>
                 
                 
                     
@@ -500,22 +580,18 @@
                                                     value="{{ $language->slug }}"
                                             >
                                         </div>
-                                        <div class="col-md-6">
-                                            <label for="btn_{{ $language->slug }}" class="form-label">Button Text</label>
-                                            <input type="text" 
-                                                    name="{{ $language->slug }}_btn" 
-                                                    class="form-control" 
-                                                    id="btn_{{ $language->slug }}" 
-                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
-                                                    value="{{ $cmsRecords[$language->slug]->title1 ?? '' }}"
-                                                    required>
-                                        </div>
+                                       {{-- <div class="col-md-6 mt-3">
+                                <label for="btn_{{ $language->slug }}" class="form-label">Button Text</label>
+                                <input type="text" name="{{ $language->slug }}btn" class="form-control" id="btn{{ $language->slug }}" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                value="{{ old("{$language->slug}_btn", $primaryCms->button_text ?? ($language->slug === 'en' ? $primaryCms->button_text : '')) }}" 
+                                required>
+                            </div> --}}
                     
                                         
                                     </div>
                                     <div class="row g3 my-3">
                                         <div class="col-md-12">
-                                            <label for="para_1_{{ $language->slug }}" class="form-label">Content</label>
+                                            <label for="para_1_{{ $language->slug }}" class="form-label">Description</label>
                                             <textarea 
                                                 name="{{ $language->slug }}_para_1" 
                                                 class="form-control  mb-3 ckeditor" 
@@ -527,27 +603,73 @@
                                         
                     
                                     </div>
+                                 <!-- Add Button Link -->
+                                
+                                 <a href="#" id="addRow_{{ $language->slug }}" class="add-button-link link link-primary">Add a Button</a>
+
+<div id="buttonFields_{{ $language->slug }}" style="display: none;">
+    
+</div>
+            
+            
                                 </form>
                             </div>
                         @endforeach
                     </div>
                     
                         
+                     
                         <!-- Image section -->
-                    <div class="card">
-                        <div class="card-header">
-                            Image & Link
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
+                        <div class="card">
+                          <div class="card-header">
+                            Media
+                          </div>
+                          <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                  <label class="form-label">Select Media Type:</label>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="mediaType" id="imageOption" value="image">
+                                    <label class="form-check-label" for="imageOption">
+                                      Image
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="mediaType" id="videoOption" value="video" checked>
+                                    <label class="form-check-label" for="videoOption">
+                                      Video
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            {{-- <div class="row">
+                                <div class="col-md-6">
+                                    <label for="video1" class="form-label">Video</label>
+                                    <input type="file" name="videos[video1]" id="vidInp1" accept="video/*" class="form-control input-default" placeholder="Select video">
+                        
+                                    <video src="" id="output1" width="500" class="my-3" controls></video>
+                                </div>
+                            </div> --}}
+                            
+                            <!-- Image Section -->
+                           <!-- Image Section -->
+                            <div id="imageSection" class="row" style="display:none;">
                                 <div class="col-md-6">
                                     <label for="image1" class="form-label">Image</label>
                                     <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
-                                    @if($primaryCms->image1)
-                                    <img src="{{ Storage::url($primaryCms->image1) }}" id="output1" width="100" class="my-3">
-                                    @endif
+                                    <img src="" id="imageOutput" class="my-3 w-100" style="display:none;" />
                                 </div>
+                            </div>
+
+                            <!-- Video Section -->
+                            <div id="videoSection" class="row">
                                 <div class="col-md-6">
+                                    <label for="video1" class="form-label">Video</label>
+                                    <input type="file" name="videos[video1]" id="vidInp1" accept="video/*" class="form-control input-default" placeholder="Select video">
+                                    <video src="" id="videoOutput"  class="my-3 w-100" controls style="display:none;"></video>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                     <label for="video_link" class="form-label">Video Link</label>
                                     <input type="text" 
                                     name="video_link" id="video_link" 
@@ -557,10 +679,6 @@
                                     @if( $primaryCms->title2)   
                                     <a href="{{$primaryCms->title2 }}" class="btn btn-primary mt-3" target="_blank">Go To video</a>                               
                                     @endif
-                                </div>
-                                <div class="col-md-12" style="text-align: right;">
-                                    <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -575,7 +693,7 @@
     </div>
     </section>
 @elseif($primaryCms->slug=='faq')
-    <section class="section">
+   {{--<section class="section">
         <div class="row">
         
             <div class="col-lg-12">
@@ -603,7 +721,7 @@
                                 id="{{ $language->slug }}" 
                                 role="tabpanel" 
                                 aria-labelledby="{{ $language->slug }}-tab">
-                                <form class="" method="POST" action="{{ route('cmspages.update', $primaryCms->id) }}" enctype="multipart/form-data">
+                                <form class="" method="" action="{{ route('cmspages.update', $primaryCms->id) }}" enctype="multipart/form-data">
                                     @csrf
                                     @method('POST')
                                     <div class="row g3 my-3">
@@ -700,6 +818,16 @@
                                         
                     
                                     </div>
+                                 <!-- Add Button Link -->
+                                
+                                 <a href="#" id="addRow_{{ $language->slug }}" class="add-button-link link link-primary">Add a Button</a>
+
+<div id="buttonFields_{{ $language->slug }}" style="display: none;">
+    
+</div>
+                            </div>
+            
+            
                                 </form>
                             </div>
                         @endforeach
@@ -735,9 +863,221 @@
     </div>
     </div>
     </div>
+    </section> 
+    --}}
+    <section class="section">
+        <div class="row">
+        
+            <div class="col-lg-12">
+                <div class="card">
+                
+            </div>
+            
+                    <div class="card-body">
+                        <!-- <h5 class="card-title">Home Slider Form</h5> -->
+                        <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
+                            @foreach($languages as $index => $language)
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
+                                        id="{{ $language->slug }}-tab" 
+                                        data-bs-toggle="tab" 
+                                        href="#{{ $language->slug }}" 
+                                        role="tab" 
+                                        aria-controls="{{ $language->slug }}" 
+                                        aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
+                                        {{ ucfirst($language->name) }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content" id="languageTabsContent">
+                        @foreach($languages as $index => $language)
+                            <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
+                                id="{{ $language->slug }}" 
+                                role="tabpanel" 
+                                aria-labelledby="{{ $language->slug }}-tab">
+                                <form class="" method="POST" action="{{ route('cmspages.update', $primaryCms->id) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('POST')
+                                    <div class="row g3 my-3">
+                                        <div class="col-md-6">
+                                            <label for="title_{{ $language->slug }}" class="form-label">Heading</label>
+                                            <input type="text" 
+                                                    name="{{ $language->slug }}_title" 
+                                                    class="form-control" 
+                                                    id="title_{{ $language->slug }}" 
+                                                    {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                    value="{{ $cmsRecords[$language->slug]->title ?? '' }}"
+                                                    required>
+                                            <input type="hidden" 
+                                                    name="language" 
+                                                    value="{{ $language->slug }}"
+                                            >
+                                        </div>
+                                        {{-- <div class="col-md-6 mt-3">
+                                <label for="btn_{{ $language->slug }}" class="form-label">Button Text</label>
+                                <input type="text" name="{{ $language->slug }}btn" class="form-control" id="btn{{ $language->slug }}" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                value="{{ old("{$language->slug}_btn", $primaryCms->button_text ?? ($language->slug === 'en' ? $primaryCms->button_text : '')) }}" 
+                                required>
+                            </div> --}}  
+                    
+                                        <div class="col-md-12">
+                                            <label for="para_1_{{ $language->slug }}" class="form-label my-3">Description</label>
+                                            <textarea 
+                                                name="{{ $language->slug }}_para_1" 
+                                                class="form-control ckeditor mb-3" 
+                                                id="para_1_{{ $language->slug }}" 
+                                                {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                rows="10"
+                                                required>{{ $cmsRecords[$language->slug]->short_description ?? '' }}</textarea>
+                                        </div>
+                                    </div>
+                                    <a href="#" id="addRow_{{ $language->slug }}" class="add-button-link link link-primary">Add a Button</a>
+
+<div id="buttonFields_{{ $language->slug }}" style="display: none;">
+    
+</div>
+                                </form>
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                        
+                        <!-- Prices & Image section -->
+                        
+                        <!-- Image section -->
+                        <div class="card">
+                          <div class="card-header">
+                            Media
+                          </div>
+                          <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                  <label class="form-label">Select Media Type:</label>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="mediaType" id="imageOption" value="image">
+                                    <label class="form-check-label" for="imageOption">
+                                      Image
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="mediaType" id="videoOption" value="video" checked>
+                                    <label class="form-check-label" for="videoOption">
+                                      Video
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            {{-- <div class="row">
+                                <div class="col-md-6">
+                                    <label for="video1" class="form-label">Video</label>
+                                    <input type="file" name="videos[video1]" id="vidInp1" accept="video/*" class="form-control input-default" placeholder="Select video">
+                        
+                                    <video src="" id="output1" width="500" class="my-3" controls></video>
+                                </div>
+                            </div> --}}
+                            
+                            <!-- Image Section -->
+                           <!-- Image Section -->
+                            <div id="imageSection" class="row" style="display:none;">
+                                <div class="col-md-6">
+                                    <label for="image1" class="form-label">Image</label>
+                                    <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
+                                    <img src="" id="imageOutput" class="my-3 w-100" style="display:none;" />
+                                </div>
+                            </div>
+
+                            <!-- Video Section -->
+                            <div id="videoSection" class="row">
+                                <div class="col-md-6">
+                                    <label for="video1" class="form-label">Video</label>
+                                    <input type="file" name="videos[video1]" id="vidInp1" accept="video/*" class="form-control input-default" placeholder="Select video">
+                                    <video src="" id="videoOutput"  class="my-3 w-100" controls style="display:none;"></video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="col-md-12" style="text-align: right;">
+                                    <button type="submit" class="btn btn-primary submit" id="submitAll">Update</button>
+                                </div>
+                
+                
+                    
+            
+            
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
     </section>
 @endif 
   </main>
+  <script>
+$(document).ready(function () {
+    $('a.add-button-link').each(function () {
+        const languageSlug = $(this).attr('id').split('_')[1]; // Extract the language slug from the ID
+
+        const addButtonLink = $(`#addRow_${languageSlug}`);
+        const buttonFieldsContainer = $(`#buttonFields_${languageSlug}`);
+
+        if (!addButtonLink.length || !buttonFieldsContainer.length) {
+            console.error(`Missing button field elements for language: ${languageSlug}`);
+            return;
+        }
+
+        // Function to create a new button field row
+        function createButtonFieldRow(slug) {
+            return $(`
+                <div class="button-field-row">
+                    <div class="col-md-6 mt-3">
+                        <label for="btn_${slug}" class="form-label">Button Text</label>
+                        <input type="text" name="${slug}btn" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <label for="btn_link_${slug}" class="form-label">Button Link</label>
+                        <input type="text" name="${slug}_btn_link" class="form-control" required>
+                        <a href="#" class="remove-button-link link link-danger mt-3">Remove Button</a>
+                    </div>
+                </div>
+            `);
+        }
+
+        // Toggle the visibility of the container and add/remove rows
+        addButtonLink.on('click', function (event) {
+            event.preventDefault();
+
+            if (buttonFieldsContainer.is(':visible')) {
+                // Hide the container and clear all rows
+                buttonFieldsContainer.hide().empty();
+                addButtonLink.show(); // Show the add button back
+            } else {
+                // Show the container, append a new row, and hide the add button
+                const newRow = createButtonFieldRow(languageSlug);
+                buttonFieldsContainer.append(newRow).show();
+                addButtonLink.hide(); // Hide the add button
+            }
+        });
+
+        // Handle dynamic removal of rows
+        buttonFieldsContainer.on('click', '.remove-button-link', function (event) {
+            event.preventDefault();
+            $(this).closest('.button-field-row').remove();
+            if (!buttonFieldsContainer.children('.button-field-row').length) {
+                buttonFieldsContainer.hide();
+                addButtonLink.show(); // Show the add button back
+            }
+        });
+    });
+});
+
+
+
+
+
+
+</script>
   {{-- <script>
     document.addEventListener('DOMContentLoaded', function () {
     const submitButton = document.getElementById('submitAll');
@@ -788,6 +1128,7 @@
             // Create a single FormData object
             const formData = new FormData();
             forms.forEach((form, formIndex) => {
+                
               // Append all form data (including hidden fields) to formData
               Array.from(form.elements).forEach(input => {
                   if (input.name) {
@@ -871,7 +1212,98 @@
     });
 });
 </script> --}}
+
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Media type toggle elements
+    const imageOption = document.getElementById('imageOption');
+    const btnAdd = document.getElementById('btnAdd');
+    const videoOption = document.getElementById('videoOption');
+    const imageSection = document.getElementById('imageSection');
+    const videoSection = document.getElementById('videoSection');
+    const imageInput = document.getElementById('imgInp1');
+    const videoInput = document.getElementById('vidInp1');
+    const imageOutput = document.getElementById('imageOutput');
+    const videoOutput = document.getElementById('videoOutput');
+
+    // Toggle media sections
+    function toggleMediaSections() {
+        if (imageOption.checked) {
+            imageSection.style.display = 'block';
+            imageOutput.style.display = 'block';
+            videoSection.style.display = 'none';
+
+            // Reset video input and output
+            videoInput.value = '';
+            videoOutput.src = '';
+            videoOutput.style.display = 'none';
+        } else if (videoOption.checked) {
+            imageSection.style.display = 'none';
+            videoSection.style.display = 'block';
+            videoOutput.style.display = 'block';
+
+            // Reset image input and output
+            imageInput.value = '';
+            imageOutput.src = '';
+            imageOutput.style.display = 'none';
+        }
+    }
+
+    // Image preview function
+    function loadImagePreview(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                imageOutput.src = e.target.result;
+                imageOutput.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Video preview function
+    function loadVideoPreview(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                videoOutput.src = e.target.result;
+                videoOutput.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Event listeners for toggle and preview
+    imageOption.addEventListener('change', toggleMediaSections);
+    videoOption.addEventListener('change', toggleMediaSections);
+    imageInput.addEventListener('change', loadImagePreview);
+    videoInput.addEventListener('change', loadVideoPreview);
+
+    // Initialize the form with the default state
+    toggleMediaSections();
+});
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // For each CKEditor instance
+    if (CKEDITOR && CKEDITOR.instances) {
+        Object.keys(CKEDITOR.instances).forEach(function(instanceName) {
+            var editor = CKEDITOR.instances[instanceName];
+            
+            // Add change event listener
+            editor.on('change', function() {
+                // Explicitly update the textarea with the editor's content
+                editor.updateElement();
+            });
+        });
+    }
+});
+    </script>
+<script>
+
     document.addEventListener('DOMContentLoaded', function () {
     const submitButton = document.getElementById('submitAll');
 
@@ -1011,6 +1443,59 @@
         }
     });
 });
+</script>
+
+<script>
+    $(document).ready(function () {
+        // Function to handle button field toggling
+        function setupButtonFieldToggle(form) {
+            // Select necessary elements within the form
+            const addButtonLink = form.querySelector('.add-button-link');
+            const buttonFields = form.querySelector('#buttonFields');
+            const removeButtonLink = buttonFields ? buttonFields.querySelector('.remove-button-link') : null;
+
+            // Validate required elements
+            if (!addButtonLink || !buttonFields || !removeButtonLink) {
+                console.error('Missing button field elements in form', form);
+                return;
+            }
+
+            // Show button fields when "Add a Button" is clicked
+            addButtonLink.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent scrolling to top
+
+                // Show the button fields
+                buttonFields.style.display = 'block';
+
+                // Hide the "Add a Button" link
+                addButtonLink.style.display = 'none';
+            });
+
+            // Hide button fields when "Remove Button" is clicked
+            removeButtonLink.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent scrolling to top
+
+                // Hide the button fields
+                buttonFields.style.display = 'none';
+
+                // Show the "Add a Button" link
+                addButtonLink.style.display = 'inline-block';
+
+                // Clear input values
+                const btnTextInput = buttonFields.querySelector(`input[name="{{ $language->slug }}btn"]`);
+                const btnLinkInput = buttonFields.querySelector(`input[name="{{ $language->slug }}btn_link"]`);
+
+                if (btnTextInput) btnTextInput.value = '';
+                if (btnLinkInput) btnLinkInput.value = '';
+            });
+        }
+
+        // Apply the setup to all forms
+        const forms = document.querySelectorAll('form');
+        forms.forEach((form) => {
+            setupButtonFieldToggle(form);
+        });
+    });
 </script>
 
 @include('Admin.include.footer')

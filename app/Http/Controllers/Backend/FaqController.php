@@ -5,142 +5,230 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Faq;
+use App\Models\Language;
+
 use DB;
 use App\Models\Question_description;
 class FaqController extends Controller
 {
     //
     public function index(){
-		$faq=Faq::all();
+		$faq=Faq::where('secondary_id','=','0')
+        ->get();
        //    $Question_description= Question_description::all();
 		return view('Admin.faq.index',compact('faq'));
 	
 }
 
 public function create(){
-		
-	return view('Admin.faq.add');
+    $languages=Language::all();
+	return view('Admin.faq.add',compact('languages'));
 	
 }
+
+
+public function update(Request $request, $id)
+    {
+        // dd($request);
+    $PrimaryQuestion = Faq::findOrFail($id);
+    // dd($PrimaryQuestion);
+
+    // Find all languages in the request
+    $languages = collect($request->all())
+        ->keys()
+        ->filter(function ($key) {
+            return strpos($key, '_title') !== false;
+        })
+        ->map(function ($key) {
+            return str_replace('_title', '', $key);
+        })
+        ->unique()
+        ->values();
+        // dd($languages); 
+	
+
+        $uploadedImages = [];
+        $imagePath = null; // Initialize the variable
+        
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $key => $image) {
+                // Check if the file is valid
+                if ($image->isValid()) {
+                    // Define unique filename
+                    $filename = time() . '_' . $image->getClientOriginalName();
+        
+                    // Move the file to the public/Frontend/images directory
+                    $image->move(public_path('Frontend/images'), $filename);
+        
+                    // Define the relative path to be stored
+                    $imagePath = 'Frontend/images/' . $filename;
+        
+                    // Store the path in the array
+                    $uploadedImages[$key] = $imagePath;
+                }
+            }
+        }else if($PrimaryQuestion->image){
+        $imagePath =$PrimaryQuestion->image;
+    }
+
+    // Validate each language's attributes
+    $validLanguages = $languages->filter(function ($language) use ($request) {
+        return $request->filled([
+             "{$language}_title",
+            "{$language}_description"
+        ]);
+    });
+	// dd($validLanguages);
+    $createdSliders = [];
+
+    // Create sliders for valid languages
+    foreach ($validLanguages as $key => $language) {
+        // Default data for the testimonial
+        $questionData = [
+            'question' => $request->input("{$language}_title"),
+            'answer' => $request->input("{$language}_description"),
+            'secondary_id'=>'0',
+            'language' => $language,
+        ];
+        // if ($language !== 'en') {$questionData['secondary_id'] = $id;}
+        // $allQuestionData[] = $questionData;
+
+
+        // If the language is not 'en', add the secondary_id
+        if ($language !== 'en') {
+            $questionData['secondary_id'] = $id;
+            $faq = Faq::where('secondary_id','=',$id)
+            ->where('language','=',$language)
+            ->first();
+            if($faq){
+                $faq->update($questionData);
+                $createdSliders[$language] = $faq;
+            } 
+            else{
+                $newTestimonial= Faq::create($questionData);
+                $createdSliders[$language] = $newTestimonial;
+            }          
+        }else {
+            $PrimaryQuestion->update($questionData);
+        }
+    }
+
+    return response()->json([
+        'message' => 'Forms submitted successfully',
+        'sliders' => $createdSliders,
+        'redirect' => route('faq.index')
+    ]);
+    }
+
+
 public function store(Request $request)
 {
-    // Validate the incoming request
-   //  $request->validate([
-   //      'q1.*' => 'required',
-   //      'ar_q1.*' => 'required', // Add validation for Arabic questions
-   //      'qesc1.*' => 'required',
-   //      'ar_qesc1.*' => 'required', // Add validation for Arabic question descriptions
-   //  ]);
+// dd('hello');
+        // dd($request)->all();
+        
+    // Find all languages in the request
+    $languages = collect($request->all())
+    ->keys()
+    ->filter(function ($key) {
+        return strpos($key, '_title') !== false;
+    })
+    ->map(function ($key) {
+        return str_replace('_title', '', $key);
+    })
+    ->unique()
+    ->values();
+    // dd($languages);
 
-    // Create a new FAQ instance
-  //  $faq = new Faq();
-    // Save the common fields for both English and Arabic questions here if needed
-    
-    // Save English questions and descriptions
-    $englishQuestions = $request->q1;
-    $englishQuestionDescriptions = $request->qesc1;
-    $arabicQuestions = $request->question_ar;
-    //return  $arabicQuestions;
-    $arabicQuestionDescriptions = $request->question_description_ar;
-    //$englishData = [];
-//     foreach ($englishQuestions as $index => $questions) {
-//       foreach ($arabicQuestions as $index => $question) {
-//       $faq->create([
-//             'question' => $questions,
-//             'question_description' => $englishQuestionDescriptions[$index],
-//             // Add any other fields if needed
-//             'question_ar' => $question,
-//             'question_description_ar' => $arabicQuestionDescriptions[$index],
-//         ]);
-       
-//     }
-//    }
-foreach ($englishQuestions as $index => $englishQuestion) {
-    // Create a new FAQ instance for each pair of questions
-    $faq = new Faq();
-    $faq->question = $englishQuestion;
-    $faq->question_description = $englishQuestionDescriptions[$index];
-    $faq->question_ar = $arabicQuestions[$index];
-    $faq->question_description_ar = $arabicQuestionDescriptions[$index];
-    $faq->save();
+$uploadedImages = [];
+if ($request->hasFile('images')) {
+    foreach ($request->file('images') as $key => $image) {
+        // Check if file exists
+        if ($image->isValid()) {
+            // Define unique filename and path
+            $imagePath = $image->store('media', 'public');
+
+            // Store image path in the result array
+            $uploadedImages[$key] = $imagePath;
+        }
+    }
 }
 
-    //$faq ->save();
-    // Save Arabic questions and descriptions
-    
-    //$arabicData = [];
-   //  foreach ($arabicQuestions as $index => $question) {
-   //    $faq->create([
-   //          'question_ar' => $question,
-   //          'question_description_ar' => $arabicQuestionDescriptions[$index],
-   //          // Add any other fields if needed
-   //      ]);
-   //     // return $arabicData;
-   //  }
-    //$faq ->save();
-    // Associate both English and Arabic questions with the FAQ entry
-   //  $faq->createMany($englishData);
-   //  $faq->createMany($arabicData);
+// Validate each language's attributes
+$validLanguages = $languages->filter(function ($language) use ($request) {
+    return $request->filled([
+        "{$language}_title",
+        "{$language}_description"
+    ]);
+});
+// dd($validLanguages);
 
-    // Redirect the user after storing the data
-    return redirect('admin/faq');
+
+$createdQuestion = [];
+$englishRecordId = null;
+
+// First, create the English record
+if ($validLanguages->contains('en')) {
+    
+    $englishRecord = Faq::create([
+        'question' => $request->input('en_title'),
+        'answer' => $request->input('en_description'),
+        'secondary_id' => '0', // Set the secondary_id to the English record's ID
+
+        'language' => 'en',
+    ]);
+    
+    // Store the ID of the English record
+    $englishRecordId = $englishRecord->id;
+    $createdQuestion['en'] = $englishRecord;
+}
+// dd($imagePath);
+// Create sliders for other languages and assign secondary_id for non-English languages
+foreach ($validLanguages as $language) {
+    if ($language !== 'en') {
+        $question = Faq::create([
+            'question' => $request->input("{$language}_title"),
+            'answer' => $request->input("{$language}_description"),
+            'language' => $language,
+            'secondary_id' => $englishRecordId, // Set the secondary_id to the English record's ID
+        ]);
+
+        $createdQuestion[$language] = $question;
+    }
+}
+// dd($createdQuestion);
+
+return response()->json([
+    'message' => 'Forms submitted successfully',
+    'sliders' => $createdQuestion,
+    'redirect' => route('faq.index'),
+]);
 }
 
 
 	public function edit($id)
 	{
-//         $faq=DB::table('faqs')
-//   ->join('question_descriptions','question_descriptions.faq_id','=','faqs.id')     
-// ->select('faqs.id as faq','faqs.label','faqs.title','faqs.description','question_descriptions.question','question_descriptions.question_description','question_descriptions.id as questionid')
-//    ->where('faqs.id','=',$id)
-   //->orderBy('id','DESC')
-//    ->get();
+        $primaryQuestion= Faq::findOrFail($id);
+        $questions = Faq::where('secondary_id',$id)->get();
+        // dd($questions);
+		$languages = Language::all();
 
-//print_r($faq);
- //  return 'hgh';
- $Question_description= Faq::findOrFail($id);;
-		//$faq=Faq::findOrFail($id);
-	//	return $Question_description;
-		return view('Admin.faq.edit',compact('Question_description'));
-	}
+        return view('Admin.faq.edit',compact('primaryQuestion','languages','questions'));
 
-	public function update(Request $request){
-		$res = Faq::find($request->id);
-        //return $res;
-        if ($request->has('q1')) {
-            $res->question = $request->input('q1');
-          //  return $res->question;
-        }
-        if ($request->has('qesc1')) {
-            $res->question_description = $request->input('qesc1');
-        }
-        if ($request->has('q_ar')) {
-            $res->question_ar = $request->input('q_ar');
-        }
-        if ($request->has('qesc_ar')) {
-            $res->question_description_ar = $request->input('qesc_ar');
-        }
- 
-        $res->save();
-      // } 
-  
-
-
-      
-
-  //return ;
-     // return  $question_descriptions;
-		return redirect('admin/faq');
-		}
+    }
 	public function delete($id)
 	{
-      Faq::findOrFail($id)->delete();
-        
+        $faqs = Faq::where('secondary_id', '=', $id)->get();
 
-//  $role_id= Question_description::where('id',$id);
-//                                        $role_id->delete();
-        //Question_description::findOrFail($id)->delete();
-	   return redirect()->back();
+        foreach ($faqs as $faq) {
+            $faq->delete();
+        }
+        $primaryQuestion = Faq::find($id);
+        if ($primaryQuestion) {
+            $primaryQuestion->delete();
+        }
+    
+        
+        return redirect()->back()->with('message', 'FAQ deleted successfully.');
 
 	}
 }

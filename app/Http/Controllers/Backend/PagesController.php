@@ -16,10 +16,10 @@ class PagesController extends Controller
     public function index(){
 		//return 'szfds';
 		$cms=CMS::where('slug','=','explore-more')
-        ->orWhere('slug','=','about-services')
+        // ->orWhere('slug','=','about-services')
         ->orWhere('slug','=','memories')
         ->orWhere('slug','=','tour-video')
-        ->orWhere('slug','=','faq')
+         ->orWhere('slug','=','faq')
 		->get();
 		return view('Admin.cmspages.index',compact('cms'));
 	
@@ -84,7 +84,7 @@ public function store(Request $request){
 }
 public function update(Request $request, $id)
 {
-    // dd($request);
+    // dd($request->all());
     // Find the primary CMS record
     $primaryCms = CMS::findOrFail($id);
     $uploadedImages = [];
@@ -137,7 +137,8 @@ public function update(Request $request, $id)
             if (!$request->filled([
                 "{$language}_title",
                 "{$language}_para_1",
-                "{$language}_para_2"
+                "{$language}btn",
+                "{$language}btn_link",
             ])) {
                 continue;
             }
@@ -161,10 +162,11 @@ public function update(Request $request, $id)
             $cmsData = [
                 'title' => $request->input("{$language}_title"),
                 'short_description' => $request->input("{$language}_para_1"),
-                'short_description1' => $request->input("{$language}_para_2"),
+                'short_description1' => $request->input("{$language}btn"),
+                'short_description2' => $request->input("{$language}btn_link"),
                 'slug' => $language === 'en' ? 'explore-more' : "explore-more-{$language}",
             ];
-            // dd($cmsData);
+            dd($cmsData);
             
             // Add image path if provided
             if ($imagePath) {
@@ -349,14 +351,11 @@ public function update(Request $request, $id)
             // Skip if required fields are not filled
             if (!$request->filled([
                 "{$language}_title",
-                "{$language}_Qtitle_2",
-                "{$language}_Qtitle_3",
-                "{$language}_Qtitle_4",
                 "{$language}_para_1",
-                "{$language}_para_2",
-                "{$language}_para_3",
-                "{$language}_para_4",
+                // "{$language}btn",
+                // "{$language}btn_link",
             ])) {
+                dd('conts');
                 continue;
             }
             
@@ -377,14 +376,10 @@ public function update(Request $request, $id)
             
             // Prepare CMS data
             $cmsData = [
-                'title1' => $request->input("{$language}_title"),
-                'title2' => $request->input("{$language}_Qtitle_2"),
-                'title3' => $request->input("{$language}_Qtitle_3"),
-                'title4' => $request->input("{$language}_Qtitle_4"),
-                'tagline1' => $request->input("{$language}_para_1"),
-                'tagline2' => $request->input("{$language}_para_2"),
-                'tagline3' => $request->input("{$language}_para_3"),
-                'tagline4' => $request->input("{$language}_para_4"),
+                'title' => $request->input("{$language}_title"),
+                'short_description' => $request->input("{$language}_para_1"),
+                // 'short_description1' => $request->input("{$language}btn"),
+                // 'short_description2' => $request->input("{$language}btn_link"),
                 'slug' => $language === 'en' ? 'faq' : "faq-{$language}",
             ];
             // dd($cmsData);    

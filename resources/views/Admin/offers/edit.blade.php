@@ -46,7 +46,7 @@
                                     <form class="" method="POST" action="{{ route('offers.update', $primaryOffer->id) }}" enctype="multipart/form-data">
                                         @csrf
                                         @method('POST')
-                                        <div class="row g3 my-3">
+                                        <!-- <div class="row g3 my-3">
                                             <div class="col-md-6">
                                                 <label for="title_{{ $language->slug }}" class="form-label">Title</label>
                                                 <input type="text" 
@@ -60,9 +60,12 @@
                                                        name="language" 
                                                        value="{{ $language->slug }}"
                                                 >
-                                            </div>
-                        
-                                            <div class="col-md-6">
+                                            </div> -->
+                                            <div class="col-md-12 mt-2">
+                                                    <label for="price" class="form-label">Title</label>
+                                                    <input name="{{ $language->slug }}_title" class="form-control" id="title" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }}  value="{{ $offers[$language->slug]->title ?? '' }}">
+                                                </div>
+                                            <!-- <div class="col-md-6">
                                                 <label for="type_{{ $language->slug }}" class="form-label">Service Type</label>
                                                 <input type="text" 
                                                        name="{{ $language->slug }}_type" 
@@ -71,10 +74,10 @@
                                                        {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
                                                        value="{{ $offers[$language->slug]->type ?? '' }}"
                                                        required>
-                                            </div>
-                                        </div>
+                                            </div> -->
+                                        <!-- </div> -->
                                         
-                                        <div class="row g-3 mb-3">
+                                        <!-- <div class="row g-3 mb-3">
                                             <div class="col-md-4">
                                                 <label for="feature1_{{ $language->slug }}" class="form-label">Feature 1</label>
                                                 <input type="text" 
@@ -106,7 +109,16 @@
                                                        {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }}
                                                        value="{{ $offers[$language->slug]->feature3 ?? '' }}"
                                                        required>
-                                            </div>
+                                            </div> -->
+                                            <div class="col-md-12">
+                                        <label for="description_{{ $language->slug }}" class="form-label">Description</label>
+                                        <textarea name="{{ $language->slug }}_description" 
+                                                  class="form-control ckeditor" 
+                                                  id="description_{{ $language->slug }}" 
+                                                  rows="5" 
+                                                  > {{ $offers[$language->slug]->description ?? '' }}</textarea>
+                                                  
+                                    </div>
                                         </div>
                                     </form>
                                 </div>
@@ -130,11 +142,11 @@
                         
                                     <div class="col-md-6">
                                         <label for="price" class="form-label">Price</label>
-                                        <input name="price" class="form-control" id="price" value="{{ $primaryOffer->price }}" required>
+                                        <input name="price" class="form-control" id="price" value="{{ $offers->price }}" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="discount_price" class="form-label">Discount Price</label>
-                                        <input name="discount_price" class="form-control" id="discount_price" value="{{ $primaryOffer->discount_price }}" required>
+                                        <input name="discount_price" class="form-control" id="discount_price" value="{{ $primaryOffer->price }}" required>
                                     </div>
                         
                                     <div class="col-md-12" style="text-align: right;">

@@ -44,9 +44,9 @@
                             id="{{ $language->slug }}" 
                             role="tabpanel" 
                             aria-labelledby="{{ $language->slug }}-tab">
-                            <form class="" method="POST" action="{{ route('offers.store') }}" enctype="multipart/form-data">
+                            <form class="" method="POST" action="{{ route('offers.store.excursion') }}" enctype="multipart/form-data" id="packageForm">
                                 @csrf
-                                <div class="row g3 my-3">
+                                <!-- <div class="row g3 my-3">
 
                                     <div class="col-md-6">
                                         <label for="title_{{ $language->slug }}" class="form-label">Title</label>
@@ -81,10 +81,30 @@
                                     </div>
 
 
-                                </div>
+                                </div> -->
+                                <div class="row">
+                                        <div class="col-md-12 mt-2">
+                                            <label for="title_{{ $language->slug }}" class="form-label">Title</label>
+                                            <input name="{{ $language->slug }}_title" 
+                                                   class="form-control" 
+                                                   id="title_{{ $language->slug }}" 
+                                                   style="{{ $language->slug === 'ar' ? 'direction:rtl;' : '' }}">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="description_{{ $language->slug }}" class="form-label">Description</label>
+                                            <textarea name="{{ $language->slug }}_description" 
+          class="form-control ckeditor" 
+          id="description_{{ $language->slug }}" 
+          rows="5" 
+          style="{{ $language->slug === 'ar' ? 'direction:rtl;' : '' }}">
+</textarea>
+<input type="hidden" name="type" class="form-control" id="type" value="1">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="languages[{{ $language->slug }}]" value="{{ $language->slug }}">
+                               
                                 
-                                
-                            </form>
+                           
                         </div>
                     @endforeach
                 </div>
@@ -98,21 +118,24 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="image" class="form-label">Image</label>
-                        <input type="file" name="images" id="imgInp" required="" accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile(event)">
+                        <input type="file" name="image" id="imgInp" required="" accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile(event)">
                         <a href=""><img src="" id="output"  width="100" ></a>
                     </div>
 
                     <div class="col-md-6">
                         <label for="price" class="form-label">Price</label>
-                        <input name="price" class="form-control" id="price" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} required>
+                        <input name="price" class="form-control" id="price" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} >
                     </div>
                     <div class="col-md-6">
                         <label for="discount_price" class="form-label"> Discount Price</label>
-                        <input name="discount_price" class="form-control" id="discount_price" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} required>
+                        <input name="discount_price" class="form-control" id="discount_price" {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} >
                     </div>
+                   
+    <input type="hidden" name="type" class="form-control" id="type" value="1" readonly>
+
 
                     <div class="col-md-12" style="text-align: right;">
-                        <button type="button" class="btn btn-primary submit" id="submitAll">Submit</button>
+                        <button type="submit" class="btn btn-primary submit" id="submitAll">Submit</button>
                     </div>
                 </div>
             </div>
@@ -141,142 +164,19 @@ reader.onload = function(){
     output1.src = reader.result;
 };
 reader.readAsDataURL(event.target.files[0]);
-};
-
-document.addEventListener('DOMContentLoaded', function() {
-
-//alert('hdsjf');
-
-function toggleLanguageTab(lang) {
-    console.log('Language tab clicked:', lang);
-    if (lang === 'english') {
-    document.getElementById('english-tab').classList.add('active');
-document.getElementById('arabic-tab').classList.remove('active');
-document.getElementById('english').classList.add('active', 'show');
-document.getElementById('arabic').classList.remove('active', 'show');
-    
-    document.getElementById('title-label').textContent = 'Title';
-    document.getElementById('label-label').textContent = 'Label';
-    document.getElementById('description-label').textContent = 'Description';
-    document.getElementById('button-label').textContent = 'Button';
-    document.getElementById('imgInp').textContent = 'Image';
-    
-    
-    } else {
-
-    document.getElementById('arabic-tab').classList.add('active');
-document.getElementById('english-tab').classList.remove('active');
-document.getElementById('arabic').classList.add('active', 'show');
-document.getElementById('english').classList.remove('active', 'show');
-    document.getElementById('arabic').classList.add('active');
-    document.getElementById('english').classList.remove('active');
-    document.getElementById('arabic').classList.add('rtl');
-    
-    
-    }
 }
 
-// Event listener for English tab click
-document.getElementById('english-tab').addEventListener('click', function() {
-    toggleLanguageTab('english');
-});
 
-// Event listener for Arabic tab click
-document.getElementById('arabic-tab').addEventListener('click', function() {
-    toggleLanguageTab('arabic');
-});
-
-// Function to handle file input change event
-
-});
 
 </script>
 @include('Admin.include.footer')
 @include('Admin.include.script')
 <script>
-document.getElementById('submitAll').addEventListener('click', function () {
-    // Find all forms inside the tab content
-    const forms = document.querySelectorAll('#languageTabsContent form');
-    
-    // Get the price and discount price fields
-    const price = document.getElementById('price').value;
-    const discountPrice = document.getElementById('discount_price').value;
-    
-    // Get the image file if selected
-    const imageInput = document.getElementById('imgInp');
-    const imageFile = imageInput.files[0];
-
-    // Create a single FormData object to store all form data
-    const formData = new FormData();
-
-    // Iterate through each form and append its inputs to the single FormData object
-    forms.forEach(form => {
-        // Skip empty forms (without any visible input)
-        const hasInput = Array.from(form.elements).some(input => {
-            return input.value.trim() !== ''; // Include hidden fields as well
-        });
-        if (!hasInput) {
-            console.log(`Skipping form: ${form.id} (no input provided)`);
-            return;
-        }
-
-        // Append all form data (including hidden fields) to formData
-        Array.from(form.elements).forEach(input => {
-            formData.append(input.name, input.value);
-        });
-
-        // Append the CSRF token if it's not already in the formData (to avoid duplicates)
-        const csrfToken = form.querySelector('input[name="_token"]');
-        if (csrfToken && !formData.has('_token')) {
-            formData.append('_token', csrfToken.value);
+    // Ensure CKEditor updates its data before form submission
+    document.getElementById('packageForm').addEventListener('submit', function() {
+        for (const instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
         }
     });
-
-    // Append the price and discount price fields to the FormData
-    formData.append('price', price);
-    formData.append('discount_price', discountPrice);
-
-    // Append image to FormData if an image file is selected
-    if (imageFile) {
-        formData.append('images', imageFile);
-    }else if(!imageFile){
-        alert('No file');
-    }
-
-    // Debug: Log all form data being submitted
-    console.log('Submitting all form data:');
-    for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-    }
-
-    // Send a single AJAX request to submit the combined form data
-    fetch('{{ route('offers.store') }}', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            // If you're using a CSRF token globally, you can set it in the headers.
-            // 'X-CSRF-TOKEN': csrfToken.value // Only needed if you need to send it separately in headers
-        }
-    })
-        .then(response => {
-            // Handle response statuses
-            if (!response.ok) {
-                return response.json().then(err => {
-                    console.error(`Validation errors:`, err.errors);
-                    alert(`Validation errors: ${JSON.stringify(err.errors)}`);
-                    throw new Error('Validation failed');
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Forms submitted successfully:', data);
-            alert("Forms submitted successfully.");
-        })
-        .catch(error => {
-            console.error('Error submitting forms:', error);
-            alert('Error submitting forms: ' + error.message);
-        });
-});
-
 </script>
+

@@ -63,7 +63,7 @@
                                         <div class="col-md-12">
                                             <label for="description_{{ $language->slug }}" class="form-label">Review</label>
                                             <textarea name="{{ $language->slug }}_description" 
-                                                      class="form-control" 
+                                                      class="form-control ckeditor " 
                                                       id="description_{{ $language->slug }}" 
                                                       rows="10" 
                                                       {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
@@ -73,6 +73,11 @@
                                         @if ($language->slug !== 'en')
                                             <input type="hidden" name="secondary_id" value="{{ $PrimaryTestimonial->id }}">
                                         @endif
+                                        <!-- <a href="#" id="addRow_{{ $language->slug }}" class="add-button-link link link-primary">Add a Button</a> -->
+
+                                        <div id="buttonFields_{{ $language->slug }}" style="display: none;">
+
+                                        </div>  
                                     </form>
                                 </div>
                             @endforeach
@@ -111,6 +116,79 @@
   <!-- End #main -->
 @include('Admin.include.footer')
 @include('Admin.include.script')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // For each CKEditor instance
+    if (CKEDITOR && CKEDITOR.instances) {
+        Object.keys(CKEDITOR.instances).forEach(function(instanceName) {
+            var editor = CKEDITOR.instances[instanceName];
+            
+            // Add change event listener
+            editor.on('change', function() {
+                // Explicitly update the textarea with the editor's content
+                editor.updateElement();
+            });
+        });
+    }
+});
+</script>
+<script>
+$(document).ready(function () {
+    $('a.add-button-link').each(function () {
+        const languageSlug = $(this).attr('id').split('_')[1]; // Extract the language slug from the ID
+        
+        const addButtonLink = $(`#addRow_${languageSlug}`);
+        const buttonFieldsContainer = $(`#buttonFields_${languageSlug}`);
+        
+        if (!addButtonLink.length || !buttonFieldsContainer.length) {
+            console.error(`Missing button field elements for language: ${languageSlug}`);
+            return;
+        }
+        
+        // Function to create a new button field row
+        function createButtonFieldRow(slug) {
+            return $(`
+            <div class="button-field-row">
+            <div class="col-md-6 mt-3">
+            <label for="btn_${slug}" class="form-label">Button Text</label>
+            <input type="text" name="${slug}btn[]" class="form-control" required>
+            </div>
+            <div class="col-md-6 mt-3">
+            
+            ${
+                slug === 'en'
+            ? `
+            <label for="btn_link_${slug}" class="form-label">Button Link</label>
+            <input type="text" name="${slug}btn_link[]" class="form-control" required>`
+            : ''
+            }
+            <a href="#" class="remove-button-link link link-danger mt-3">Remove Button</a>
+            </div>
+            </div>
+            `);
+        }
+        
+        // Add 1 new row on button click
+        addButtonLink.on('click', function (event) {
+            event.preventDefault();
+            
+            // Append only 1 row
+            const newRow = createButtonFieldRow(languageSlug);
+            buttonFieldsContainer.append(newRow).show();
+        });
+        
+        // Handle dynamic removal of rows
+        buttonFieldsContainer.on('click', '.remove-button-link', function (event) {
+            event.preventDefault();
+            $(this).closest('.button-field-row').remove();
+            if (!buttonFieldsContainer.children('.button-field-row').length) {
+                buttonFieldsContainer.hide();
+            }
+        });
+    });
+});
+
+</script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
   const submitButton = document.getElementById('submitAll');

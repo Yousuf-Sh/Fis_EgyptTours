@@ -18,6 +18,8 @@ use App\Http\Controllers\Backend\ServicesController;
 use App\Http\Controllers\Backend\GeneralController;
 use App\Http\Controllers\Backend\MembersCategoryController;
 use App\Http\Controllers\Backend\IotController;
+use App\Http\Controllers\Backend\LanguageController;
+use App\Http\Controllers\Backend\PartnerController;
 //use App\Http\Controllers\Backend\FaqController;
 
 use App\Http\Controllers\AdminController;
@@ -31,7 +33,8 @@ use App\Http\Controllers\Backend\TestimonialsController;
 use App\Http\Controllers\Backend\FooterController;
 use App\Http\Controllers\Backend\SubmissionController;
 use App\Http\Controllers\Backend\CommitteeListController;
-use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Backend\ContactFormController;
+// use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Backend\ServicesDetailsController;
 use App\Http\Controllers\Backend\ServicesMenuController ;
 use App\Http\Controllers\BlogController ;
@@ -39,6 +42,7 @@ use App\Http\Controllers\newsletterController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ExploreController;
 
+use App\Http\Controllers\Frontend\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,33 +56,56 @@ use App\Http\Controllers\ExploreController;
 */
 // Routes without locale prefix
 // routes/web.php
-Route::post('/upload-image', [HomeController::class,'image'])->name('upload.image');
- Route::get('/page/{slug}',[HomeController::class,'show'])->name('page.show');
- Route::post('ckeditor/upload', [HomeController::class, 'upload'])->name('ckeditor.upload');
-Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
-Route::get('/distribution', [HomeController::class, 'distribution'])->name('distribution');
-Route::get('/food-services', [HomeController::class, 'food_services'])->name('food-services');
-Route::get('/wholesale', [HomeController::class, 'wholesale'])->name('wholesale');
-Route::get('/Catering', [HomeController::class, 'Catering'])->name('Catering');
-Route::get('/uniform-safety', [HomeController::class, 'uniform_safety'])->name('uniform-safety');
-Route::get('/Iot', [HomeController::class, 'Iot'])->name('Iot');
-Route::get('/Project', [HomeController::class, 'Project'])->name('Project');
-Route::get('/business-consultancy', [HomeController::class, 'business_consultancy'])->name('business-consultancy');
-Route::get('/barcode', [HomeController::class, 'barcode'])->name('barcode');
-Route::get('/construction', [HomeController::class, 'construction'])->name('construction');
-Route::get('/services', [HomeController::class, 'services'])->name('services');
-// Route::get('/services', [HomeController::class, 'services'])->name('services');
-
-Route::get('/partners', [HomeController::class, 'partners'])->name('partners');
-Route::get('/testimonials', [HomeController::class, 'testimonials'])->name('testimonials');
-Route::get('/faqs', [HomeController::class, 'faqs'])->name('faqs');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/services', [HomeController::class, 'service'])->name('services');
+Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
+Route::get('/blog-details', [HomeController::class, 'blog_details'])->name('blog_details');
+Route::get('/airport-transfer', [HomeController::class, 'airport_transfer'])->name('airport_transfer');
+Route::get('/airport-transfer-fares', [HomeController::class, 'airport_transfer_fares'])->name('airport_transfer_fares');
+Route::get('/airport-transfer-payments', [HomeController::class, 'airport_transfer_payments'])->name('airport_transfer_payments');
+Route::get('/booking_payments', [HomeController::class, 'booking_payments'])->name('booking_payments');
+Route::get('/detail-page', [HomeController::class, 'detail_page'])->name('detail_page');
+// Route::get('/detail-page-old-design', [HomeController::class, 'detail_page_old_design'])->name('detail_page_old_design');
+Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
+Route::get('/excursions', [HomeController::class, 'excursions'])->name('excursions');
+Route::get('/nile-cruise', [HomeController::class, 'nile_cruise'])->name('nile_cruise');
+// Route::get('/nile-cruise-old-design', [HomeController::class, 'nile_cruise_old_design'])->name('nile_cruise_old_design');
+Route::get('/payment-and-cancellation', [HomeController::class, 'payment_and_cancellation'])->name('payment_and_cancellation');
+Route::get('/privacy-and-policy', [HomeController::class, 'privacy_and_policy'])->name('privacy_and_policy');
+Route::get('/travel-package', [HomeController::class, 'travel_packages'])->name('travel_package');
+//
+Route::post('/contact', [ContactFormController::class, 'send'])->name('contact.send');
+
+// Route::post('/upload-image', [HomeController::class,'image'])->name('upload.image');
+//  Route::get('/page/{slug}',[HomeController::class,'show'])->name('page.show');
+//  Route::post('ckeditor/upload', [HomeController::class, 'upload'])->name('ckeditor.upload');
+// Route::get('/', [HomeController::class, 'index'])->name('home');
+// Route::get('/about', [HomeController::class, 'about'])->name('about');
+// Route::get('/distribution', [HomeController::class, 'distribution'])->name('distribution');
+// Route::get('/food-services', [HomeController::class, 'food_services'])->name('food-services');
+// Route::get('/wholesale', [HomeController::class, 'wholesale'])->name('wholesale');
+// Route::get('/Catering', [HomeController::class, 'Catering'])->name('Catering');
+// Route::get('/uniform-safety', [HomeController::class, 'uniform_safety'])->name('uniform-safety');
+// Route::get('/Iot', [HomeController::class, 'Iot'])->name('Iot');
+// Route::get('/Project', [HomeController::class, 'Project'])->name('Project');
+// Route::get('/business-consultancy', [HomeController::class, 'business_consultancy'])->name('business-consultancy');
+// Route::get('/barcode', [HomeController::class, 'barcode'])->name('barcode');
+// Route::get('/construction', [HomeController::class, 'construction'])->name('construction');
+// Route::get('/services', [HomeController::class, 'services'])->name('services');
+// // Route::get('/services', [HomeController::class, 'services'])->name('services');
+
+// Route::get('/partners', [HomeController::class, 'partners'])->name('partners');
+// Route::get('/testimonials', [HomeController::class, 'testimonials'])->name('testimonials');
+// Route::get('/faqs', [HomeController::class, 'faqs'])->name('faqs');
+// Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
 
 
-// Route::get('['prefix' => '{locale}']', [HomeController::class, 'change_lang'])->name('change-lang');
-Route::get('/{locale}', [HomeController::class, 'change_lang'])->name('change-lang');
+// // Route::get('['prefix' => '{locale}']', [HomeController::class, 'change_lang'])->name('change-lang');
+// Route::get('/{locale}', [HomeController::class, 'change_lang'])->name('change-lang');
 
 
     Route::post('/admin/submitted-contact/store',[SubmittedContactController::class,'store'])->name('submitted.contactstore');
@@ -127,6 +154,14 @@ Route::group(['middleware' => ['admin']],function () {
     Route::post('admin/Iot/store',[IotController::class,'store'])->name('iot.store');
     Route::get('admin/Iot/edit/{id}',[IotController::class,'edit'])->name('iot.edit');
     Route::post('admin/Iot/update', [IotController::class,'update'])->name('iot.update');
+  
+    /*Partneres  Routes*/
+    Route::get('/admin/partners',[PartnerController::class,'index'])->name('partners.index');
+    Route::get('admin/partners/create',[PartnerController::class,'create'])->name('partners.add');
+    Route::post('admin/partners/store',[PartnerController::class,'store'])->name('partners.store');
+    Route::get('admin/partners/edit/{id}',[PartnerController::class,'edit'])->name('partners.edit');
+    Route::post('admin/partners/update', [PartnerController::class,'update'])->name('partners.update');
+    Route::get('admin/partners/delete/{id}',[PartnerController::class,'delete'])->name('partners.delete'); 
 
     /*Our Clients*/
     Route::get('/admin/clients',[ClientController::class,'index']);
@@ -199,11 +234,38 @@ Route::group(['middleware' => ['admin']],function () {
     Route::get('/admin/services',[OfferController::class,'index'])->name('offers.index');
     Route::get('/admin/services/create',[OfferController::class,'create'])->name('offers.make');
     Route::post('/admin/services/save',[OfferController::class,'store'])->name('offers.store');
+    
+    Route::post('/admin/services/save/excursion',[OfferController::class,'store_excursion'])->name('offers.store.excursion');
     Route::get('/admin/services/edit/{id}',[OfferController::class,'edit'])->name('offers.edit');
     Route::post('/admin/services/update/{id}',[OfferController::class,'update'])->name('offers.update');
     Route::delete('/admin/services/delete/{id}',[OfferController::class,'destroy'])->name('offers.destroy');
     
+    Route::get('/admin/services/services_details/{id}',[OfferController::class,'services_details'])->name('offers.services_details');
+    Route::get('/admin/services/tour_description/{id}',[OfferController::class,'tour_description'])->name('offers.tour_description');
+    Route::post('/admin/services/update_description',[OfferController::class,'update_description'])->name('update.tour_description');
+    Route::get('/admin/services/tour_highlights/{id}',[OfferController::class,'tour_highlights'])->name('offers.tour_highlights');
+    Route::post('/admin/services/tour_highlights',[OfferController::class,'update_highlights'])->name('update.tour_higlights');
+    Route::get('/admin/services/tour_inclusions_exclusions/{id}',[OfferController::class,'tour_inclusions_exclusions'])->name('offers.tour_inclusions_exclusions');
+    Route::get('/admin/services/tour_ltinerary',[OfferController::class,'tour_ltinerary'])->name('offers.tour_ltinerary');
+    Route::get('/admin/services/packages',[OfferController::class,'packages'])->name('offers.packages');
+    Route::get('/admin/services/gallery/{id}',[OfferController::class,'gallery'])->name('offers.gallery');
+    Route::post('/admin/services/gallery',[OfferController::class,'update_gallery'])->name('update.gallery');
+    Route::get('/admin/services/reviews',[OfferController::class,'reviews'])->name('offers.reviews');
     
+    Route::post('/admin/services/update_tour_details',[OfferController::class,'update_tour_details'])->name('update.tour_details');
+ 
+
+    //Send 'contact us' Email
+    Route::get('/admin/contact',[ContactFormController::class,'index'])->name('contact.index');
+    Route::get('admin/contact/details/{id}',[ContactFormController::class,'show'])->name('contact.show');
+    // Route::post('admin/contact/store',[PartnerController::class,'store'])->name('partners.store');
+    // Route::get('admin/contact/edit/{id}',[PartnerController::class,'edit'])->name('partners.edit');
+    // Route::post('admin/contact/update', [PartnerController::class,'update'])->name('partners.update');
+    // Route::get('admin/contact/delete/{id}',[PartnerController::class,'delete'])->name('partners.delete'); 
+
+    // airpot trnsfer 
+    Route::get('/admin/services/airport',[OfferController::class,'airport_index'])->name('offers.airport_index');
+    Route::get('/admin/services/airport_transfer',[OfferController::class,'airport_transfer'])->name('offers.airport_transfer');
     /*Admin Routes*/
     Route::get('/admin/registered', [AdminController::class,'adminregistered'])->name('admin.registered');
     Route::post('/admin/registered-admin', [AdminController::class,'registeredadmin'])->name('registered-admin.store');
@@ -245,12 +307,12 @@ Route::get('/catagory/subcategory/ajax/{category_id}',[CommitteeListController::
 Route::get('admin/committee-list/remove/{id}',[CommitteeListController::class,'member_remove'])->name('member.remove');
 
     /*Contact Details Routes*/
-    Route::get('/admin/contact', [ContactController::class,'index']);
-    Route::get('/admin/contact/create', [ContactController::class,'create'])->name('contact.add');
-   // Route::post('/admin/contact/store', [ContactController::class,'create'])->name('contact.store');
-    Route::get('/admin/contact/edit/{id}',[ContactController::class,'edit'])->name('contact.edit');
-    Route::post('/admin/contact/update', [ContactController::class,'update'])->name('contact.update');
-    Route::get('/admin/contact/delete/{id}',[ContactController::class,'delete'])->name('contact.delete');
+//     Route::get('/admin/contact', [ContactController::class,'index']);
+//     Route::get('/admin/contact/create', [ContactController::class,'create'])->name('contact.add');
+//    // Route::post('/admin/contact/store', [ContactController::class,'create'])->name('contact.store');
+//     Route::get('/admin/contact/edit/{id}',[ContactController::class,'edit'])->name('contact.edit');
+//     Route::post('/admin/contact/update', [ContactController::class,'update'])->name('contact.update');
+//     Route::get('/admin/contact/delete/{id}',[ContactController::class,'delete'])->name('contact.delete');
  /* genearal Setting Routes*/
 //  Route::get('/admin/setting', [GeneralController::class,'index']);
 //     Route::get('/admin/setting/create', [GeneralController::class,'create'])->name('setting.add');
@@ -277,6 +339,15 @@ Route::get('admin/committee-list/remove/{id}',[CommitteeListController::class,'m
     // Route::get('admin/services/delete/{id}',[ServicesController::class,'delete'])->name('services.delete');
     // Route::get('admin/airservicesdetails',[ServicesController::class,'airportservicesindex']);
     
+    /*Languages */
+    Route::get('admin/languages',[LanguageController::class,'index'])->name('languages.index');
+    Route::get('admin/languages/create', [LanguageController::class,'create'])->name('languages.add');
+    Route::post('admin/languages/store', [LanguageController::class,'store'])->name('languages.store'); 
+    Route::get('admin/languages/edit/{id}',[LanguageController::class,'edit'])->name('languages.edit');
+    Route::post('admin/services/update/{id}', [LanguageController::class,'update'])->name('languages.update');
+    Route::get('admin/languages/delete/{id}',[LanguageController::class,'delete'])->name('languages.delete');
+    // Route::get('admin/airservicesdetails',[ServicesController::class,'airportservicesindex']);
+    
      /*Services */
      Route::get('admin/servicesdetails',[ServicesDetailsController::class,'index']);
      Route::get('admin/servicesdetails/create', [ServicesDetailsController::class,'create'])->name('admin/servicesdetails.add');
@@ -296,11 +367,11 @@ Route::get('admin/committee-list/remove/{id}',[CommitteeListController::class,'m
      Route::get('admin/servicesmenu/{id}',[ServicesMenuController ::class,'delete'])->name('adminservicesmenu.delete');
 
      /*FAQ*/
-     Route::get('admin/faq',[FaqController::class,'index']);
+     Route::get('admin/faq',[FaqController::class,'index'])->name('faq.index');
      Route::get('admin/faq/create', [FaqController::class,'create'])->name('faq.add');
      Route::post('admin/faq/store', [FaqController::class,'store'])->name('faq.store');
      Route::get('admin/faq/edit/{id}',[FaqController::class,'edit'])->name('faq.edit');
-     Route::post('admin/faq/update', [FaqController::class,'update'])->name('faq.update');
+     Route::post('admin/faq/update/{id}', [FaqController::class,'update'])->name('faq.update');
      Route::get('admin/faq/delete/{id}',[FaqController::class,'delete'])->name('faq.delete');
 
      /*Footer*/
@@ -316,7 +387,7 @@ Route::get('admin/committee-list/remove/{id}',[CommitteeListController::class,'m
      Route::get('admin/submitted/create', [SubmissionController::class,'create'])->name('submitted.add');
      Route::post('admin/submitted/store', [SubmissionController::class,'store'])->name('submitted.store');
      Route::get('admin/submitted/edit/',[SubmissionController::class,'edit'])->name('submitted.edit');
-     Route::post('admin/submitted/update', [SubmissionController::class,'update'])->name('submitted.update');
+     Route::post('admin/submitted/update/', [SubmissionController::class,'update'])->name('submitted.update');
      Route::get('admin/submitted/delete/{id}',[SubmissionController::class,'delete'])->name('submitted.delete');
 
 });

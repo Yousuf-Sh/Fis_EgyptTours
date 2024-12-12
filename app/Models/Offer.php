@@ -20,5 +20,16 @@ class Offer extends Model
     'feature3',
     'price',
     'discount_price',
+    'description',
+'duration',
+           'location',
+                'pickup',
+                'pickup_type',
+                'availability',
+
+'title_ex',
+'description_ex',
+    
+                
     ];
 }

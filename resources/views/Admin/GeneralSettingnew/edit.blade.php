@@ -3,301 +3,330 @@
 @include('Admin.include.asidebar')
 
   <main id="main" class="main">
+
     <div class="pagetitle">
-      <h1>General Settings123</h1>
+      <h1>Testimonials
+      <a type="submit" class="btn btn-danger" style="float:right;" href="{{url('admin/slider')}}">Back</a>
+      </h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item">General Settings</li>
-          <li class="breadcrumb-item active">Edit General Settings</li>
+          <li class="breadcrumb-item">Testimonials</li>
+          <li class="breadcrumb-item active">Add Testimonials</li>
         </ol>
       </nav>
-    </div> 
-      @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-    <!-- End Page Title -->
+    </div><!-- End Page Title -->
     <section class="section">
-      
-      <div class="card">
-        <div class="card-body">
-          <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-              <a class="nav-link active" id="english-tab" data-bs-toggle="tab" href="#english" role="tab" aria-controls="english" aria-selected="true">English</a>
-            </li>
-            <li class="nav-item" role="presentation">
-              <a class="nav-link" id="arabic-tab" data-bs-toggle="tab" href="#arabic" role="tab" aria-controls="arabic" aria-selected="false">Arabic</a>
-            </li>
-          </ul>
-          <div class="tab-content" id="languageTabsContent">
-            <!-- English Tab Content -->
-            <div class="tab-pane fade show active" id="english" role="tabpanel" aria-labelledby="english-tab">
-          <!-- Multi Columns Form -->
-          <form class="" method="POST" action="{{route('submitted.update')}}" enctype="multipart/form-data">
-            <input type="hidden" value="{{$contact->id}}" name="id">
-            @csrf
-            <div class="row">
-              <div class="card-header mt-2 mb-3 pb-0" >
-                <h5 class="card-title p-0 pt-2">Information</h5>
-              </div>
-          
-              <div class="col-md-6">  
-                <label for="inputState" class="form-label">Email</label>
-                <input type="text" class="form-control" id="inputName5" name="email" value="{{$contact->email}}" >
-              </div>
-              <div class="col-md-6">
-                <label for="inputState" class="form-label">Contact </label>
-                <input type="number" class="form-control" id="inputName5" name="phone1" value="{{$contact->phone1}}">
-              </div>
-          
-              <div class="col-md-6 mt-1">
-                <label for="inputState" class="form-label">Our Newsletter  </label>
-                <input type="text" class="form-control" id="inputName5" name="button" value="{{$contact->button}}" >
-              </div>
-            </div>
-            <div class="row">
-              <div class="card-header mt-3 mb-3 pb-0" >
-                <h5 class="card-title p-0 pt-2">Pictures</h5>
-              </div>
-              
-              {{-- <div class="col-md-6">
-                <label for="image" class="form-label">Arabic Logo</label>
-                <input type="file" name="arlogo" id="imgInp1"  accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile1(event)">
-                <a   ><img src="{{asset('Backend/images/'.$contact->arlogo) }}" id="output1"  width="100" ></a>
-              </div>
-              <div class="col-md-6">
-                <label for="image" class="form-label">English logo</label>
-                <input type="file" name="enlogo" id="imgInp2"  accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile2(event)">
-                <a  ><img src="{{asset('Backend/images/'.$contact->enlogo) }}" id="output2"  width="100" ></a>
-              </div>
-              <div class="col-md-6">
-                <label for="image" class="form-label">Company Logo</label>
-                <input type="file" name="logo" id="imgInp"  accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile(event)" >
-                <a ><img src="{{asset('Backend/images/'.$contact->logo) }}" id="output"  width="100" ></a>
-              </div> --}}
-            </div>
-            <div class="row">
-              <div class="card-header mt-3 mb-3 pb-0" >
-                <h5 class="card-title p-0 pt-2">Social Links</h5>
-              </div>
-              <div class="col-md-6">
-                <label for="image" class="form-label">Instagram Link</label>
-                <input type="text" name="instagramlink" id="imgInp3"  accept="image/*" class="form-control input-default" placeholder="" value="{{$contact->instagramlink}}">
-              </div>
-              <div class="col-md-6">
-                <label for="image" class="form-label">Facebook Link</label>
-                <input type="text" name="facebooklink" id="imgInp4"   class="form-control input-default" placeholder="e" value="{{$contact->facebooklink}}">
-              </div>
-              <div class="col-md-6 mt-1">
-                <label for="image" class="form-label">Twitter Link</label>
-                <input type="text" name="twitterlink" id="imgInp5"  class="form-control input-default" placeholder="Select image" value="{{$contact->twitterlink}}">
-              </div>
-              <div class="col-md-6">
-                <label for="image" class="form-label">Skype Link</label>
-                <input type="text" name="skype" id="imgInp4"   class="form-control input-default" placeholder="e" value="{{$contact->skype}}">
-              </div>
-              <div class="col-md-6 mt-1">
-                <label for="image" class="form-label">Linked
-                  lin Link</label>
-                <input type="text" name="linkdelin" id="imgInp5"  class="form-control input-default" placeholder="Select image" value="{{$contact->linkdelin}}">
-              </div>
-            </div>  
-            <div class="row">
-              <div class="card-header mt-3 mb-3 pb-0" >
-                <h5 class="card-title p-0 pt-2">Footer</h5>
-              </div>
-              <div class="col-md-6 mt-1">
-                <label for="image" class="form-label">Description</label>
-               <textarea type="text" class="form-control " name="footer_description" rows="3"  >{{$contact->footer_description}}</textarea>
-              </div>
-              <div class="col-md-6 mt-1">
-                <label for="image" class="form-label">Label Description</label>
-               <textarea type="text" class="form-control " name="footer_label_description" rows="3"  >{{$contact->footer_label_description}}</textarea>
-              </div>
-              <div class="col-md-6 mt-1">
-                <label for="image" class="form-label">Label</label>
-                <input type="text"  id="imgInp5"  class="form-control input-default" placeholder="" name="footer_label" value="{{$contact->footer_label}}">
-              </div>
-            </div>
-            {{-- <div class="col-md-12 mt-3" style="text-align: right;">
-              <button type="submit" class="btn btn-primary submit">Submit</button>
-              <!-- <button type="reset" class="btn btn-secondary">Reset</button> -->
-            </div> --}}
-         
-        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
+                            @foreach($languages as $index => $language)
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
+                                       id="{{ $language->slug }}-tab" 
+                                       data-bs-toggle="tab" 
+                                       href="#{{ $language->slug }}" 
+                                       role="tab" 
+                                       aria-controls="{{ $language->slug }}" 
+                                       aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
+                                        {{ ucfirst($language->name) }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content" id="languageTabsContent">
+                            @foreach($languages as $index => $language)
+                                @php
+                                    // Fetch the testimonial for the current language if it exists
+                                    $testimonial = $testimonials->where('language', $language->slug)->first();
+                                    // print_r($testimonial);die();
+                                @endphp
+                                <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
+                                     id="{{ $language->slug }}" 
+                                     role="tabpanel" 
+                                     aria-labelledby="{{ $language->slug }}-tab">
+                                    <form class="row g-3 my-3" method="POST" action="{{ route('testimonials.update', $PrimaryTestimonial->id) }}" enctype="multipart/form-data">
+                                        @csrf
+                                        @method('POST')
+                                        <div class="col-md-3">
+                                            <label for="title_{{ $language->slug }}" class="form-label">Name</label>
+                                            <input type="text" 
+                                                   name="{{ $language->slug }}_title" 
+                                                   class="form-control" 
+                                                   id="title_{{ $language->slug }}" 
+                                                   value="{{ old("{$language->slug}_title", $testimonial->name ?? ($language->slug === 'en' ? $PrimaryTestimonial->name : '')) }}" 
+                                                   {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                   required>
+                                            <input type="hidden" name="language" value="{{ $language->slug }}">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="description_{{ $language->slug }}" class="form-label">Review</label>
+                                            <textarea name="{{ $language->slug }}_description" 
+                                                      class="form-control ckeditor" 
+                                                      id="description_{{ $language->slug }}" 
+                                                      rows="10" 
+                                                      {{ $language->slug === 'ar' ? 'style=direction:rtl;' : '' }} 
+                                                      required>{{ old("{$language->slug}_description", $testimonial->review ?? ($language->slug === 'en' ? $PrimaryTestimonial->review : '')) }}</textarea>
+                                        </div>
+                                       
+                                        @if ($language->slug !== 'en')
+                                            <input type="hidden" name="secondary_id" value="{{ $PrimaryTestimonial->id }}">
+                                        @endif
+                                        <a href="#" id="addRow_{{ $language->slug }}" class="add-button-link link link-primary">Add a Button</a>
 
-        <div class="tab-pane fade" id="arabic" role="tabpanel" aria-labelledby="arabic-tab">
-         <div class="row">
-            <input type="hidden" value="{{$contact->id}}" name="id">
-            @csrf
-            <div class="row">
-              <div class="card-header mt-2 mb-3 pb-0" >
-                <h5 class="card-title p-0 pt-2">Information</h5>
-              </div>
-          
-              <div class="col-md-6">  
-                <label for="inputState" class="form-label">Email</label>
-                <input type="text" class="form-control" id="inputName5" name="arabic_email" value="{{$contact->arabic_email}}" >
-              </div>
-              <div class="col-md-6">
-                <label for="inputState" class="form-label">Contact </label>
-                <input type="number" class="form-control" id="inputName5" name="arabic_phone1" value="{{$contact->arabic_phone1}}">
-              </div>
-          
-              <div class="col-md-6 mt-1">
-                <label for="inputState" class="form-label">Contact us for A free Inspection(Button)  </label>
-                <input type="text" class="form-control" id="inputName5" name="arabic_button" value="{{$contact->arabic_button}}" >
-              </div>
+                                        <div id="buttonFields_{{ $language->slug }}" style="display: none;">
+
+                                        </div>  
+                                    </form>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                        <!-- Image section -->
+                        <div class="card">
+                            <div class="card-header">
+                                Image
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="image1" class="form-label">Image</label>
+                                        <input type="file" name="images[image1]" id="imgInp1" accept="image/*" class="form-control input-default" placeholder="Select image">
+
+                                        <img src="{{ Storage::url($PrimaryTestimonial->image) }}" id="output1" width="100" class="my-3">
+                                        
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="text-align: right;">
+                        <button type="submit" class="btn btn-primary submit" id="submitAll">SUBMIT</button>
+                    </div>
             </div>
-            <div class="row">
-              {{-- <div class="card-header mt-3 mb-3 pb-0" >
-                <h5 class="card-title p-0 pt-2">Pictures</h5>
-              </div>
-               --}}
-              {{-- <div class="col-md-6">
-                <label for="image" class="form-label">Arabic Logo</label>
-                <input type="file" name="arabic_arlogo" id="imgInp1"  accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile3(event)">
-                <a   ><img src="{{asset('Backend/images/'.$contact->arabic_arlogo) }}" id="output3"  width="100" ></a>
-              </div>
-              <div class="col-md-6">
-                <label for="image" class="form-label">English logo</label>
-                <input type="file" name="arabic_enlogo" id="imgInp2"  accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile4(event)">
-                <a  ><img src="{{asset('Backend/images/'.$contact->arabic_enlogo) }}" id="output4"  width="100" ></a>
-              </div>
-              <div class="col-md-6">
-                <label for="image" class="form-label">Company Logo</label>
-                <input type="file" name="arabic_logo" id="imgInp"  accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile5(event)" >
-                <a ><img src="{{asset('Backend/images/'.$contact->arabic_logo) }}" id="output5"  width="100" ></a>
-              </div> --}}
-            </div>
-            <div class="row">
-              <div class="card-header mt-3 mb-3 pb-0" >
-                <h5 class="card-title p-0 pt-2">Social Links</h5>
-              </div>
-              <div class="col-md-6">
-                <label for="image" class="form-label">Instagram Link</label>
-                <input type="text" name="arabic_instagramlink" id="imgInp3"  accept="image/*" class="form-control input-default" placeholder="" value="{{$contact->arabic_instagramlink}}">
-              </div>
-              <div class="col-md-6">
-                <label for="image" class="form-label">Facebook Link</label>
-                <input type="text" name="arabic_facebooklink" id="imgInp4"   class="form-control input-default" placeholder="" value="{{$contact->arabic_facebooklink}}">
-              </div>
-              <div class="col-md-6 mt-1">
-                <label for="image" class="form-label">Twitter Link</label>
-                <input type="text" name="arabic_twitterlink" id="imgInp5"  class="form-control input-default" placeholder="" value="{{$contact->arabic_twitterlink}}">
-              </div>
-              <div class="col-md-6">
-                <label for="image" class="form-label">Skype Link</label>
-                <input type="text" name="skype1" id="imgInp4"   class="form-control input-default" placeholder="e" value="{{$contact->skype1}}">
-              </div>
-              <div class="col-md-6 mt-1">
-                <label for="image" class="form-label">Linked
-                  lin Link</label>
-                <input type="text" name="linkdelin1" id="imgInp5"  class="form-control input-default" placeholder="Select image" value="{{$contact->linkdelin1}}">
-              </div>
-            </div>  
-            <div class="row">
-            <div class="card-header mt-3 mb-3 pb-0" >
-              <h5 class="card-title p-0 pt-2">Footer</h5>
-            </div>
-            <div class="col-md-6 mt-1">
-              <label for="image" class="form-label">Description</label>
-             <textarea type="text" class="form-control " name="footer_description_ar" rows="3" style="direction: rtl;" >{{$contact->footer_description_ar}}</textarea>
-            </div>
-            <div class="col-md-6 mt-1">
-              <label for="image" class="form-label">Label Description</label>
-             <textarea type="text" class="form-control " name="footer_label_description_ar" rows="3" style="direction: rtl;" >{{$contact->footer_label_description_ar}}</textarea>
-            </div>
-            <div class="col-md-6 mt-1">
-              <label for="image" class="form-label">Label</label>
-              <input type="text"  id="imgInp5" style="direction: rtl;" class="form-control input-default" placeholder="" name="footer_label_ar" value="{{$contact->footer_label_ar}}">
-            </div>
-          </div>
-            {{-- <div class="col-md-12 mt-3" style="text-align: right;">
-              <button type="submit" class="btn btn-primary submit">Submit</button>
-              <!-- <button type="reset" class="btn btn-secondary">Reset</button> -->
-            </div> --}}
-          
         </div>
-      </div>
-      {{-- <div class="row">
-      <div class="col-md-6">
-        <label for="image" class="form-label">Arabic Logo</label>
-        <input type="file" name="arlogo" id="imgInp1"  accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile1(event)">
-        <a   ><img src="{{asset('Backend/images/'.$contact->arlogo) }}" id="output1"  width="100" ></a>
-      </div>
-      <div class="col-md-6">
-        <label for="image" class="form-label">English logo</label>
-        <input type="file" name="enlogo" id="imgInp2"  accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile2(event)">
-        <a  ><img src="{{asset('Backend/images/'.$contact->enlogo) }}" id="output2"  width="100" ></a>
-      </div>
-      <div class="col-md-6">
-        <label for="image" class="form-label">Company Logo</label>
-        <input type="file" name="logo" id="imgInp"  accept="image/*" class="form-control input-default" placeholder="Select image" onchange="loadFile(event)" >
-        <a ><img src="{{asset('Backend/images/'.$contact->logo) }}" id="output"  width="100" ></a>
-      </div> --}}
-      <div class="col-md-12 mt-3" style="text-align: right;">
-        <button type="submit" class="btn btn-primary submit">Submit</button>
-        <!-- <button type="reset" class="btn btn-secondary">Reset</button> -->
-      </div>
-      </div>
-    </form>
-    </div>
-  </div>
     </section>
-  <script>
-    var loadFile = function(event) {
-      var reader = new FileReader();
-      reader.onload = function(){
-        var output = document.getElementById('output');
-        output.src = reader.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    };
-    var loadFile1 = function(event) {
-      var reader = new FileReader();
-      reader.onload = function(){
-        var output = document.getElementById('output1');
-        output.src = reader.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    };
-    var loadFile2 = function(event) {
-      var reader = new FileReader();
-      reader.onload = function(){
-        var output = document.getElementById('output2');
-        output.src = reader.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    };
-    var loadFile3 = function(event) {
-      var reader = new FileReader();
-      reader.onload = function(){
-        var output = document.getElementById('output3');
-        output.src = reader.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    };
-    var loadFile4 = function(event) {
-      var reader = new FileReader();
-      reader.onload = function(){
-        var output = document.getElementById('output4');
-        output.src = reader.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    };
-    var loadFile5 = function(event) {
-      var reader = new FileReader();
-      reader.onload = function(){
-        var output = document.getElementById('output5');
-        output.src = reader.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    };
-  </script>
+    
+
 
   </main>
+  <!-- End #main -->
 @include('Admin.include.footer')
 @include('Admin.include.script')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // For each CKEditor instance
+    if (CKEDITOR && CKEDITOR.instances) {
+        Object.keys(CKEDITOR.instances).forEach(function(instanceName) {
+            var editor = CKEDITOR.instances[instanceName];
+            
+            // Add change event listener
+            editor.on('change', function() {
+                // Explicitly update the textarea with the editor's content
+                editor.updateElement();
+            });
+        });
+    }
+});
+</script>
+<script>
+$(document).ready(function () {
+    $('a.add-button-link').each(function () {
+        const languageSlug = $(this).attr('id').split('_')[1]; // Extract the language slug from the ID
+        
+        const addButtonLink = $(`#addRow_${languageSlug}`);
+        const buttonFieldsContainer = $(`#buttonFields_${languageSlug}`);
+        
+        if (!addButtonLink.length || !buttonFieldsContainer.length) {
+            console.error(`Missing button field elements for language: ${languageSlug}`);
+            return;
+        }
+        
+        // Function to create a new button field row
+        function createButtonFieldRow(slug) {
+            return $(`
+            <div class="button-field-row">
+            <div class="col-md-6 mt-3">
+            <label for="btn_${slug}" class="form-label">Button Text</label>
+            <input type="text" name="${slug}btn[]" class="form-control" required>
+            </div>
+            <div class="col-md-6 mt-3">
+            
+            ${
+                slug === 'en'
+            ? `
+            <label for="btn_link_${slug}" class="form-label">Button Link</label>
+            <input type="text" name="${slug}btn_link[]" class="form-control" required>`
+            : ''
+            }
+            <a href="#" class="remove-button-link link link-danger mt-3">Remove Button</a>
+            </div>
+            </div>
+            `);
+        }
+        
+        // Add 1 new row on button click
+        addButtonLink.on('click', function (event) {
+            event.preventDefault();
+            
+            // Append only 1 row
+            const newRow = createButtonFieldRow(languageSlug);
+            buttonFieldsContainer.append(newRow).show();
+        });
+        
+        // Handle dynamic removal of rows
+        buttonFieldsContainer.on('click', '.remove-button-link', function (event) {
+            event.preventDefault();
+            $(this).closest('.button-field-row').remove();
+            if (!buttonFieldsContainer.children('.button-field-row').length) {
+                buttonFieldsContainer.hide();
+            }
+        });
+    });
+});
+
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const submitButton = document.getElementById('submitAll');
+
+  if (!submitButton) {
+      console.error('Submit button not found!');
+      return;
+  }
+
+  // Restore the image preview function
+  function loadFile(event, outputId) {
+      const input = event.target;
+      const outputElement = document.getElementById(outputId);
+      
+      if (outputElement && input.files && input.files[0]) {
+          const reader = new FileReader();
+          
+          reader.onload = function(e) {
+              outputElement.src = e.target.result;
+              outputElement.style.display = 'block';
+          };
+          
+          reader.readAsDataURL(input.files[0]);
+      }
+  }
+
+  // Add event listeners to all file inputs for previewing images
+  const fileInputs = document.querySelectorAll('input[type="file"]');
+  fileInputs.forEach((input) => {
+      // Dynamically set output ID based on input ID
+      const outputId = input.id.replace('imgInp', 'output');
+      
+      input.addEventListener('change', (event) => {
+          loadFile(event, outputId);
+      });
+  });
+
+  submitButton.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      try {
+          // Create a single FormData object
+          const formData = new FormData();
+
+          // Explicitly select all forms you want to collect data from
+          const forms = document.querySelectorAll('form');
+          // alert(videolink);
+
+          forms.forEach((form) => {
+              // Collect all form elements
+              const elements = form.elements;
+              
+              for (let element of elements) {
+                  if (element.name) {
+                      if (element.type === 'file') {
+                          // For file inputs, append only if a file is selected
+                          if (element.files.length > 0) {
+                              formData.append(element.name, element.files[0]);
+                          }
+                      } else if (element.type !== 'submit') {
+                          // Append non-file, non-submit inputs
+                          formData.append(element.name, element.value);
+                      }
+                  }
+              }
+          });
+          if(document.getElementById('video_link')){
+               const videolink= document.querySelector('#video_link').value;
+              if(videolink != ''){
+                  formData.append('video_link',videolink);
+              }
+          }
+
+          // Specifically handle file inputs for images (as in the original code)
+          const imageFileInputs = document.querySelectorAll('input[name^="images["]');
+          
+          console.log('File Inputs Found:', imageFileInputs.length);
+
+          imageFileInputs.forEach((input) => {
+              if (input.files.length > 0) {
+                  console.log('Appending File:', input.name, input.files[0]);
+                  formData.append(input.name, input.files[0]);
+              }
+          });
+
+          // Log FormData contents
+          for (let pair of formData.entries()) {
+              console.log(pair[0] + ': ', pair[1]);
+          }
+
+          // Get CSRF token
+          const csrfToken = document.querySelector('input[name="_token"]');
+          if (!csrfToken) {
+              throw new Error('CSRF token not found');
+          }
+
+          // Determine submission URL (assuming Laravel route)
+          const currentUrl = forms[0].action;
+
+          // Submit using fetch
+          fetch(currentUrl, {
+              method: 'POST',
+              body: formData,
+              headers: {
+                  'X-CSRF-TOKEN': csrfToken.value,
+                  'Accept': 'application/json',
+              },
+          })
+          .then((response) => {
+              if (!response.ok) {
+                  return response.json().then((errorData) => {
+                      throw new Error(errorData.message || 'Server error occurred');
+                  });
+              }
+              return response.json();
+          })
+          .then((data) => {
+              // Success handling
+              console.log('Server response:', data);
+
+              // Show success message to user
+              alert(data.message || 'Forms submitted successfully');
+
+              // Optional: Redirect or update UI
+              if (data.redirect) {
+                  window.location.href = data.redirect;
+              }
+          })
+          .catch((error) => {
+              // Comprehensive error handling
+              console.error('Submission error:', error);
+              alert('Failed to submit forms. Please try again. ' + error.message);
+          });
+      } catch (error) {
+          // Catch any errors during form preparation
+          console.error('Preparation error:', error);
+          alert('Error preparing form submission: ' + error.message);
+      }
+  });
+});
+</script>

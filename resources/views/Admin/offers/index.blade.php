@@ -16,8 +16,8 @@
       <h1>Services</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item">Management</li>
-          <li class="breadcrumb-item active">Manage Services</li>
+          <li class="breadcrumb-item">Manage Services</li>
+          <li class="breadcrumb-item active">Excursion</li>
         </ol>
       </nav>
     </div>
@@ -28,7 +28,7 @@
         <div class="card">
           <div class="card-header d-flex">
             <a href="{{route('offers.make')}}" title="click to Add New Row" class="btn1 btn btn-primary my-auto ms-auto add">
-              <span class="fa fa-plus text-white"> Add</span>
+              <span class="fa fa-plus text-white"> </span> Add 
             </a>
           </div>
           <div class="card-body"> 
@@ -39,14 +39,14 @@
                 <thead>
                   <tr>
                     <th scope="col">Sr.No</th>
-                    <th scope="col">Language</th>
+                    <!-- <th scope="col">Language</th> -->
                     <th scope="col">Title</th>
                     <th scope="col">Service Type</th>
-                    <th scope="col">Feature 1</th>
+                    <!-- <th scope="col">Feature 1</th>
                     <th scope="col">Feature 2</th>
                     <th scope="col">Feature 3</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Discount Price</th>
+                    <th scope="col">Discount Price</th> -->
                     <th scope="col">Created At</th>
                     <th scope="col">Actions</th>
                   </tr>
@@ -55,14 +55,15 @@
                   @foreach($offers as $key => $offer)
                   <tr>
                     <td>{{$key+1}}</td>
-                    <td>{{$offer->language}}</td>
-                    <td>{{$offer->title}}</td>
+                    <!-- <td>{{$offer->language}}</td> -->
+                    <td><a href="{{ route('offers.services_details', ['id' => $offer->id]) }}">{{ $offer->title }}</a></td>
+
                     <td>{{$offer->type}}</td>
-                    <td>{{$offer->feature1}}</td>
+                    <!-- <td>{{$offer->feature1}}</td>
                     <td>{{$offer->feature2}}</td>
                     <td>{{$offer->feature3}}</td>
                     <td>{{$offer->price}}</td>
-                    <td>{{$offer->discount_price}}</td>
+                    <td>{{$offer->discount_price}}</td> -->
                     <td>{{$offer->created_at}}</td>
                     
                     <td>
