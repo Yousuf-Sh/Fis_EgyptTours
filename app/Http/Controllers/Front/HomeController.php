@@ -42,18 +42,19 @@ class HomeController extends Controller
          $Vision = Vision::all();
         
      //    $Choose = Choose::all();
-         $choose=CMS::where('slug','=','whyChooseUs')->first();
-         $FAQ_title=CMS::where('slug','=','FAQ_Static')->first();
-         $OurVisionhomepage=CMS::where('slug','=','OurVision')->first();
-         $OurCustomers=CMS::where('slug','=','Our Customers')->first();
+        //  $choose=CMS::where('slug','=','whyChooseUs')->first();
+        //  $FAQ_title=CMS::where('slug','=','FAQ_Static')->first();
+        //  $OurVisionhomepage=CMS::where('slug','=','OurVision')->first();
+        //  $OurCustomers=CMS::where('slug','=','Our Customers')->first();
         
-         $Services=Services::where('checkbox','=','1')->get();
-         $FAQ=Faq::all();
+        //  $Services=Services::where('checkbox','=','1')->get();
+        //  $FAQ=Faq::all();
 
-         $Clients=Client::all();
+        //  $Clients=Client::all();
         // return $FAQ;
+        return 'index';
       // return  $chooseus_title ;
-         return view('front.home',compact('Slider','locale','Vision','choose','FAQ_title','OurVisionhomepage','FAQ','Services','OurCustomers','Clients'));
+         return view('front.index');
     	//return view('front.home');
     }
    

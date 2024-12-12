@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Offer;
+use App\Models\Servicesdetail;
+use DB;
 use Illuminate\Http\Request;
 use App\Models\Language;
 use Illuminate\Support\Facades\Storage;
@@ -13,8 +15,319 @@ class OfferController extends Controller
     public function index()
     {
         $offers = Offer::where('language','=','en')->get();
-        
+       
         return view('Admin.offers.index',['offers'=>$offers]);
+    }
+
+    public function airport_index()
+    {
+        $offers = Offer::where('language','=','en')->get();
+       
+        return view('Admin.offers.airport_index',['offers'=>$offers]);
+    }
+
+    public function services_details($id)
+    {
+        $offer = Offer::where('type', 1)->findOrFail($id);
+
+       
+
+        $offers = Offer::where('language','=','en')->get();
+        $languages=Language::all();
+        $offersByLanguage = [];
+    foreach ($languages as $language) {
+        $offersByLanguage[$language->slug] = Offer::where('type', 1)
+                                                  ->where('language', $language->slug)
+                                                  ->first();
+    }
+        return view('Admin.offers.services_details',compact('offer','languages','offersByLanguage'));
+    }
+    public function update_tour_details(Request $request)
+    {
+        // Get the primary ID, type, and languages from the request
+        $primaryId = $request->input('id'); // Primary ID (English record)
+        $type = $request->input('type'); // Type value
+        $languages = $request->input('languages'); // Input for languages
+    
+        foreach ($languages as $language) {
+            // Prepare the data for updating
+            $offerData = [
+                'language' => $language,
+                'duration' => $request->input("{$language}_duration"),
+                'location' => $request->input("{$language}_location"),
+                'pickup' => $request->input("{$language}_pickup"),
+                'pickup_type' => $request->input("{$language}_pickup_type"),
+                'availability' => $request->input("{$language}_availability"),
+                'title_ex' => $request->input("{$language}_title_ex"),
+                'description_ex' => $request->input("{$language}_description_ex"),
+
+                'type' => $type,
+            ];
+    
+            if ($language === 'en') {
+                // For English (primary record), match by `id`
+                $offer = Offer::where('id', $primaryId)
+                              ->where('type', $type)
+                              ->where('language', $language)
+                              ->first();
+            } else {
+                // For other languages, match by `secondary_id`
+                $offer = Offer::where('secondary_id', $primaryId)
+                              ->where('type', $type)
+                              ->where('language', $language)
+                              ->first();
+            }
+    
+            if ($offer) {
+                // Update the existing record
+                $offer->update($offerData);
+            } else {
+                // Create a new record if it doesn't exist
+                $offerData['secondary_id'] = $primaryId; // Set secondary_id for translations
+                if ($language === 'en') {
+                    $offerData['id'] = $primaryId; // Explicitly set the primary ID for English
+                }
+                Offer::create($offerData);
+            }
+        }
+    
+        // After updating, redirect back
+        return redirect()->back();
+    }
+    
+    public function update_description(Request $request)
+    {
+
+       
+        // Get the primary ID, type, and languages from the request
+        $primaryId = $request->input('id'); // Primary ID (English record)
+        $type = $request->input('type'); // Type value
+        $languages = $request->input('languages'); // Input for languages
+    
+        foreach ($languages as $language) {
+            // Prepare the data for updating
+            $offerData = [
+                'language' => $language,
+                
+                'title_ex' => $request->input("{$language}_title_ex"),
+                'description_ex' => $request->input("{$language}_description_ex"),
+
+                'type' => $type,
+            ];
+           
+            if ($language === 'en') {
+                // For English (primary record), match by `id`
+                $offer = Offer::where('id', $primaryId)
+                              ->where('type', $type)
+                              ->where('language', $language)
+                              ->first();
+            } else {
+                // For other languages, match by `secondary_id`
+                $offer = Offer::where('secondary_id', $primaryId)
+                              ->where('type', $type)
+                              ->where('language', $language)
+                              ->first();
+            }
+    
+            if ($offer) {
+                // Update the existing record
+                $offer->update($offerData);
+                
+            } else {
+                // Create a new record if it doesn't exist
+                $offerData['secondary_id'] = $primaryId; // Set secondary_id for translations
+                if ($language === 'en') {
+                    $offerData['id'] = $primaryId; // Explicitly set the primary ID for English
+                }
+                Offer::create($offerData);
+            }
+        }
+    
+        // After updating, redirect back
+        return redirect()->back();
+    }
+    public function update_highlights(Request $request)
+    {
+
+       
+        // Get the primary ID, type, and languages from the request
+        $primaryId = $request->input('id'); // Primary ID (English record)
+        $type = $request->input('type'); // Type value
+        $languages = $request->input('languages'); // Input for languages
+    
+        foreach ($languages as $language) {
+            // Prepare the data for updating
+            $offerData = [
+                'language' => $language,
+                
+                'title_ex' => $request->input("{$language}_title_ex"),
+                'description_ex' => $request->input("{$language}_description_ex"),
+
+                'type' => $type,
+            ];
+           
+            if ($language === 'en') {
+                // For English (primary record), match by `id`
+                $offer = Offer::where('id', $primaryId)
+                              ->where('type', $type)
+                              ->where('language', $language)
+                              ->first();
+            } else {
+                // For other languages, match by `secondary_id`
+                $offer = Offer::where('secondary_id', $primaryId)
+                              ->where('type', $type)
+                              ->where('language', $language)
+                              ->first();
+            }
+    
+            if ($offer) {
+                // Update the existing record
+                $offer->update($offerData);
+                
+            } else {
+                // Create a new record if it doesn't exist
+                $offerData['secondary_id'] = $primaryId; // Set secondary_id for translations
+                if ($language === 'en') {
+                    $offerData['id'] = $primaryId; // Explicitly set the primary ID for English
+                }
+                Offer::create($offerData);
+            }
+        }
+    
+        // After updating, redirect back
+        return redirect()->back();
+    }
+    
+
+
+    public function airport_transfer()
+    {
+        $offers = Offer::where('language','=','en')->get();
+        $languages=Language::all();
+        $sources = DB::table('source')->select('id', 'name')->get();
+
+        $destinations=DB::table('destination')->select('id', 'name')->get();
+       
+        return view('Admin.offers.airport_transfer',compact('languages','sources','destinations'));
+    }
+    public function tour_description($id)
+    {
+        $offers = Offer::where('language','=','en')->get();
+        $offer = Offer::where('type', 1)->findOrFail($id);
+        $languages=Language::all();
+        $offersByLanguage = [];
+        foreach ($languages as $language) {
+            $offersByLanguage[$language->slug] = Offer::where('type', 1)
+                                                      ->where('language', $language->slug)
+                                                      ->first();
+        }
+        return view('Admin.offers.tour_description',compact('languages','offer','offersByLanguage'));
+    }
+
+    public function tour_highlights($id)
+    {
+       
+        $languages=Language::all();
+        $offers = Offer::where('language','=','en')->get();
+        $offer = Offer::where('type', 1)->findOrFail($id);
+        $languages=Language::all();
+        $offersByLanguage = [];
+        foreach ($languages as $language) {
+            $offersByLanguage[$language->slug] = Offer::where('type', 1)
+                                                      ->where('language', $language->slug)
+                                                      ->first();
+        }
+        return view('Admin.offers.tour_highlights',compact('languages','offer','offersByLanguage','offers'));
+    }
+
+    public function tour_inclusions_exclusions()
+    {
+        $languages=Language::all();
+        $offers = Offer::where('language','=','en')->get();
+        $offer = Offer::where('type', 1)->findOrFail($id);
+        $languages=Language::all();
+        $offersByLanguage = [];
+        foreach ($languages as $language) {
+            $offersByLanguage[$language->slug] = Offer::where('type', 1)
+                                                      ->where('language', $language->slug)
+                                                      ->first();
+        }
+        return view('Admin.offers.tour_inclusions_exclusions',compact('languages','offer','offersByLanguage','offers'));
+    }
+
+    public function tour_ltinerary()
+    {
+        $offers = Offer::where('language','=','en')->get();
+        $languages=Language::all();
+        return view('Admin.offers.tour_ltinerary',compact('languages'));
+    }
+    public function packages()
+    {
+        $offers = Offer::where('language','=','en')->get();
+        $languages=Language::all();
+        return view('Admin.offers.packages',compact('languages'));
+    }
+    public function gallery($id)
+    {
+        // $offers = Offer::where('language','=','en')->get();
+        // $languages=Language::all();
+
+        $languages=Language::all();
+        $offers = Offer::where('language','=','en')->get();
+        $offer = Offer::where('type', 1)->findOrFail($id);
+        $languages=Language::all();
+        $offersByLanguage = [];
+        foreach ($languages as $language) {
+            $offersByLanguage[$language->slug] = Offer::where('type', 1)
+                                                      ->where('language', $language->slug)
+                                                      ->first();
+        }
+        return view('Admin.offers.gallery',compact('languages','offer','offersByLanguage','offers'));
+    }
+
+    
+    public function update_gallery(Request $request)
+    {
+        
+        $primaryId = $request->input('id'); // Single ID
+    $type = $request->input('type');
+
+    // Retrieve uploaded images
+    $uploadedImages = $request->file('gallery_images');
+
+    // Ensure $uploadedImages is always an array
+    
+
+    if ($uploadedImages && is_array($uploadedImages)) {
+        $imagePaths = [];
+
+        foreach ($uploadedImages as $image) {
+            if ($image->isValid()) {
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('footer_images'), $imageName);
+                $imagePaths[] =  $imageName;
+            }
+        }
+
+        // Update or create record in the Servicesdetail model
+        $serviceDetail = Servicesdetail::where('services_id', $primaryId)->firstOrFail();
+        
+        $serviceDetail->type = $type;
+   
+        $serviceDetail->gallery_images = json_encode($imagePaths); // Save as JSON
+        $serviceDetail->save();
+    } else {
+        return redirect()->back()->with('error', 'No valid images uploaded.');
+    }
+
+    return redirect()->back()->with('success', 'Gallery updated successfully!');
+    }
+    
+    public function reviews()
+    {
+        $offers = Offer::where('language','=','en')->get();
+        $languages=Language::all();
+        return view('Admin.offers.reviews',compact('languages'));
     }
 
     
@@ -27,72 +340,216 @@ class OfferController extends Controller
 
     public function store(Request $request)
 {
+    // Validate request data
+    $request->validate([
+        'languages' => 'required|array',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules as needed
+        'passengers' => 'required|integer',
+        'bags' => 'required|integer',
+        'packages' => 'nullable|array',
+    ]);
+
     // Find all languages in the request
-    $languages = collect($request->all())
-        ->keys()
-        ->filter(function ($key) {
-            return strpos($key, '_title') !== false;
-        })
-        ->map(function ($key) {
-            return str_replace('_title', '', $key);
-        })
-        ->unique()
-        ->values();
-    // Validate each language's attributes
-    $validLanguages = $languages->filter(function ($language) use ($request) {
-        return $request->filled([
-            "{$language}_title",
-            "{$language}_type",
-            "{$language}_feature1",
-            "{$language}_feature2",
-            "{$language}_feature3"
-        ]);
-    });
+    $languages = $request->input('languages');
+    $previousId = null;
 
-    $createdOffers = [];
+    foreach ($languages as $slug => $data) {
+        // Prepare the data for inserting the Offer
+        $offerData = [
+            'language' => $slug,
+            'title' => $request->input("{$slug}_title"),
+            'description' => $request->input("{$slug}_description"),
+            'passengers' => $request->input("passengers"),
+            'bags' => $request->input("bags"),
+        ];
 
-    // Process image upload
-    $imagePath = null;
-    if ($request->hasFile('images')) {
-        $imagePath = $request->file('images')->store('offers', 'public');
-    }
+        if ($slug === 'en') {
+            $offerData['secondary_id'] = 0; // English will have 0 as secondary_id
+        } else {
+            $offerData['secondary_id'] = $previousId; // Other languages reference the last created offer ID
+        }
 
-    // Create offers for valid languages
-    foreach ($validLanguages as $language) {
-        $offer = Offer::create([
-            'language' => $language,
-            'title' => $request->input("{$language}_title"),
-            'type' => $request->input("{$language}_type"),
-            'feature1' => $request->input("{$language}_feature1"),
-            'feature2' => $request->input("{$language}_feature2"),
-            'feature3' => $request->input("{$language}_feature3"),
-            'price' => $request->input("price"),
-            'discount_price' => $request->input("discount_price"),
-            'image' => $imagePath,
-            // Default secondary_id to 0
-            'secondary_id' => 0
-        ]);
+        // Create the offer record
+        $offerId = DB::table('airport_transfer')->insertGetId($offerData);
 
-        $createdOffers[$language] = $offer;
-    }
-    
-    // If 'en' exists, update secondary_id for other languages
-    if (isset($createdOffers['en'])) {
-        $enOffer = $createdOffers['en'];
-        
-        foreach ($createdOffers as $language => $offer) {
+        // Handle image upload
+        if ($request->hasFile("image") && $request->file("image")->isValid()) {
+            $image = $request->file("image");
             
-            if ($language !== 'en') {
-                $offer->update(['secondary_id' => $enOffer->id]);
+            // Generate a unique name for the image
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            
+            // Move the image to the specified directory
+            $image->move(public_path('footer_images'), $imageName);
+            
+            // Update the image path in the offer record
+            DB::table('airport_transfer')->where('id', $offerId)->update(['image' => $imageName]);
+        }
+
+        // If it's the English offer, save its ID for use in secondary_id of other languages
+        $previousId = $offerId;
+
+        // Handle packages if the language is English
+        if ($slug === 'en' && $request->has('packages')) {
+            foreach ($request->input('packages') as $index => $package) {
+                // Validate package data
+                $source = $package['source'] ?? null; // Use package-specific source
+                $destination = $package['destination'] ?? null; // Use package-specific destination
+                $type = $package['type'] ?? null;
+                $price = $package['price'] ?? null;
+
+                // Create service detail entry
+                DB::table('rate')->insert([
+                    'language' => $slug,
+                    'source' => $source,
+                    'destination' => $destination,
+                    'type' => $type,
+                    'price' => $price,
+                    'secondary_id' => 0,
+                    'services_id' => $offerId,
+                ]);
             }
         }
     }
 
-    return response()->json([
-        'message' => 'Offers created successfully', 
-        'offers' => $createdOffers
-    ]);
+    return redirect()->back()->with('success', 'Offer created successfully!');
 }
+
+
+public function store_excursion(Request $request)
+{
+    $languages = $request->input('languages');
+    $previousId = 0; // Variable to store the English offer ID
+
+    foreach ($languages as $slug => $data) {
+        // Prepare the data for inserting the Offer
+        $offerData = [
+            'language' => $slug,
+            'title' => $request->input("{$slug}_title"),
+            'type' => $request->input("type"),
+            'description' => $request->input("{$slug}_description"),
+            'secondary_id' => $previousId,
+        ];
+
+        // Insert the offer record
+      //  $offerId = Offer::insert($offerData);
+        $offer = Offer::create($offerData);
+        // If it's the English offer, save its ID for use in secondary_id of other languages
+        
+        $previousId = $offer->id;
+        
+
+        // Handle service details for the English language
+        if ($slug === 'en') {
+            $imageName = null;
+
+            // Handle image upload before inserting the record
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $image = $request->file('image');
+
+                // Generate a unique name for the image
+                $imageName = time() . '_' . $image->getClientOriginalName();
+
+                // Move the image to the specified directory
+                $image->move(public_path('footer_images'), $imageName);
+            }
+
+            // Insert service detail with image, price, and discount price
+            $servicedetailData = [
+                'language' => $slug,
+                'type' => $request->input('type'),
+                'discount_price' => $request->input('discount_price'),
+                'price' => $request->input('price'),
+                'secondary_id' => 0,
+                'services_id' => $previousId,
+                'image' => $imageName,
+            ];
+
+            Servicesdetail::insert($servicedetailData);
+        }
+    }
+
+    return redirect()->back()->with('success', 'Excursion details added successfully.');
+}
+
+
+    // $languages = collect($request->all())
+    //     ->keys()
+    //     ->filter(function ($key) {
+    //         return strpos($key, '_title') !== false;
+    //     })
+    //     ->map(function ($key) {
+    //         return str_replace('_title', '', $key);
+    //     })
+    //     ->unique()
+    //     ->values();
+    // // Validate each language's attributes
+    // $validLanguages = $languages->filter(function ($language) use ($request) {
+    //     return $request->filled([
+    //         // "{$language}_title",
+    //         "{$language}_type",
+    //         "{$language}_feature1",
+    //         "{$language}_feature2",
+    //         "{$language}_feature3"
+    //     ]);
+    // });
+
+    // $createdOffers = [];
+
+    // // Process image upload
+    // $imagePath = null;
+    // if ($request->hasFile('images')) {
+    //     $imagePath = $request->file('images')->store('offers', 'public');
+    // }
+
+    // // Create offers for valid languages
+    // foreach ($validLanguages as $language) {
+    //     $offer = Offer::create([
+    //         'language' => $language,
+    //         // 'title' => $request->input("{$language}_title"),
+    //         'type' => $request->input("{$language}_type"),
+    //         // 'feature1' => $request->input("{$language}_feature1"),
+    //         // 'feature2' => $request->input("{$language}_feature2"),
+    //         // 'feature3' => $request->input("{$language}_feature3"),
+    //         'price' => $request->input("price"),
+    //         // 'discount_price' => $request->input("discount_price"),
+    //         'description' => $request->input("description"),
+            
+    //         'image' => $imagePath,
+    //         // Default secondary_id to 0
+    //         'secondary_id' => 0
+    //     ]);
+
+    //     Servicesdetail::create([
+    //         'source' => $request->input("{$language}_source"),
+    //         'destination' => $request->input("{$language}_destination"),
+    //        'secondary_id' => 0,
+    //         'services_id' => $offer->id, // Set English ID or current ID
+    //         'created_at' => now(),
+    //         'updated_at' => now(),
+    //     ]);
+
+
+    //     $createdOffers[$language] = $offer;
+    // }
+    
+    // // If 'en' exists, update secondary_id for other languages
+    // if (isset($createdOffers['en'])) {
+    //     $enOffer = $createdOffers['en'];
+        
+    //     foreach ($createdOffers as $language => $offer) {
+            
+    //         if ($language !== 'en') {
+    //             $offer->update(['secondary_id' => $enOffer->id]);
+    //         }
+    //     }
+    // }
+
+    // return response()->json([
+    //     'message' => 'Offers created successfully', 
+    //     'offers' => $createdOffers
+    // ]);
+
 
 public function edit($id)
 {
@@ -127,6 +584,18 @@ private function getBoundary(Request $request)
    
 public function update(Request $request, $id)
 {
+    // Validate basic inputs
+    // $content = $request->getContent();
+    // $boundary = $this->getBoundary($request);
+    
+    // if ($boundary) {
+    //     $parts = $this->parseMultipartFormData($content, $boundary);
+        
+    //     // Manually add parsed data to the request
+    //     foreach ($parts as $name => $value) {
+    //         $request->merge([$name => $value]);
+    //     }
+    // }
 
     // Find the primary offer
     $primaryOffer = Offer::findOrFail($id);
@@ -140,7 +609,6 @@ public function update(Request $request, $id)
         }
         // Store new image
         $imagePath = $request->file('images')->store('offers', 'public');
-        dd($imagePath);
     }
 
     // Identify language inputs dynamically

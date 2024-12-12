@@ -45,21 +45,26 @@ class BlogController extends Controller
     ->unique()
     ->values();
     // dd($languages);
-
-$uploadedImages = [];
-if ($request->hasFile('images')) {
-    foreach ($request->file('images') as $key => $image) {
-        // Check if file exists
-        if ($image->isValid()) {
-            // Define unique filename and path
-            $imagePath = $image->store('media', 'public');
-
-            // Store image path in the result array
-            $uploadedImages[$key] = $imagePath;
+    $uploadedImages = [];
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $key => $image) {
+            // Check if the file is valid
+            if ($image->isValid()) {
+                // Define unique filename
+                $filename = time() . '_' . $image->getClientOriginalName();
+    
+                // Move the file to the public/Frontend/images directory
+                $image->move(public_path('Frontend/images'), $filename);
+    
+                // Define the relative path to be stored
+                $imagePath = 'Frontend/images/' . $filename;
+    
+                // Store the path in the array
+                $uploadedImages[$key] = $imagePath;
+            }
         }
     }
-}
-
+    
 // Validate each language's attributes
 $validLanguages = $languages->filter(function ($language) use ($request) {
     return $request->filled([
@@ -117,7 +122,7 @@ return response()->json([
     {
         $PrimaryBlog=Blog::findOrFail($id);
 		$blogs=Blog::where('secondary_id',$id)->get();
-		// dd($testimonials);
+		// dd($PrimaryBlog);
 		$languages = Language::all();
 		return view('Admin.blogs.edit',compact('blogs','languages','PrimaryBlog'));
     }
@@ -140,22 +145,32 @@ return response()->json([
         ->values();
         // dd($languages);
 	
-
-    $uploadedImages = [];
-    if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $key => $image) {
-            // Check if file exists
-            if ($image->isValid()) {
-                // Define unique filename and path
-                $imagePath = $image->store('media', 'public');
-				// dd($imagePath);
-                // Store image path in the result array
-                $uploadedImages[$key] = $imagePath;
+        $uploadedImages = [];
+        $imagePath = null; // Initialize the variable
+        
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $key => $image) {
+                // Check if the file is valid
+                if ($image->isValid()) {
+                    // Define unique filename
+                    $filename = time() . '_' . $image->getClientOriginalName();
+        
+                    // Move the file to the public/Frontend/images directory
+                    $image->move(public_path('Frontend/images'), $filename);
+        
+                    // Define the relative path to be stored
+                    $imagePath = 'Frontend/images/' . $filename;
+        
+                    // Store the path in the array
+                    $uploadedImages[$key] = $imagePath;
+                }
             }
         }
-    }else if($PrimaryBlog->image){
-        $imagePath =$PrimaryBlog->image;
-    }
+        
+        // If no new images are uploaded, use the existing image path
+        if (empty($uploadedImages) && $PrimaryBlog->image) {
+            $imagePath = $PrimaryBlog->image;
+        }
 
     // Validate each language's attributes
     $validLanguages = $languages->filter(function ($language) use ($request) {
@@ -171,8 +186,8 @@ return response()->json([
     foreach ($validLanguages as $language) {
         // Default data for the testimonial
         $blogData = [
-            'title' => $request->input('en_title'),
-            'content' => $request->input('en_description'),
+            'title' => $request->input("{$language}_title"),
+            'content' => $request->input("{$language}_description"),
             'image' => $imagePath, 
             'language' => 'en',
         ];
@@ -182,6 +197,8 @@ return response()->json([
         // If the language is not 'en', add the secondary_id
         if ($language !== 'en') {
             $blogData['secondary_id'] = $id;
+            $blogData['language'] = $language;
+            
             $blog = Blog::where('secondary_id','=',$id)
             ->where('language','=',$language)
             ->first();
@@ -196,15 +213,6 @@ return response()->json([
         }else {
             $PrimaryBlog->update($blogData);
         }
-
-        // Create the testimonial
-        // $testimonial = Testimonials::where('secondary_id','=',$id)
-        // ->where('language','=',$language)
-        // ->get();
-        // dd($testimonial);
-        
-        // Store the created testimonial in the createdSliders array
-        // $createdSliders[$language] = $testimonial;
     }
 
     return response()->json([
