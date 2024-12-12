@@ -1,264 +1,177 @@
 @include('Admin.include.head')
 @include('Admin.include.header')
 @include('Admin.include.asidebar')
-<style></style>
-<main id="main" class="main">
 
+<main id="main" class="main">
     <div class="pagetitle">
-        <h1>Manage Services
+        <h1>Manage Videos
             <a type="submit" class="btn btn-danger" style="float:right;" href="{{route('offers.index')}}">Back</a>
         </h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={{ route('offers.index') }}>Excursions</a></li>
-                <li class="breadcrumb-item active">Add Video Reviews</li>
+                <li class="breadcrumb-item"><a href="{{ route('offers.index') }}">Excursions</a></li>
+                <li class="breadcrumb-item active">Add Videos</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
+
     <section class="section">
         <div class="row">
             @include('Admin.include.inner-services')
             <div class="col-lg-9">
                 <div class="card">
                     <div class="card-body">
-                        <!-- <h5 class="card-title">Home Slider Form</h5> -->
-                        <!-- <ul class="nav nav-tabs mt-3" id="languageTabs" role="tablist">
-                            @foreach($languages as $index => $language)
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link {{ $index === 0 ? 'active' : '' }}" 
-                                        id="{{ $language->slug }}-tab" 
-                                        data-bs-toggle="tab" 
-                                        href="#{{ $language->slug }}" 
-                                        role="tab" 
-                                        aria-controls="{{ $language->slug }}" 
-                                        aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
-                                        {{ ucfirst($language->name) }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul> -->
                         <div class="tab-content" id="languageTabsContent">
                             @foreach($languages as $index => $language)
-                                <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
-                                    id="{{ $language->slug }}" 
-                                    role="tabpanel" 
-                                    aria-labelledby="{{ $language->slug }}-tab">
+                            <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" id="{{ $language->slug }}" role="tabpanel" aria-labelledby="{{ $language->slug }}-tab">
+                                <div class="card mt-3">
+                                    <div class="card-header">Video Gallery</div>
+                                    <div class="card-body">
+                                        <form action="{{ route('update.reviews') }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $offer->id }}">
+                                            <input type="hidden" name="type" value="{{ $offer->type }}">
 
-                                    <div class="card mt-3">
-                                        <div class="card-header">Video</div>
-                                        <div class="card-body">
-                                            <div class="row position-relative">
-                                                <div class="col-md-6">
-                                                    <label for="video1" class="form-label">Select Video</label>
-                                                    <input type="file" name="videos[video1]" id="vidInp1" accept="video/*" class="form-control input-default" placeholder="Select video">
-                                        
-                                                    <video src="" id="output1" class="my-3 w-100" controls></video>
+                                            <div class="wrapper-video">
+                                                <div class="container-video">
+                                                    <div class="upload-container">
+                                                        <div class="border-container" id="drag-area">
+                                                            <div class="icons fa-4x" id="upload-icon">
+                                                                <i class="fa fa-file-video" data-fa-transform="shrink-3 down-2 left-6 rotate--45"></i>
+                                                            </div>
+                                                            <input type="file" id="file-upload" style="opacity: 0;" name="gallery_videos[]" multiple accept="video/*">
+                                                            <p>Drag and drop videos here, or 
+                                                                <a href="#" id="file-browser">browse</a> your computer.
+                                                            </p>
+                                                            <div id="file-previews" class="d-flex flex-wrap mt-3"></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <button type="button" class="btn" id="delete" style="display:none; position:absolute;bottom:0;right:-55px;"><i class="fa fa-trash text-danger"></i></button>
+                                                <button id="delete-all-btn" class="btn btn-danger mt-3" style="display: none;">Delete All</button>
                                             </div>
 
-                                            <div class="col-md-12" id="input-container" style="text-align: right;">
-                                                <button type="button" class="btn btn-primary btn-sm mt-2" id="add"><i class="fa fa-plus"></i> </button>
+                                            <div class="col-md-12" style="text-align: right;">
+                                                <button type="submit" class="btn btn-primary submit" id="submitAll">Submit</button>
                                             </div>
-                                            
-                                        </div>
-                                        
+                                        </form>
                                     </div>
-                                    
-                                    <div class="col-md-12" style="text-align: right;">
-                                        <button type="button" class="btn btn-primary submit" id="submitAll">Submit</button>
-                                    </div>
-                                    
                                 </div>
+                            </div>
                             @endforeach
                         </div>
                     </div>
-                </div> 
-            </div> 
-        </div> 
-        
-        
-        
-            
-       
-    
-    </section> 
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
 
-</main><!-- End #main -->
-<script>
-var loadFile = function(event) {
-var reader = new FileReader();
-reader.onload = function(){
-    var output = document.getElementById('output');
-    var output1 = document.getElementById('output1');
-    output.src = reader.result;
-    output1.src = reader.result;
-};
-reader.readAsDataURL(event.target.files[0]);
-};
-
-document.addEventListener('DOMContentLoaded', function() {
-
-//alert('hdsjf');
-
-function toggleLanguageTab(lang) {
-    console.log('Language tab clicked:', lang);
-    if (lang === 'english') {
-    document.getElementById('english-tab').classList.add('active');
-document.getElementById('arabic-tab').classList.remove('active');
-document.getElementById('english').classList.add('active', 'show');
-document.getElementById('arabic').classList.remove('active', 'show');
-    
-    document.getElementById('title-label').textContent = 'Title';
-    document.getElementById('label-label').textContent = 'Label';
-    document.getElementById('description-label').textContent = 'Description';
-    document.getElementById('button-label').textContent = 'Button';
-    document.getElementById('imgInp').textContent = 'Image';
-    
-    
-    } else {
-
-    document.getElementById('arabic-tab').classList.add('active');
-document.getElementById('english-tab').classList.remove('active');
-document.getElementById('arabic').classList.add('active', 'show');
-document.getElementById('english').classList.remove('active', 'show');
-    document.getElementById('arabic').classList.add('active');
-    document.getElementById('english').classList.remove('active');
-    document.getElementById('arabic').classList.add('rtl');
-    
-    
-    }
-}
-
-// Event listener for English tab click
-document.getElementById('english-tab').addEventListener('click', function() {
-    toggleLanguageTab('english');
-});
-
-// Event listener for Arabic tab click
-document.getElementById('arabic-tab').addEventListener('click', function() {
-    toggleLanguageTab('arabic');
-});
-
-// Function to handle file input change event
-
-});
-
-</script>
 @include('Admin.include.footer')
 @include('Admin.include.script')
+
 <script>
-document.getElementById('submitAll').addEventListener('click', function () {
-    // Find all forms inside the tab content
-    const forms = document.querySelectorAll('#languageTabsContent form');
-    
-    // Get the price and discount price fields
-    const price = document.getElementById('price').value;
-    const discountPrice = document.getElementById('discount_price').value;
-    
-    // Get the image file if selected
-    const imageInput = document.getElementById('imgInp');
-    const imageFile = imageInput.files[0];
+$(document).ready(function () {
+    const $dragArea = $('#drag-area');
+    const $fileUpload = $('#file-upload');
+    const $filePreviews = $('#file-previews');
+    const $deleteAllBtn = $('#delete-all-btn');
+    const $fileBrowserLink = $('#file-browser');
 
-    // Create a single FormData object to store all form data
-    const formData = new FormData();
+    let selectedFiles = [];
 
-    // Iterate through each form and append its inputs to the single FormData object
-    forms.forEach(form => {
-        // Skip empty forms (without any visible input)
-        const hasInput = Array.from(form.elements).some(input => {
-            return input.value.trim() !== ''; // Include hidden fields as well
-        });
-        if (!hasInput) {
-            console.log(`Skipping form: ${form.id} (no input provided)`);
-            return;
-        }
-
-        // Append all form data (including hidden fields) to formData
-        Array.from(form.elements).forEach(input => {
-            formData.append(input.name, input.value);
-        });
-
-        // Append the CSRF token if it's not already in the formData (to avoid duplicates)
-        const csrfToken = form.querySelector('input[name="_token"]');
-        if (csrfToken && !formData.has('_token')) {
-            formData.append('_token', csrfToken.value);
-        }
+    // Handle drag and drop functionality
+    $dragArea.on('dragover', function (e) {
+        e.preventDefault();
+        $(this).addClass('active');
     });
 
-    // Append the price and discount price fields to the FormData
-    formData.append('price', price);
-    formData.append('discount_price', discountPrice);
+    $dragArea.on('dragleave', function () {
+        $(this).removeClass('active');
+    });
 
-    // Append image to FormData if an image file is selected
-    if (imageFile) {
-        formData.append('images', imageFile);
-    }else if(!imageFile){
-        alert('No file');
-    }
+    $dragArea.on('drop', function (e) {
+        e.preventDefault();
+        $(this).removeClass('active');
+        handleFiles(e.originalEvent.dataTransfer.files);
+    });
 
-    // Debug: Log all form data being submitted
-    console.log('Submitting all form data:');
-    for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-    }
+    // Handle file input click via the "browse" link
+    $fileBrowserLink.on('click', function (e) {
+        e.preventDefault();
+        $fileUpload.click();
+    });
 
-    // Send a single AJAX request to submit the combined form data
-    fetch('{{ route('offers.store') }}', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            // If you're using a CSRF token globally, you can set it in the headers.
-            // 'X-CSRF-TOKEN': csrfToken.value // Only needed if you need to send it separately in headers
-        }
-    })
-        .then(response => {
-            // Handle response statuses
-            if (!response.ok) {
-                return response.json().then(err => {
-                    console.error(`Validation errors:`, err.errors);
-                    alert(`Validation errors: ${JSON.stringify(err.errors)}`);
-                    throw new Error('Validation failed');
-                });
+    // Handle file input change event
+    $fileUpload.on('change', function () {
+        handleFiles(this.files);
+    });
+
+    // Handle file selection
+    function handleFiles(files) {
+        $.each(files, function (index, file) {
+            if (!selectedFiles.some((f) => f.name === file.name)) {
+                if (file.type.startsWith('video/')) {
+                    selectedFiles.push(file);
+                    displayVideoPreview(file);
+                } else {
+                    alert('Only video files are allowed!');
+                }
             }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Forms submitted successfully:', data);
-            alert("Forms submitted successfully.");
-        })
-        .catch(error => {
-            console.error('Error submitting forms:', error);
-            alert('Error submitting forms: ' + error.message);
         });
-});
+        toggleDeleteAllButton();
+    }
 
-</script>
+    // Display video previews
+    function displayVideoPreview(file) {
+        const reader = new FileReader();
 
-<script>
-    $(document).ready(function() {
-        // Add new input field with delete button
-        $('#add').click(function() {
-            // Create a new input field with a delete button
-            var newInputField = $('<div class="col-md-6 mt-2 position-relative">' +
-                '<label for="video1" class="form-label">Select Video</label>' +
-                '<input type="file" name="videos[video1]" id="vidInp1" accept="video/*" class="form-control input-default" placeholder="Select video">' +
-                '<video src="" id="output1" class="my-3 w-100" controls></video>' +
-                '<button type="button" class="btn delete-btn" style="display:block; position:absolute; bottom:10px; right:-55px;">' +
-                '<i class="fa fa-trash text-danger"></i>' +
-                '</button>' +
-                '</div>');  
+        reader.onload = function (e) {
+            const previewHtml = `
+                <div class="file-preview m-2 position-relative">
+                    <video width="100" height="100" controls>
+                        <source src="${e.target.result}" type="${file.type}">
+                        Your browser does not support the video tag.
+                    </video>
+                    <button class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-btn" data-name="${file.name}">
+                        &times;
+                    </button>
+                </div>
+            `;
+            $filePreviews.append(previewHtml);
+        };
 
-            // Append the new input field before the Add button container
-            $('#input-container').before(newInputField);
-        });
+        reader.readAsDataURL(file);
+    }
 
-        // Delegate event for dynamically created delete buttons
-        $(document).on('click', '.delete-btn', function() {
-            // Remove the closest input field (the parent div of the clicked delete button)
-            $(this).closest('.col-md-6').remove();
-        });
+    // Remove a file preview
+    $filePreviews.on('click', '.remove-btn', function () {
+        const fileName = $(this).data('name');
+        selectedFiles = selectedFiles.filter((file) => file.name !== fileName);
+        $(this).closest('.file-preview').remove();
+        toggleDeleteAllButton();
     });
+
+    // Handle delete all button
+    $deleteAllBtn.on('click', function () {
+        selectedFiles = [];
+        $filePreviews.empty();
+        toggleDeleteAllButton();
+    });
+
+    // Toggle delete all button visibility
+    function toggleDeleteAllButton() {
+        $deleteAllBtn.toggle(selectedFiles.length > 0);
+    }
+
+    // Ensure all files are added before form submission
+    $('form').on('submit', function(e) {
+        const dataTransfer = new DataTransfer();
+        
+        selectedFiles.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        $fileUpload[0].files = dataTransfer.files;
+    });
+});
 </script>
-
-

@@ -61,36 +61,26 @@
 					<div class="row">
 						<div class="col-sm-6 mb-md-0 mb-2 col-md-3 col-lg-3 position-relative">
 							<span class="icon-my_location search-icons"></span>
-							<select name="" id="" class="form-control custom-select">
-								<option value="">@lang('message.origin')</option>
-								<option value="">Cairo</option>
-								<option value="">Giza</option>
-								<option value="">Alexandria</option>
-								<option value="">Sinnūris</option>
-								<option value="">Al Manşūrah</option>
-								<option value="">Ḩalwān</option>
-								<option value="">Akhmīm</option>
-								<option value="">Al Marāghah</option>
+							<select name="source" id="" class="form-control custom-select">
+								<option value="">@lang('message.location')</option>
+								@foreach($sources as $source)
+								<option value="{{ $source->id }}">{{ $source->name }}</option>
+							@endforeach
 							</select>
 						</div>
 						<div class="col-sm-6 mb-md-0 mb-2 col-md-3 col-lg-3 position-relative">
 							<span class="icon-add_location search-icons"></span>
-							<select name="" id="" class="form-control custom-select">
+							<select name="destination" id="" class="form-control custom-select">
 								<option value="">@lang('message.destination')</option>
-								<option value="">Awsīm</option>
-								<option value="">Asyūţ</option>
-								<option value="">Al Minyā</option>
-								<option value="">Mallawī</option>
-								<option value="">Damietta</option>
-								<option value="">Qinā</option>
-								<option value="">Banhā</option>
-								<option value="">Qalyūb</option>
+								@foreach($destinations as $destination)
+								<option value="{{ $destination->id }}">{{ $destination->name }}</option>
+								@endforeach
 							</select>
 						</div>
 						
 						<div class="col-sm-6 mb-md-0 mb-0 col-md-3 col-lg-3 position-relative">
 							<span class="icon-users search-icons"></span>
-							<input type="text" id="quantityInput" class="form-control" placeholder="@lang('message.select_passengers')" readonly onclick="toggleQuantityDiv()">
+							<input type="text" name="passengers" id="quantityInput" class="form-control" placeholder="@lang('message.select_passengers')" readonly onclick="toggleQuantityDiv()">
 
 							<!-- Quantity selection div, initially hidden -->
 							<div id="quantityRangeDiv" class="mt-2 p-3 border rounded" style="display: none; position: absolute; background-color: white;">
@@ -119,7 +109,7 @@
 				<div class="row mb-5">
 					<div class="col-lg-12 mx-auto text-center">
 						<div class="heading-content aos-init aos-animate" data-aos="fade-up">
-							<h2>@lang('message.searching_result_title')</h2>
+							<h2>@lang('message.searching_result_title')AAAAAAAAAAAAa</h2>
 						</div>
 					</div>
 				</div>
@@ -696,6 +686,7 @@
 			});  
 		</script>
 		
+		
 		<!-- smooth scroling  -->
 		
 		<script>
@@ -741,4 +732,50 @@
 			// Initial display update
 			updateQuantityDisplay();
 		</script>
+	
+	<script>
+		$(document).ready(function () {
+			// Trigger the AJAX request when the search button is clicked
+			$('#searchRoutesBtn').on('click', function (e) {
+				e.preventDefault();  // Prevent form submission
+	
+				// Get form values
+				const source = $('select[name="source"]').val();
+				const destination = $('select[name="destination"]').val();
+				const passengers = $('#popupQuantityInput').val();
+	
+				// Perform AJAX request
+				$.ajax({
+					url: "{{ route('airport_transfer') }}", // Ensure the route is correct
+					method: "POST",
+					data: {
+						_token: "{{ csrf_token() }}", // CSRF token for security
+						source: source,
+						destination: destination,
+						passengers: passengers
+					},
+					success: function (response) {
+						if (response.success) {
+							// Handle successful response
+							let results = response.data;
+							let resultHtml = '';
+							results.forEach(item => {
+								resultHtml += `<div class="result-item">
+									<h5>${item.source} to ${item.destination}</h5>
+									<p>Passengers: ${item.passengers}</p>
+									<p>Price: $${item.price}</p>
+								</div>`;
+							});
+							$('#resultsContainer').html(resultHtml); // Update the results container
+						} else {
+							$('#resultsContainer').html('<p>No data found.</p>');
+						}
+					},
+					error: function () {
+						alert("An error occurred. Please try again.");
+					}
+				});
+			});
+		});
+	</script>
 	

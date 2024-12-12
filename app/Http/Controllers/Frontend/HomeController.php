@@ -10,7 +10,7 @@ use App\Models\Testimonials;
 use App\Models\Blog;
 use App\Models\Partner;
 use Illuminate\Support\Facades\App; // Ensure App facade is imported
-
+use Illuminate\Support\Facades\DB;
 // use App\Models\Faq;
 
 use Illuminate\Http\Request;
@@ -93,10 +93,37 @@ class HomeController extends Controller
         return view('Frontend.blog-detail');
     }
 
-    public function airport_transfer(){
+    public function airport_transfer(Request $request)
+    {
+        if ($request->ajax()) {
+            // Handle AJAX request
+            $source = $request->input('source');
+            $destination = $request->input('destination');
+            $passengers = $request->input('passengers');
+            $locale = app()->getLocale(); // Assuming locale is set in the application
+    
+            // Query with the join
+            $results = DB::table('rate')
+                ->join('airport_transfer', 'rate.services_id', '=', 'airport_transfer.id')
+                ->where('rate.source', $source)
+                ->where('rate.destination', $destination)
+                ->where('airport_transfer.passengers','>=', $passengers)
+                ->where('airport_transfer.language', $locale)
+                ->select('rate.*', 'airport_transfer.*')
+                ->get();
+    // dd($results);
+            // Return results as JSON
+            return response()->json(['success' => true, 'data' => $results]);
+        }
+    
+        // Initial page load (non-AJAX)
+        $sources = DB::table('source')->get();
+        $destinations = DB::table('destination')->get();
         $partners = Partner::all();
-        return view('Frontend.airport-transfer',compact('partners'));
+    
+        return view('Frontend.airport-transfer', compact('partners', 'sources', 'destinations'));
     }
+    
     public function airport_transfer_fares(){
         return view('Frontend.airport-transfer-fares');
     }

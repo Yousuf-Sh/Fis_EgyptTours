@@ -278,6 +278,25 @@ $(document).ready(function () {
 });
 
     </script>
+    <script>
+        $(document).ready(function () {
+    const $fileUpload = $('#file-upload');
+    const $form = $('form');
+
+    $form.on('submit', function(e) {
+        // Create a new FileList to hold all selected files
+        const dataTransfer = new DataTransfer();
+        
+        // Add all selected files to the input
+        selectedFiles.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        // Update the file input with all files
+        $fileUpload[0].files = dataTransfer.files;
+    });
+});
+    </script>
 
 
 

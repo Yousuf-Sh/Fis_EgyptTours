@@ -41,14 +41,14 @@
                     <th scope="col">Sr.No</th>
                     <!-- <th scope="col">Language</th> -->
                     <th scope="col">Title</th>
-                    <th scope="col">Service Type</th>
+                    {{-- <th scope="col">Service Type</th> --}}
                     <!-- <th scope="col">Feature 1</th>
                     <th scope="col">Feature 2</th>
                     <th scope="col">Feature 3</th>
                     <th scope="col">Feature 4</th> -->
-                    <th scope="col">Price</th>
+                    {{-- <th scope="col">Price</th> --}}
                     <!-- <th scope="col">Discount Price</th> -->
-                    <th scope="col">Img</th>
+                    {{-- <th scope="col">Img</th> --}}
                     <th scope="col">Created At</th>
                     <th scope="col">Actions</th>
                   </tr>
@@ -59,24 +59,24 @@
                     <td>{{$key+1}}</td>
                     <!-- <td>{{$offer->language}}</td> -->
                   <td>{{$offer->title}}</a></td>
-                    <td>{{$offer->type}}</td>
-                    <!-- <td>{{$offer->feature1}}</td>
+                    {{-- <td>{{$offer->type}}</td> --}}
+                    {{-- <td>{{$offer->feature1}}</td>
                     <td>{{$offer->feature2}}</td>
-                    <td>{{$offer->feature3}}</td>  -->
-                    <!-- <td>Micro</a></td>
+                    <td>{{$offer->feature3}}</td> 
+                    <td>Micro</a></td>
                     <td>Airport transfer</td>
                     <td>Free cancellation</td>
                     <td>90 minutes wait</td>
                     <td>8 Pessengers</td>
-                    <td>3 Bags</td> -->
-                    <td>{{$offer->price}}</td>
-                    <!-- <td>{{$offer->discount_price}}</td> -->
-                    <td><img src="https://fscdn.kiwitaxi.com/assets/images/vehicles/13.webp" alt="" height=35 ></td>
+                    <td>3 Bags</td> --}}
+                    {{-- <td>{{$offer->price}}</td> --}}
+                    {{-- <td>{{$offer->discount_price}}</td> --}}
+                    {{-- <td><img src="https://fscdn.kiwitaxi.com/assets/images/vehicles/13.webp" alt="" height=35 ></td> --}}
                     <td>{{$offer->created_at}}</td>
                     
                     <td>
                       <div class="d-flex">
-                        <a href="{{route('offers.edit',$offer->id)}}" title="Click to Edit" class="text-info"><span class="fa fa-pencil"></span></a>&nbsp;
+                        <a href="{{route('edit.airport_transfer',$offer->id)}}" title="Click to Edit" class="text-info"><span class="fa fa-pencil"></span></a>&nbsp;
                         <form action="{{ route('offers.destroy', $offer->id) }}" method="POST" style="display: inline;" class="delete-form">
                             @csrf
                             @method('DELETE')

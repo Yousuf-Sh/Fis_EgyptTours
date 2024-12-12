@@ -21,7 +21,7 @@ class OfferController extends Controller
 
     public function airport_index()
     {
-        $offers = Offer::where('language','=','en')->get();
+        $offers = DB::table('airport_transfer')->where('language','=','en')->get();
        
         return view('Admin.offers.airport_index',['offers'=>$offers]);
     }
@@ -202,13 +202,129 @@ class OfferController extends Controller
 
     public function airport_transfer()
     {
-        $offers = Offer::where('language','=','en')->get();
+        // $offers = Offer::where('language','=','en')->get();
         $languages=Language::all();
         $sources = DB::table('source')->select('id', 'name')->get();
 
         $destinations=DB::table('destination')->select('id', 'name')->get();
        
         return view('Admin.offers.airport_transfer',compact('languages','sources','destinations'));
+    }
+    public function update_airport_transfer(Request $request)
+{      
+    // dd($request->all());
+    $id=$request->input('p_id');
+    $request->validate([
+        'languages' => 'required|array',
+        'passengers' => 'required|integer',
+        'bags' => 'required|integer',
+        'packages' => 'nullable|array',
+        'type' => 'nullable|string',
+    ]);
+
+    // Find the existing English offer to use as a reference
+    $existingEnglishOffer = DB::table('airport_transfer')
+        ->where('id', $id)
+        ->where('language', 'en')
+        ->first();
+
+    if (!$existingEnglishOffer) {
+        return redirect()->back()->with('error', 'Offer not found!');
+    }
+
+    $previousId = $id;
+
+    // Process each language
+    foreach ($request->input('languages') as $slug => $languageCode) {
+        // Prepare the data for updating the Offer
+        $offerData = [
+            'language' => $slug,
+            'title' => $request->input("{$slug}_title"),
+            'description' => $request->input("{$slug}_description"),
+            'passengers' => $request->input("passengers"),
+            'bags' => $request->input("bags"),
+            'type' => $request->input("type", 0),
+        ];
+
+        // Check if an offer for this language and secondary ID already exists
+        $existingOffer = DB::table('airport_transfer')
+            ->where('secondary_id', $slug === 'en' ? 0 : $previousId)
+            ->where('language', $slug)
+            ->first();
+
+        if ($existingOffer) {
+            // Update existing offer
+            DB::table('airport_transfer')
+                ->where('id', $existingOffer->id)
+                ->update($offerData);
+            $offerId = $existingOffer->id;
+        } else {
+            // Create new offer if not exists
+            $offerData['secondary_id'] = $slug === 'en' ? 0 : $previousId;
+            $offerId = DB::table('airport_transfer')->insertGetId($offerData);
+        }
+
+        // If it's the English offer, save its ID for use in secondary_id of other languages
+        if ($slug === 'en') {
+            $previousId = $offerId;
+        }
+
+        // Handle packages for English language
+        if ($slug === 'en' && $request->has('packages')) {
+            foreach ($request->input('packages') as $index => $package) {
+                $source = $package['source'] ?? null;
+                $destination = $package['destination'] ?? null;
+                $type = $package['type'] ?? 0;
+                $price = $package['price'] ?? null;
+                $time = $package['time'] ?? null;
+
+                // Check if this is an existing package (has a package_id)
+                if (isset($package['package_id'])) {
+                    // Update existing package
+                    DB::table('rate')
+                        ->where('id', $package['package_id'])
+                        ->update([
+                            'source' => $source,
+                            'destination' => $destination,
+                            'type' => $type,
+                            'price' => $price,
+                            'time' => $time,
+                        ]);
+                } else {
+                    // Insert new package
+                    DB::table('rate')->insert([
+                        'language' => $slug,
+                        'source' => $source,
+                        'destination' => $destination,
+                        'type' => $type,
+                        'price' => $price,
+                        'time' => $time,
+                        'secondary_id' => 0,
+                        'services_id' => $offerId,
+                    ]);
+                }
+            }
+        }
+    }
+
+    return redirect()->back()->with('success', 'Offer updated successfully!');
+}
+    public function airport_transfer_edit($id)
+    {
+        $pOffer= DB::table('airport_transfer')
+        ->where('id','=',$id)->first();
+        $offers = DB::table('airport_transfer')
+        ->where('id','=',$id)
+        ->orWhere('secondary_id',$id)->get();
+        $packages=DB::table('rate')->where('services_id',$id)->get();
+        $languages=Language::all();
+        $sources = DB::table('source')->select('id', 'name')->get();
+
+        $destinations=DB::table('destination')->select('id', 'name')->get();
+       
+        return view('Admin.offers.airport_transfer_edit',compact('languages',
+        'sources','destinations','offers','pOffer',
+    'packages'));
     }
     public function tour_description($id)
     {
@@ -244,7 +360,7 @@ class OfferController extends Controller
     {
         $languages=Language::all();
         $offers = Offer::where('language','=','en')->get();
-        $offer = Offer::where('type', 1)->findOrFail($id);
+        // $offer = Offer::where('type', 1)->findOrFail($id);
         $languages=Language::all();
         $offersByLanguage = [];
         foreach ($languages as $language) {
@@ -269,6 +385,7 @@ class OfferController extends Controller
     }
     public function gallery($id)
     {
+        
         // $offers = Offer::where('language','=','en')->get();
         // $languages=Language::all();
 
@@ -288,33 +405,37 @@ class OfferController extends Controller
     
     public function update_gallery(Request $request)
     {
-        
+        // dd($request->allFiles());
         $primaryId = $request->input('id'); // Single ID
     $type = $request->input('type');
 
     // Retrieve uploaded images
     $uploadedImages = $request->file('gallery_images');
+    // dd($uploadedImages);
 
     // Ensure $uploadedImages is always an array
     
 
     if ($uploadedImages && is_array($uploadedImages)) {
-        $imagePaths = [];
+        $imagePaths = '';
 
         foreach ($uploadedImages as $image) {
             if ($image->isValid()) {
                 $imageName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('footer_images'), $imageName);
-                $imagePaths[] =  $imageName;
+                $image->move(public_path('Frontend/images'), $imageName);
+                $imagePath = 'Frontend/images/' . $imageName;
+                $imagePaths .= $imagePath . ',';
             }
         }
-
+        $imagePaths = rtrim($imagePaths,',');
+        // dd($imagePaths);
         // Update or create record in the Servicesdetail model
         $serviceDetail = Servicesdetail::where('services_id', $primaryId)->firstOrFail();
         
         $serviceDetail->type = $type;
    
-        $serviceDetail->gallery_images = json_encode($imagePaths); // Save as JSON
+        $serviceDetail->gallery_images = $imagePaths; // Save as JSON
+        
         $serviceDetail->save();
     } else {
         return redirect()->back()->with('error', 'No valid images uploaded.');
@@ -322,12 +443,57 @@ class OfferController extends Controller
 
     return redirect()->back()->with('success', 'Gallery updated successfully!');
     }
-    
-    public function reviews()
+    public function update_reviews(Request $request)
     {
-        $offers = Offer::where('language','=','en')->get();
+        // dd($request->allFiles());
+        $primaryId = $request->input('id'); // Single ID
+    $type = $request->input('type');
+
+    if ($request->hasFile('gallery_videos')) {
+        $videoPaths = ''; // Initialize as an empty string
+        foreach ($request->file('gallery_videos') as $video) {
+            if ($video->isValid()) {
+                $videoName = time() . '_' . $video->getClientOriginalName();
+                $video->move(public_path('Frontend/videos'), $videoName);
+                $videoPath = 'Frontend/videos/' . $videoName;
+                $videoPaths .= $videoPath . ',';
+            }
+        }
+        
+       
+        $videoPaths = rtrim($videoPaths, ',');
+        // Update or create record in the Servicesdetail model
+        $serviceDetail = Servicesdetail::where('services_id', $primaryId)->firstOrFail();
+        
+        $serviceDetail->type = $type;
+   
+        $serviceDetail->review_videos = $videoPaths; 
+        
+        $serviceDetail->save();
+    } else {
+        return redirect()->back()->with('error', 'No valid videos uploaded.');
+    }
+
+    return redirect()->back()->with('success', 'Video Reviews updated successfully!');
+    }
+    
+    public function reviews($id)
+    {
+          // $offers = Offer::where('language','=','en')->get();
+        // $languages=Language::all();
+
         $languages=Language::all();
-        return view('Admin.offers.reviews',compact('languages'));
+        $offers = Offer::where('language','=','en')->get();
+        $offer = Offer::where('type', 1)->findOrFail($id);
+        $languages=Language::all();
+        $offersByLanguage = [];
+        foreach ($languages as $language) {
+            $offersByLanguage[$language->slug] = Offer::where('type', 1)
+                                                      ->where('language', $language->slug)
+                                                      ->first();
+        }
+      
+        return view('Admin.offers.reviews',compact('languages','offer','offersByLanguage','offers'));
     }
 
     

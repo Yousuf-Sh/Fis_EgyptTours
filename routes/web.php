@@ -63,7 +63,9 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/services', [HomeController::class, 'service'])->name('services');
 Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/blog-details', [HomeController::class, 'blog_details'])->name('blog_details');
-Route::get('/airport-transfer', [HomeController::class, 'airport_transfer'])->name('airport_transfer');
+// Route::get('/airport-transfer', [HomeController::class, 'airport_transfer'])->name('airport_transfer');
+Route::match(['get', 'post'], '/airport-transfer', [HomeController::class, 'airport_transfer'])->name('airport_transfer');
+
 Route::get('/airport-transfer-fares', [HomeController::class, 'airport_transfer_fares'])->name('airport_transfer_fares');
 Route::get('/airport-transfer-payments', [HomeController::class, 'airport_transfer_payments'])->name('airport_transfer_payments');
 Route::get('/booking_payments', [HomeController::class, 'booking_payments'])->name('booking_payments');
@@ -250,7 +252,8 @@ Route::group(['middleware' => ['admin']],function () {
     Route::get('/admin/services/packages',[OfferController::class,'packages'])->name('offers.packages');
     Route::get('/admin/services/gallery/{id}',[OfferController::class,'gallery'])->name('offers.gallery');
     Route::post('/admin/services/gallery',[OfferController::class,'update_gallery'])->name('update.gallery');
-    Route::get('/admin/services/reviews',[OfferController::class,'reviews'])->name('offers.reviews');
+    Route::get('/admin/services/reviews/{id}',[OfferController::class,'reviews'])->name('offers.reviews');
+    Route::post('/admin/services/reviews',[OfferController::class,'update_reviews'])->name('update.reviews');
     
     Route::post('/admin/services/update_tour_details',[OfferController::class,'update_tour_details'])->name('update.tour_details');
  
@@ -266,6 +269,8 @@ Route::group(['middleware' => ['admin']],function () {
     // airpot trnsfer 
     Route::get('/admin/services/airport',[OfferController::class,'airport_index'])->name('offers.airport_index');
     Route::get('/admin/services/airport_transfer',[OfferController::class,'airport_transfer'])->name('offers.airport_transfer');
+    Route::get('/admin/services/airport_transfer/edit/{id}',[OfferController::class,'airport_transfer_edit'])->name('edit.airport_transfer');
+    Route::post('/admin/services/airport_transfer/update',[OfferController::class,'update_airport_transfer'])->name('update.airport_transfer');
     /*Admin Routes*/
     Route::get('/admin/registered', [AdminController::class,'adminregistered'])->name('admin.registered');
     Route::post('/admin/registered-admin', [AdminController::class,'registeredadmin'])->name('registered-admin.store');
